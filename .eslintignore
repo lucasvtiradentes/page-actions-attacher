@@ -6,3 +6,24 @@
 .husky/
 .vscode/
 
+# FILES ========================================================================
+
+.gitignore
+.npmignore
+commitlint.config.js
+package.json
+.czrc
+.editorconfig
+.eslintignore
+.eslintrc
+.lintstagedrc
+.prettierignore
+.prettierrc
+LICENSE
+rollup.config.js
+tsconfig.json
+release.config.js
+
+package-lock.json
+yarn-lock.json
+pnpm-lock.yaml

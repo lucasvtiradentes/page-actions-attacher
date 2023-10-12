@@ -20,6 +20,7 @@ package.json
 .editorconfig
 .eslintignore
 .eslintrc
+.lintstagedrc
 .prettierignore
 .prettierrc
 LICENSE

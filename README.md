@@ -6,7 +6,7 @@
 
 Any questions or suggestions? You are welcome to discuss it on:
 
-- [Github issues](https://github.com/lucasvtiradentes/form_filler/discussions)
+- [Github issues](https://github.com/lucasvtiradentes/form_filler_assistant/discussions)
 - [Email](mailto:lucasvtiradentes@gmail.com)
 
 <a href="#"><img src="./.github/images/divider.png" /></a>

@@ -7,8 +7,8 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.patterns": {
-    "package.json": "LICENSE, .czrc, rollup.config.js, .editorconfig, .eslintignore, .eslintrc, .lintstagedrc.json, .prettierignore, .prettierrc, .commitlintrc, tsconfig.json, package-lock.json, yarn.lock, pnpm-lock.yaml",
-    ".releaserc": ".npmignore, CHANGELOG.md"
+    "package.json": "LICENSE, .czrc, rollup.config.js, .lintstagedrc, .editorconfig, .eslintignore, .eslintrc, .lintstagedrc.json, .prettierignore, .prettierrc, commitlint.config.js, tsconfig.json, package-lock.json, yarn.lock, pnpm-lock.yaml",
+    "release.config.js": ".npmignore"
   },
   "files.associations": {
     ".czrc": "json"

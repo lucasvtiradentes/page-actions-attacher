@@ -1,5 +1,5 @@
 {
-  "name": "form_filler",
+  "name": "form_filler_assistant",
   "version": "0.0.0-development",
   "description": "🤖 a temper monkey userscript to help frontend developers to fill the forms in development phase.",
   "license": "MIT",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/lucasvtiradentes/form_filler.git"
+    "url": "https://github.com/lucasvtiradentes/form_filler_assistant.git"
   },
   "keywords": [
     "ticktick",
@@ -19,8 +19,8 @@
     "typescript"
   ],
   "main": "dist/index.js",
-  "type": "module",
   "scripts": {
+    "prepare": "husky install",
     "start": "node dist/index.js",
     "dev": "tsx ./src/index.ts",
     "build": "rimraf ./dist && npm run umdfy",
@@ -28,7 +28,6 @@
     "postversion": "echo writing new version in the dist file && npm run build",
     "pub": "semantic-release",
     "pub:check": "npm publish --dry-run",
-    "prepare": "husky install",
     "commit": "cz",
     "lint:staged": "lint-staged --concurrent false --quiet"
   },
