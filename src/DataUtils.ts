@@ -62,12 +62,12 @@ export default class DataUtils {
     let segundoVerificador = 0;
 
     for (let repetidor = 0; repetidor < 11; repetidor++) {
-      for (let contador of cpfStoredString[repetidor]) {
+      for (const contador of cpfStoredString[repetidor]) {
         const multiplicador = Number(contador) * numberoBase;
         numberoBase--;
         somaTotal += multiplicador;
       }
-      for (let contador2 of cpfStoredString[repetidor]) {
+      for (const contador2 of cpfStoredString[repetidor]) {
         const multiplicador2 = Number(contador2) * numberoBase2;
         numberoBase2--;
         somaTotal2 += multiplicador2;
@@ -93,7 +93,7 @@ export default class DataUtils {
   }
 
   generateNRandomNumbers(length: number) {
-    let number = Math.floor(Math.random() * Math.pow(10, length)).toString();
+    const number = Math.floor(Math.random() * Math.pow(10, length)).toString();
     return number.padStart(length, '0');
   }
 
