@@ -1,5 +1,12 @@
 # CHANGELOG HISTORY
 
+## [1.1.1](https://github.com/lucasvtiradentes/form_filler_assistant/compare/v1.1.0...v1.1.1) (2023-10-12)
+
+
+### 🐛 bugfix:
+
+* close modal methods ([62526a9](https://github.com/lucasvtiradentes/form_filler_assistant/commit/62526a944f24747eb02aafcc6c52d4e0973661fb))
+
 ## [1.1.0](https://github.com/lucasvtiradentes/form_filler_assistant/compare/v1.0.0...v1.1.0) (2023-10-12)
 
 
