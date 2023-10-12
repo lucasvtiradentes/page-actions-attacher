@@ -1,5 +1,12 @@
 # CHANGELOG HISTORY
 
+## [1.2.0](https://github.com/lucasvtiradentes/form_filler_assistant/compare/v1.1.1...v1.2.0) (2023-10-12)
+
+
+### ✨ feature:
+
+* add regenerate modal button ([e3678c7](https://github.com/lucasvtiradentes/form_filler_assistant/commit/e3678c7fce1cd1b9e9d6d67d6d7cc711e8f1f082))
+
 ## [1.1.1](https://github.com/lucasvtiradentes/form_filler_assistant/compare/v1.1.0...v1.1.1) (2023-10-12)
 
 
