@@ -1,13 +1,8 @@
 <a name="TOC"></a>
 
 <h3 align="center">
-  FORM FILLER
+  FORM FILLER ASSISTANT
 </h3>
-
-Any questions or suggestions? You are welcome to discuss it on:
-
-- [Github issues](https://github.com/lucasvtiradentes/form_filler_assistant/discussions)
-- [Email](mailto:lucasvtiradentes@gmail.com)
 
 <a href="#"><img src="./.github/images/divider.png" /></a>
 

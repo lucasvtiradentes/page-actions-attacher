@@ -5,6 +5,12 @@
 .github/
 .husky/
 .vscode/
+dist/
+docs/
+ignore/
+node_modules/
+# src/
+tests/
 
 # FILES ========================================================================
 

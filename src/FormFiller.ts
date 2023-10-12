@@ -24,6 +24,8 @@ export default class FormFiller {
     modalContainer: 'modal_container'
   };
 
+  // PUBLIC METHODS ============================================================
+
   init(optArr: TOptionItem[]) {
     const optionsEl = this.getOptionsEl(optArr);
     this.atachFloatingToHTML(optionsEl);
@@ -37,6 +39,62 @@ export default class FormFiller {
       }
     });
   }
+
+  showModal(title: string, htmlContent: string) {
+    const modalContainer = document.createElement('div');
+    modalContainer.setAttribute('class', this.classes.modalContainer);
+    modalContainer.setAttribute('style', `display: flex; align-items: center; justify-content: center; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: ${this.colorScheme.overlay}; z-index: 1000;`);
+
+    const modalDialog = document.createElement('div');
+    modalDialog.setAttribute('style', `background-color: ${this.colorScheme.secondary.background}; color: ${this.colorScheme.secondary.text}; border-radius: 5px; padding: 10px; box-shadow: 0px 4px 6px ${this.colorScheme.boxShadown}; max-width: 80%;`);
+    modalContainer.appendChild(modalDialog);
+
+    const modalContent = document.createElement('div');
+    modalDialog.appendChild(modalContent);
+
+    const modalTitle = document.createElement('h2');
+    modalTitle.textContent = title;
+    modalTitle.setAttribute('style', `padding: 10px; margin: 0; font-weight: bold; text-align: center;`);
+    modalContent.appendChild(modalTitle);
+
+    const divContent = document.createElement('div');
+    divContent.innerHTML = htmlContent;
+    modalContent.appendChild(divContent);
+
+    const confirmButton = document.createElement('button');
+    confirmButton.textContent = 'Confirm';
+    confirmButton.setAttribute('style', `display: block; width: 100%; margin-top: 10px; text-align: center; padding: 10px; border: none; background-color: ${this.colorScheme.primary.background}; color: ${this.colorScheme.primary.text}; border-radius: 5px; cursor: pointer;`);
+    modalContent.appendChild(confirmButton);
+
+    document.body.appendChild(modalContainer);
+
+    const closeModal = () => {
+      const modalEl = document.querySelector(`.${this.classes.modalContainer}`);
+      if (modalEl) {
+        document.body.removeChild(modalContainer);
+        document.removeEventListener('keydown', detectEskKeypress);
+      }
+    };
+
+    modalContainer.addEventListener('click', (event) => {
+      if (event.target === modalContainer) {
+        closeModal();
+      }
+    });
+    confirmButton.addEventListener('click', closeModal);
+
+    const detectEskKeypress = function (event: KeyboardEvent) {
+      if (event.key === 'Escape' || event.key === 'Esc' || event.key === "'") {
+        closeModal();
+      }
+    };
+
+    document.addEventListener('keydown', detectEskKeypress);
+
+    return modalContainer;
+  }
+
+  // PRIVATE METHODS ===========================================================
 
   private getOptionsEl(optArr: TOptionItem[]) {
     const optionsContainer = document.createElement('div');
@@ -120,59 +178,5 @@ export default class FormFiller {
     if (optionEl) {
       optionEl.click();
     }
-  }
-
-  createCenteredModal(title: string, htmlContent: string) {
-    const modalContainer = document.createElement('div');
-    modalContainer.setAttribute('class', this.classes.modalContainer);
-    modalContainer.setAttribute('style', `display: flex; align-items: center; justify-content: center; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: ${this.colorScheme.overlay}; z-index: 1000;`);
-
-    const modalDialog = document.createElement('div');
-    modalDialog.setAttribute('style', `background-color: ${this.colorScheme.secondary.background}; color: ${this.colorScheme.secondary.text}; border-radius: 5px; padding: 10px; box-shadow: 0px 4px 6px ${this.colorScheme.boxShadown}; max-width: 80%;`);
-    modalContainer.appendChild(modalDialog);
-
-    const modalContent = document.createElement('div');
-    modalDialog.appendChild(modalContent);
-
-    const modalTitle = document.createElement('h2');
-    modalTitle.textContent = title;
-    modalTitle.setAttribute('style', `padding: 10px; margin: 0; font-weight: bold; text-align: center;`);
-    modalContent.appendChild(modalTitle);
-
-    const divContent = document.createElement('div');
-    divContent.innerHTML = htmlContent;
-    modalContent.appendChild(divContent);
-
-    const confirmButton = document.createElement('button');
-    confirmButton.textContent = 'Confirm';
-    confirmButton.setAttribute('style', `display: block; width: 100%; margin-top: 10px; text-align: center; padding: 10px; border: none; background-color: ${this.colorScheme.primary.background}; color: ${this.colorScheme.primary.text}; border-radius: 5px; cursor: pointer;`);
-    modalContent.appendChild(confirmButton);
-
-    document.body.appendChild(modalContainer);
-
-    function closeModal() {
-      const modalEl = document.querySelector(`.${this.classes.modalContainer}`);
-      if (modalEl) {
-        document.body.removeChild(modalContainer);
-        document.removeEventListener('keydown', detectEskKeypress);
-      }
-    }
-
-    modalContainer.addEventListener('click', (event) => {
-      if (event.target === modalContainer) {
-        closeModal();
-      }
-    });
-    confirmButton.addEventListener('click', closeModal);
-
-    const detectEskKeypress = function (event: KeyboardEvent) {
-      if (event.key === 'Escape' || event.key === 'Esc' || event.key === "'") {
-        closeModal();
-      }
-    };
-
-    document.addEventListener('keydown', detectEskKeypress);
-
-    return modalContainer;
   }
 }
