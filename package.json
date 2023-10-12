@@ -1,6 +1,6 @@
 {
   "name": "form_filler_assistant",
-  "version": "0.0.0-development",
+  "version": "1.0.0",
   "description": "🤖 a temper monkey userscript to help frontend developers to fill the forms in development phase.",
   "license": "MIT",
   "author": {
