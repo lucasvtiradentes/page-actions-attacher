@@ -1,0 +1,21 @@
+{
+  "css.lint.unknownAtRules": "ignore",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
+    "package.json": "LICENSE, .czrc, rollup.config.js, .editorconfig, .eslintignore, .eslintrc, .lintstagedrc.json, .prettierignore, .prettierrc, .commitlintrc, tsconfig.json, package-lock.json, yarn.lock, pnpm-lock.yaml",
+    ".releaserc": ".npmignore, CHANGELOG.md"
+  },
+  "files.associations": {
+    ".czrc": "json"
+  },
+  "tailwindCSS.classAttributes": [
+    ".*style.*",
+    ".*classes.*",
+    ".*className.*",
+  ],
+}

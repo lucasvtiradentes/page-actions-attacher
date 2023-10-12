@@ -1,0 +1,56 @@
+{
+  "name": "form_filler",
+  "version": "0.0.0-development",
+  "description": "🤖 a temper monkey userscript to help frontend developers to fill the forms in development phase.",
+  "license": "MIT",
+  "author": {
+    "name": "Lucas Vieira",
+    "email": "lucasvtiradentes@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lucasvtiradentes/form_filler.git"
+  },
+  "keywords": [
+    "ticktick",
+    "ticktick-api",
+    "api-wrapper",
+    "api",
+    "typescript"
+  ],
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node dist/index.js",
+    "dev": "tsx ./src/index.ts",
+    "build": "rimraf ./dist && npm run umdfy",
+    "umdfy": "rollup -c rollup.config.js",
+    "postversion": "echo writing new version in the dist file && npm run build",
+    "pub": "semantic-release",
+    "pub:check": "npm publish --dry-run",
+    "prepare": "husky install",
+    "commit": "cz",
+    "lint:staged": "lint-staged --concurrent false --quiet"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.3.0",
+    "@commitlint/config-conventional": "^17.3.0",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@semantic-release/changelog": "^6.0.2",
+    "@semantic-release/git": "^10.0.1",
+    "@types/node": "^20.8.4",
+    "@typescript-eslint/eslint-plugin": "^5.45.0",
+    "@typescript-eslint/parser": "^5.45.0",
+    "commitizen": "^4.3.0",
+    "eslint": "^8.28.0",
+    "eslint-config-prettier": "^8.5.0",
+    "husky": "^8.0.2",
+    "prettier": "^2.8.0",
+    "rimraf": "^4.0.4",
+    "rollup": "^3.20.2",
+    "rollup-plugin-typescript2": "^0.36.0",
+    "semantic-release": "^19.0.5",
+    "tsx": "^3.13.0",
+    "typescript": "^4.9.3"
+  }
+}

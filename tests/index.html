@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Rollup Bundle Test</title>
+    <script src="../dist/index.js"></script>
+    <script>
+      console.log(FormFiller);
+      const dataUtils = new FormFiller.DataUtils();
+      const domUtils = new FormFiller.DomUtils();
+      const formFiller = new FormFiller.FormFiller();
+
+      console.log(dataUtils);
+      console.log(domUtils);
+      console.log(formFiller);
+    </script>
+  </head>
+  <body>
+    <p>check the console.log</p>
+  </body>
+</html>
