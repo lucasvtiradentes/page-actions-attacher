@@ -5,7 +5,7 @@ const VALID_EMOJI_TYPES = getValidCommitTypes().reduce((acc, cur) => {
   return acc;
 }, {});
 
-module.exports = {
+export default {
   extends: ['@commitlint/config-conventional'],
   parserPreset: {
     parserOpts: {

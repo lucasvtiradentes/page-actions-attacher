@@ -1,26 +1,32 @@
 # FOLDERS ###############################
+
 /.github
 /.husky
+/.vscode
+# /dist
+/docs
+/ignore
 /node_modules
 /src
 /tests
 
 # FILES #################################
 
-package-lock.json
-yarn-lock.json
-pnpm-lock.yaml
-
-.commitlintrc
+.gitignore
+.npmignore
+commitlint.config.js
+package.json
 .czrc
 .editorconfig
 .eslintignore
 .eslintrc
-.gitignore
-.npmignore
 .prettierignore
 .prettierrc
-.releaserc
 LICENSE
-CHANGELOG.md
+rollup.config.js
 tsconfig.json
+release.config.js
+
+package-lock.json
+yarn-lock.json
+pnpm-lock.yaml
