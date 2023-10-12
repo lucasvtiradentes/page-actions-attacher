@@ -122,6 +122,8 @@ export default class DataUtils {
 
     const uniqueName = `${randomFirstName} ${randomLastName}`;
 
+    this.name = uniqueName;
+
     return uniqueName;
   }
 

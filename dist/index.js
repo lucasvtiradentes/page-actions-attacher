@@ -107,6 +107,7 @@
           const randomFirstName = firstNames[Math.floor(Math.random() * firstNames.length)];
           const randomLastName = lastNames[Math.floor(Math.random() * lastNames.length)];
           const uniqueName = `${randomFirstName} ${randomLastName}`;
+          this.name = uniqueName;
           return uniqueName;
       }
       generatePersonEmail() {
@@ -128,9 +129,37 @@
   }
 
   class DomUtils {
+      constructor() {
+          this.colorScheme = {
+              primary: {
+                  background: '#0074D9',
+                  text: '#fff'
+              },
+              secondary: {
+                  background: '#fff',
+                  hoverBackground: '#ccc',
+                  text: '#000000',
+                  border: '#ccc'
+              },
+              overlay: 'rgba(0, 0, 0, 0.7)',
+              boxShadown: 'rgba(0, 0, 0, 0.1)'
+          };
+          this.classes = {
+              modalContainer: 'modal_container'
+          };
+      }
+      // JS UTILS ==================================================================
       delay(ms) {
           return new Promise((resolve) => setTimeout(resolve, ms));
       }
+      // STORAGE UTILS =============================================================
+      getStorageItem(key) {
+          return sessionStorage.getItem(key);
+      }
+      setStorageItem(key, value) {
+          sessionStorage.setItem(key, value);
+      }
+      // ACTION UTILS ==============================================================
       typeOnInputByElement(inputElement, text) {
           for (const char of text) {
               const inputEvent = new Event('input', { bubbles: true });
@@ -167,6 +196,75 @@
               console.log('Nao achou o botao: ', buttonText);
           }
       }
+      // HTML UTILS ================================================================
+      generateFormRow(name, value, onAfterClickAction) {
+          const onClickAction = `navigator.clipboard.writeText('${value}');${onAfterClickAction ? `(${onAfterClickAction})()` : ''}`;
+          return `
+      <div style="display: grid; grid-template-columns: 1fr 2fr;">
+        <div style="flex: 1; padding: 3px 10px; font-weight: 600;">${name}</div>
+        <div style="flex: 1; padding: 3px 10px; background-color: ${this.colorScheme.secondary.background}; cursor: pointer;"
+          onmouseover="this.style.backgroundColor = '${this.colorScheme.secondary.hoverBackground}'; this.style.cursor = 'pointer';"
+          onmouseout="this.style.backgroundColor = '${this.colorScheme.secondary.background}'; this.style.cursor = 'default';"
+          onclick="${onClickAction}"
+        >${value}</div>
+      </div>`;
+      }
+      getModal(title) {
+          const modalContainerEl = document.createElement('div');
+          modalContainerEl.setAttribute('class', this.classes.modalContainer);
+          modalContainerEl.setAttribute('style', `display: flex; align-items: center; justify-content: center; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: ${this.colorScheme.overlay}; z-index: 1000;`);
+          const modalDialog = document.createElement('div');
+          modalDialog.setAttribute('style', `background-color: ${this.colorScheme.secondary.background}; color: ${this.colorScheme.secondary.text}; border-radius: 5px; padding: 10px; box-shadow: 0px 4px 6px ${this.colorScheme.boxShadown}; max-width: 80%;`);
+          modalContainerEl.appendChild(modalDialog);
+          const modalContent = document.createElement('div');
+          modalDialog.appendChild(modalContent);
+          const modalTitle = document.createElement('h2');
+          modalTitle.textContent = title;
+          modalTitle.setAttribute('style', `padding: 10px; margin: 0; font-weight: bold; text-align: center;`);
+          modalContent.appendChild(modalTitle);
+          document.body.appendChild(modalContainerEl);
+          const updateModalContent = (htmlContent, buttonsArr) => {
+              const divContent = document.createElement('div');
+              divContent.innerHTML = htmlContent;
+              modalContent.innerHTML = divContent.outerHTML;
+              if (buttonsArr && buttonsArr.length > 0) {
+                  buttonsArr.forEach((item) => {
+                      const confirmButton = document.createElement('button');
+                      confirmButton.textContent = item.title;
+                      confirmButton.setAttribute('style', `display: block; width: 100%; margin-top: 10px; text-align: center; padding: 10px; border: none; background-color: ${this.colorScheme.primary.background}; color: ${this.colorScheme.primary.text}; border-radius: 5px; cursor: pointer;`);
+                      confirmButton.addEventListener('click', () => {
+                          item.action();
+                          if (item.exitAfterAction !== false) {
+                              closeModal();
+                          }
+                      });
+                      modalContent.appendChild(confirmButton);
+                  });
+              }
+          };
+          const detectEscKeypress = (event) => {
+              if (event.key === 'Escape' || event.key === 'Esc' || event.key === "'") {
+                  closeModal();
+              }
+          };
+          const closeModal = () => {
+              const modalEl = document.querySelector(`.${this.classes.modalContainer}`);
+              if (modalEl) {
+                  document.body.removeChild(modalContainerEl);
+                  document.removeEventListener('keydown', detectEscKeypress);
+              }
+          };
+          modalContainerEl.addEventListener('click', (event) => {
+              if (event.target === modalContainerEl) {
+                  closeModal();
+              }
+          });
+          document.addEventListener('keydown', detectEscKeypress);
+          return {
+              updateModalContent,
+              closeModal
+          };
+      }
   }
 
   class FormFiller {
@@ -180,14 +278,11 @@
                   background: '#fff',
                   text: '#000000',
                   border: '#ccc'
-              },
-              overlay: 'rgba(0, 0, 0, 0.7)',
-              boxShadown: 'rgba(0, 0, 0, 0.1)'
+              }
           };
           this.classes = {
               floatingButton: 'floating_container',
-              optionsContainer: 'options_container',
-              modalContainer: 'modal_container'
+              optionsContainer: 'options_container'
           };
       }
       // PUBLIC METHODS ============================================================
@@ -201,48 +296,6 @@
                   optionsContainer.style.display = 'none';
               }
           });
-      }
-      showModal(title, htmlContent) {
-          const modalContainer = document.createElement('div');
-          modalContainer.setAttribute('class', this.classes.modalContainer);
-          modalContainer.setAttribute('style', `display: flex; align-items: center; justify-content: center; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: ${this.colorScheme.overlay}; z-index: 1000;`);
-          const modalDialog = document.createElement('div');
-          modalDialog.setAttribute('style', `background-color: ${this.colorScheme.secondary.background}; color: ${this.colorScheme.secondary.text}; border-radius: 5px; padding: 10px; box-shadow: 0px 4px 6px ${this.colorScheme.boxShadown}; max-width: 80%;`);
-          modalContainer.appendChild(modalDialog);
-          const modalContent = document.createElement('div');
-          modalDialog.appendChild(modalContent);
-          const modalTitle = document.createElement('h2');
-          modalTitle.textContent = title;
-          modalTitle.setAttribute('style', `padding: 10px; margin: 0; font-weight: bold; text-align: center;`);
-          modalContent.appendChild(modalTitle);
-          const divContent = document.createElement('div');
-          divContent.innerHTML = htmlContent;
-          modalContent.appendChild(divContent);
-          const confirmButton = document.createElement('button');
-          confirmButton.textContent = 'Confirm';
-          confirmButton.setAttribute('style', `display: block; width: 100%; margin-top: 10px; text-align: center; padding: 10px; border: none; background-color: ${this.colorScheme.primary.background}; color: ${this.colorScheme.primary.text}; border-radius: 5px; cursor: pointer;`);
-          modalContent.appendChild(confirmButton);
-          document.body.appendChild(modalContainer);
-          const closeModal = () => {
-              const modalEl = document.querySelector(`.${this.classes.modalContainer}`);
-              if (modalEl) {
-                  document.body.removeChild(modalContainer);
-                  document.removeEventListener('keydown', detectEskKeypress);
-              }
-          };
-          modalContainer.addEventListener('click', (event) => {
-              if (event.target === modalContainer) {
-                  closeModal();
-              }
-          });
-          confirmButton.addEventListener('click', closeModal);
-          const detectEskKeypress = function (event) {
-              if (event.key === 'Escape' || event.key === 'Esc' || event.key === "'") {
-                  closeModal();
-              }
-          };
-          document.addEventListener('keydown', detectEskKeypress);
-          return modalContainer;
       }
       // PRIVATE METHODS ===========================================================
       getOptionsEl(optArr) {
@@ -279,20 +332,19 @@
           const toogleFloating = () => {
               if (optionsContainer.style.display === 'none' || optionsContainer.style.display === '') {
                   optionsContainer.style.display = 'block';
-                  document.addEventListener('keydown', this.detectNumbersPress);
+                  document.addEventListener('keydown', (event) => this.detectNumbersPress(event));
               }
               else {
                   optionsContainer.style.display = 'none';
-                  document.removeEventListener('keydown', this.detectNumbersPress);
+                  document.removeEventListener('keydown', (event) => this.detectNumbersPress(event));
               }
           };
           button.addEventListener('click', toogleFloating);
-          const detectCtrlSpace = function (event) {
+          document.addEventListener('keydown', (event) => {
               if (event.ctrlKey && event.code === 'Space') {
                   toogleFloating();
               }
-          };
-          document.addEventListener('keydown', detectCtrlSpace);
+          });
       }
       detectNumbersPress(event) {
           const optionsContainerEl = document.querySelector(`.${this.classes.optionsContainer}`);
