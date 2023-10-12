@@ -1,5 +1,12 @@
 # CHANGELOG HISTORY
 
+## [1.1.0](https://github.com/lucasvtiradentes/form_filler_assistant/compare/v1.0.0...v1.1.0) (2023-10-12)
+
+
+### ✨ feature:
+
+* simplified usage methods ([1cf2a40](https://github.com/lucasvtiradentes/form_filler_assistant/commit/1cf2a406f60cdac801b1a280e016de454110ef24))
+
 ## 1.0.0 (2023-10-12)
 
 
