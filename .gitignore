@@ -1,13 +1,11 @@
 # FOLDERS ###############################
+
 node_modules/
 dist/
-build/
-offline/
-/package
-.next/
+ignore/
 
 # FILES #################################
+
 package-lock.json
 yarn-lock.json
 pnpm-lock.yaml
-*.tgz

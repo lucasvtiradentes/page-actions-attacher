@@ -25,16 +25,17 @@
     "dev": "tsx ./src/index.ts",
     "build": "rimraf ./dist && npm run umdfy",
     "umdfy": "rollup -c rollup.config.js",
+    "test": "jest --passWithNoTests --verbose",
     "postversion": "echo writing new version in the dist file && npm run build",
     "pub": "semantic-release",
     "pub:check": "npm publish --dry-run",
     "prepare": "husky install",
     "commit": "cz",
-    "lint:staged": "lint-staged --concurrent false --quiet"
+    "lint:staged": "lint-staged --concurrent false --quiet",
+    "scripts:postbuild": "tsx ./scripts/post-build.ts"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.3.0",
-    "@commitlint/config-conventional": "^17.3.0",
     "@rollup/plugin-terser": "^0.4.4",
     "@semantic-release/changelog": "^6.0.2",
     "@semantic-release/git": "^10.0.1",
@@ -51,6 +52,11 @@
     "rollup-plugin-typescript2": "^0.36.0",
     "semantic-release": "^19.0.5",
     "tsx": "^3.13.0",
-    "typescript": "^4.9.3"
+    "typescript": "^4.9.3",
+    "commitizen-emoji": "^1.0.5",
+    "lint-staged": "^13.1.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "@semantic-release/commit-analyzer": "^9.0.2",
+    "@semantic-release/release-notes-generator": "^10.0.3"
   }
 }

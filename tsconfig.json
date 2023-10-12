@@ -1,12 +1,9 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "ES2015",
-    "outDir": "./dist",
-    "strict": true,
-    "esModuleInterop": true,
+    "target": "ES2016",
     "skipLibCheck": true,
-    "baseUrl": ".",
-    "alwaysStrict": true
-  }
+    "outDir": "dist",
+    "esModuleInterop": true
+  },
+  "include": ["src"]
 }
