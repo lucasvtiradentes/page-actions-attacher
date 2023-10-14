@@ -1,5 +1,12 @@
 # CHANGELOG HISTORY
 
+## [1.5.0](https://github.com/lucasvtiradentes/form_filler_assistant/compare/v1.4.1...v1.5.0) (2023-10-14)
+
+
+### ✨ feature:
+
+* add logger methods ([a74d413](https://github.com/lucasvtiradentes/form_filler_assistant/commit/a74d4130ec76e4e97e924c634e7956c3d5161309))
+
 ## [1.4.1](https://github.com/lucasvtiradentes/form_filler_assistant/compare/v1.4.0...v1.4.1) (2023-10-14)
 
 ## [1.4.0](https://github.com/lucasvtiradentes/form_filler_assistant/compare/v1.3.0...v1.4.0) (2023-10-14)
