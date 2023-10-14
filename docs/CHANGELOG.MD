@@ -1,5 +1,12 @@
 # CHANGELOG HISTORY
 
+## [1.3.0](https://github.com/lucasvtiradentes/form_filler_assistant/compare/v1.2.0...v1.3.0) (2023-10-14)
+
+
+### ✨ feature:
+
+* improve project exported methods ([3f1f43d](https://github.com/lucasvtiradentes/form_filler_assistant/commit/3f1f43d6e1ff5783ed9297ce0e4cdc2e5db17afe))
+
 ## [1.2.0](https://github.com/lucasvtiradentes/form_filler_assistant/compare/v1.1.1...v1.2.0) (2023-10-12)
 
 
