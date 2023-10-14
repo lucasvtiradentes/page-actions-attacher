@@ -1,5 +1,7 @@
 # CHANGELOG HISTORY
 
+## [1.4.1](https://github.com/lucasvtiradentes/form_filler_assistant/compare/v1.4.0...v1.4.1) (2023-10-14)
+
 ## [1.4.0](https://github.com/lucasvtiradentes/form_filler_assistant/compare/v1.3.0...v1.4.0) (2023-10-14)
 
 
