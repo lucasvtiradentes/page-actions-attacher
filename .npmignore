@@ -5,8 +5,10 @@
 /.vscode
 # /dist
 /docs
+/examples/
 /ignore
 /node_modules
+/scripts/
 /src
 /tests
 

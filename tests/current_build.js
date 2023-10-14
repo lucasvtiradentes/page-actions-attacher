@@ -29,10 +29,11 @@ async function main(FormFiller) {
     bottom: '30px'
   };
 
-  const formFiller = new FormFiller({});
-  const browserUtils = formFiller.browserUtils();
+  const formFiller = new FormFiller({ colorScheme, buttonConfigs });
 
   // ===========================================================================
+
+  let modalCount = 0;
 
   const options = [
     { name: 'show modal utils', action: toogleModal },
@@ -43,8 +44,6 @@ async function main(FormFiller) {
   formFiller.atach(options);
 
   // ===========================================================================
-
-  let modalCount = 0;
 
   function toogleModal() {
     const modalStorageKey = 'modalData';
@@ -62,29 +61,29 @@ async function main(FormFiller) {
         telefone: dt.generateNRandomNumbers(8)
       };
 
-      browserUtils.setStorageItem(modalStorageKey, JSON.stringify(generatedData));
+      formFiller.browserUtils().setStorageItem(modalStorageKey, JSON.stringify(generatedData));
       return generatedData;
     };
 
-    const storageData = browserUtils.getStorageItem(modalStorageKey);
+    const storageData = formFiller.browserUtils().getStorageItem(modalStorageKey);
     const data = modalCount > 1 && storageData ? JSON.parse(storageData) : generateData(formFiller.dataUtils());
 
     const getFinalHtmlContent = (dt) => {
       const finalHtmlContent = `
-          ${browserUtils.generateFormRow('Nome', dt.nome)}
-          ${browserUtils.generateFormRow('Username', dt.user_name)}
-          ${browserUtils.generateFormRow('Email', dt.email)}
-          ${browserUtils.generateFormRow('Nome empresa', dt.nome_empresa)}
-          ${browserUtils.generateFormRow('Cpf', dt.cpf)}
-          ${browserUtils.generateFormRow('Cnpj', dt.cnpj)}
-          ${browserUtils.generateFormRow('Inscricao estadual', dt.inscricao_estadual)}
-          ${browserUtils.generateFormRow('Telefone', dt.telefone)}
+          ${formFiller.browserUtils().generateFormRow('Nome', dt.nome)}
+          ${formFiller.browserUtils().generateFormRow('Username', dt.user_name)}
+          ${formFiller.browserUtils().generateFormRow('Email', dt.email)}
+          ${formFiller.browserUtils().generateFormRow('Nome empresa', dt.nome_empresa)}
+          ${formFiller.browserUtils().generateFormRow('Cpf', dt.cpf)}
+          ${formFiller.browserUtils().generateFormRow('Cnpj', dt.cnpj)}
+          ${formFiller.browserUtils().generateFormRow('Inscricao estadual', dt.inscricao_estadual)}
+          ${formFiller.browserUtils().generateFormRow('Telefone', dt.telefone)}
         `;
 
       return finalHtmlContent;
     };
 
-    const { updateModalContent } = browserUtils.getModal('Dados gerados');
+    const { updateModalContent } = formFiller.browserUtils().getModal('Dados gerados');
 
     const regeneratedData = () => getFinalHtmlContent(generateData(new FormFiller().dataUtils()));
 

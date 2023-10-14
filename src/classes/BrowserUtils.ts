@@ -54,14 +54,13 @@ export default class DomUtils {
     this.typeOnInputByElement(inputElement, text);
   }
 
-  clickTagByText(tag: string, buttonText: string) {
+  clickTagByText(tag: string, textToFind: string) {
     const allButtons = Array.from(document.querySelectorAll(tag)) as HTMLElement[];
-    const elButton = allButtons.find((itemEl) => itemEl.innerText.search(buttonText) > -1);
+    const elButton = allButtons.find((itemEl) => itemEl.innerText.search(textToFind) > -1);
     if (elButton) {
-      console.log('Clickei no botao', buttonText);
       elButton.click();
     } else {
-      console.log('Nao achou o botao: ', buttonText);
+      console.log(`not found: ${tag} - ${textToFind}`);
     }
   }
 

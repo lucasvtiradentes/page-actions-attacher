@@ -32,7 +32,7 @@
   const libInfo = {
       name: 'FORM_FILLER_ASSISTANT',
       version: '1.3.0',
-      buildTime: '14/10/2023 13:54:32',
+      buildTime: '14/10/2023 - 16:28:31',
       link: 'https://github.com/lucasvtiradentes/form_filler_assistant',
       temperMonkeyLink: 'https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo',
       initialScript: 'https://github.com/lucasvtiradentes/form_filler_assistant/dist/initial_temper_monkey_script.js'
@@ -85,15 +85,14 @@
           }
           this.typeOnInputByElement(inputElement, text);
       }
-      clickTagByText(tag, buttonText) {
+      clickTagByText(tag, textToFind) {
           const allButtons = Array.from(document.querySelectorAll(tag));
-          const elButton = allButtons.find((itemEl) => itemEl.innerText.search(buttonText) > -1);
+          const elButton = allButtons.find((itemEl) => itemEl.innerText.search(textToFind) > -1);
           if (elButton) {
-              console.log('Clickei no botao', buttonText);
               elButton.click();
           }
           else {
-              console.log('Nao achou o botao: ', buttonText);
+              console.log(`not found: ${tag} - ${textToFind}`);
           }
       }
       // HTML UTILS ================================================================
