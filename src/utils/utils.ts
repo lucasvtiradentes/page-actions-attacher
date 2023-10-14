@@ -23,7 +23,7 @@ function getClassMethods<T>(instance: T) {
         parameters: parameterNames.join(', ')
       };
     })
-    .filter((item) => item.name !== 'constructor');
+    .filter((item) => ['constructor', 'logger'].includes(item.name) === false);
 
   return mappedValues;
 }
@@ -44,13 +44,6 @@ function getClassDetailedMethods<T>(instance: T) {
 }
 
 export const help = () => {
-  console.log(`# HOW TO USE IT =================================================\n\n`);
-  console.log(`1 - install the temper monkey extension [${CONFIGS.libInfo.temperMonkeyLink}]\n`);
-  console.log('2 - click on "temper moneky icon" and after on "Create a new script..."\n');
-  console.log(`3 - paste the initial form filler script [${CONFIGS.libInfo.initialScript}]\n`);
-  console.log(`4 - adjust it according to your needs\n`);
-  console.log(`5 - for more detailed usage, go to the project github repository! [${CONFIGS.libInfo.link}\n\n`);
-
   console.log(`# METHODS =======================================================\n`);
   console.log('\nOther methods\n');
   console.table({ 'formFiller.atach': { parameters: 'optionsArr' }, 'formFiller.help': { parameters: '' } });
@@ -59,8 +52,9 @@ export const help = () => {
   console.log('\nformFiller.browserUtils\n');
   console.table(getClassDetailedMethods(new BrowserUtils()));
 
-  console.log(`\n# LIB INFO ======================================================\n\n`);
-  console.log(`name      : ${CONFIGS.libInfo.name}`);
-  console.log(`version   : ${CONFIGS.libInfo.version}`);
-  console.log(`build_time: ${CONFIGS.libInfo.buildTime}`);
+  console.log(`\n# PACKAGE INFO ==================================================\n\n`);
+  console.log(`name        : ${CONFIGS.libInfo.name}`);
+  console.log(`version     : ${CONFIGS.libInfo.version}`);
+  console.log(`build_time  : ${CONFIGS.libInfo.buildTime}`);
+  console.log(`package link: ${CONFIGS.libInfo.temperMonkeyLink}`);
 };

@@ -29,7 +29,12 @@ async function main(FormFiller) {
     bottom: '30px'
   };
 
-  const formFiller = new FormFiller({ colorScheme, buttonConfigs });
+  const runConfigs = {
+    debug: true,
+    typeDelay: 500
+  };
+
+  const formFiller = new FormFiller({ colorScheme, buttonConfigs, runConfigs });
 
   // ===========================================================================
 

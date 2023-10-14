@@ -30,3 +30,8 @@ export type TButtonConfigs = {
   right: string;
   bottom: string;
 };
+
+export type TRunConfigs = {
+  debug: boolean;
+  typeDelay: number;
+};

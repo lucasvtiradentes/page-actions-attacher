@@ -71,6 +71,8 @@
     Array.from(document.querySelectorAll('input')).forEach((el) => console.log(el.getAttribute('name')));
   }
 
+  // ===========================================================================
+
   const options = [
     { name: 'show lib helper', action: formFiller.help },
     { name: 'fill saucedemo form', action: fillSauceDemoForm },

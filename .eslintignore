@@ -8,9 +8,9 @@ docs/
 examples/
 ignore/
 node_modules/
-scripts/
+# scripts/
 # src/
-# tests/
+tests/
 
 # FILES ========================================================================
 

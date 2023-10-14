@@ -1,17 +1,20 @@
 import { CONFIGS } from '../configs';
-import { TButton, TColorScheme } from '../types/types';
+import { TButton, TColorScheme, TRunConfigs } from '../types/types';
 
 export default class DomUtils {
   private colorScheme: TColorScheme;
+  private runConfigs: TRunConfigs;
 
-  constructor(configs?: { colorScheme: TColorScheme }) {
+  constructor(configs?: { colorScheme?: TColorScheme; runConfigs?: TRunConfigs }) {
     this.colorScheme = { ...CONFIGS.colorScheme, ...(configs?.colorScheme ? configs?.colorScheme : {}) };
+    this.runConfigs = { ...CONFIGS.runConfigs, ...(configs?.runConfigs ? configs?.runConfigs : {}) };
   }
 
   // JS UTILS ==================================================================
 
-  delay(ms: number) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
+  async delay(milliseconds: number) {
+    this.logger(`waiting: ${milliseconds}`);
+    return new Promise((resolve) => setTimeout(resolve, milliseconds));
   }
 
   getStorageItem(key: string) {
@@ -22,15 +25,21 @@ export default class DomUtils {
     sessionStorage.setItem(key, value);
   }
 
-  // ACTION UTILS ==============================================================
+  // TYPE FUNCTIONS ============================================================
 
-  typeOnInputByElement(inputElement: Element, text: string) {
+  async typeOnInputByElement(inputElement: Element, text: string) {
+    if (!inputElement) {
+      this.logger(`not found element to type : ${text}`, 'error');
+      return;
+    }
+
+    this.logger(`typing: ${text}`);
     for (const char of text) {
       const inputEvent = new Event('input', { bubbles: true });
       const inputPropertyDescriptor = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value');
       if (inputPropertyDescriptor) {
         const inputSetValue = inputPropertyDescriptor.set;
-        inputSetValue && inputSetValue.call(inputElement, (inputElement as any).value + char);
+        inputSetValue && inputSetValue.call(inputElement, (inputElement as HTMLInputElement).value + char);
         inputElement.dispatchEvent(inputEvent);
 
         const keyboardEvent = new KeyboardEvent('keydown', {
@@ -39,6 +48,8 @@ export default class DomUtils {
           bubbles: true,
           cancelable: true
         });
+
+        await this.delay(this.runConfigs.typeDelay);
 
         inputElement.dispatchEvent(keyboardEvent);
       }
@@ -54,24 +65,70 @@ export default class DomUtils {
     this.typeOnInputByElement(inputElement, text);
   }
 
-  clickTagByText(tag: string, textToFind: string) {
+  // GET ELEMENT FUNCTIONS =====================================================
+
+  getElementByTagText(tag: string, textToFind: string, itemIndex?: number) {
+    const finalIndex = 0 ?? itemIndex;
     const allElements = Array.from(document.querySelectorAll(tag)) as HTMLElement[];
-    const elButton = allElements.find((itemEl) => itemEl.innerText.search(textToFind) > -1);
-    if (elButton) {
-      elButton.click();
-    } else {
-      console.log(`not found: ${tag} - ${textToFind}`);
+    const tagItems = allElements.filter((itemEl) => itemEl.innerText.search(textToFind) > -1);
+    const elTag = tagItems.length === 0 ? null : tagItems[finalIndex];
+    if (!elTag) {
+      this.logger(`not found element: [${tag} | ${textToFind} | ${finalIndex}]`, 'error');
     }
+    return elTag;
   }
 
-  clickTagByAttributeValue(tag: string, attribute: string, valueAttribute: string) {
+  getElementByAttributeValue(tag: string, attribute: string, valueAttribute: string, itemIndex?: number) {
+    const finalIndex = 0 ?? itemIndex;
     const allElements = Array.from(document.querySelectorAll(tag)) as HTMLElement[];
-    const elButton = allElements.find((itemEl) => itemEl.getAttribute(attribute) === valueAttribute);
-    if (elButton) {
-      elButton.click();
-    } else {
-      console.log(`not found: ${tag} - ${attribute} - ${valueAttribute}`);
+    const tagItems = allElements.filter((itemEl) => itemEl.getAttribute(attribute) === valueAttribute);
+    const elTag = tagItems.length === 0 ? null : tagItems[finalIndex];
+    if (!elTag) {
+      this.logger(`not found element: [${tag} | ${attribute} | ${valueAttribute} | ${finalIndex}]`, 'error');
     }
+    return elTag;
+  }
+
+  getElementBySelector(selector: string) {
+    const inputElement = document.querySelector(selector) as HTMLElement;
+    if (!inputElement) {
+      this.logger(`not found element by selector: ${selector}`, 'error');
+    }
+    return inputElement;
+  }
+
+  // CLICK FUNCTIONS ===========================================================
+
+  clickElementBySelector(selector: string) {
+    const inputElement = this.getElementBySelector(selector);
+    if (!inputElement) {
+      return;
+    }
+
+    this.clickElement(inputElement);
+  }
+
+  clickElement(htmlElement: HTMLElement) {
+    if (!htmlElement) {
+      return;
+    }
+    htmlElement.click();
+  }
+
+  clickTagByText(tag: string, textToFind: string, itemIndex?: number) {
+    const elTag = this.getElementByTagText(tag, textToFind, itemIndex);
+    if (!elTag) {
+      return;
+    }
+    elTag.click();
+  }
+
+  clickTagByAttributeValue(tag: string, attribute: string, valueAttribute: string, itemIndex?: number) {
+    const elTag = this.getElementByAttributeValue(tag, attribute, valueAttribute, itemIndex);
+    if (!elTag) {
+      return;
+    }
+    elTag.click();
   }
 
   // HTML UTILS ================================================================
@@ -132,6 +189,7 @@ export default class DomUtils {
 
     const detectEscKeypress = (event: KeyboardEvent) => {
       if (event.key === 'Escape' || event.key === 'Esc' || event.key === "'") {
+        this.logger(`detected Escape press, closing modal`);
         closeModal();
       }
     };
@@ -156,5 +214,16 @@ export default class DomUtils {
       updateModalContent,
       closeModal
     };
+  }
+
+  // PRIVATE METHODS ===========================================================
+
+  private logger(message: string, type: 'error' | 'info' = 'info') {
+    if (!this.runConfigs.debug) {
+      return;
+    }
+
+    if (type === 'error') console.error(message);
+    if (type === 'info') console.log(message);
   }
 }

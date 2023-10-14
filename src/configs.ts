@@ -1,4 +1,4 @@
-import { TButtonConfigs, TColorScheme } from './types/types';
+import { TButtonConfigs, TColorScheme, TRunConfigs } from './types/types';
 
 const colorScheme: TColorScheme = {
   primary: {
@@ -37,9 +37,15 @@ const libInfo = {
   initialScript: 'https://github.com/lucasvtiradentes/form_filler_assistant/dist/initial_temper_monkey_script.js'
 };
 
+const runConfigs: TRunConfigs = {
+  debug: false,
+  typeDelay: 0
+};
+
 export const CONFIGS = {
   colorScheme,
   buttonConfigs,
   classes,
-  libInfo
+  libInfo,
+  runConfigs
 };

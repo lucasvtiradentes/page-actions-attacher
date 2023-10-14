@@ -1,13 +1,15 @@
 import { CONFIGS } from '../configs';
-import { TColorScheme, TOptionItem, TButtonConfigs } from '../types/types';
+import { TColorScheme, TOptionItem, TButtonConfigs, TRunConfigs } from '../types/types';
 
 export default class FormFiller {
   private colorScheme: TColorScheme;
   private buttonConfigs: TButtonConfigs;
+  private runConfigs: TRunConfigs;
 
-  constructor(configs?: { colorScheme: TColorScheme; buttonConfigs: TButtonConfigs }) {
+  constructor(configs?: { colorScheme?: TColorScheme; buttonConfigs?: TButtonConfigs; runConfigs?: TRunConfigs }) {
     this.colorScheme = { ...CONFIGS.colorScheme, ...(configs?.colorScheme ? configs?.colorScheme : {}) };
     this.buttonConfigs = { ...CONFIGS.buttonConfigs, ...(configs?.buttonConfigs ? configs?.buttonConfigs : {}) };
+    this.runConfigs = { ...CONFIGS.runConfigs, ...(configs?.runConfigs ? configs?.runConfigs : {}) };
   }
 
   // PUBLIC METHODS ============================================================
@@ -27,6 +29,15 @@ export default class FormFiller {
   }
 
   // PRIVATE METHODS ===========================================================
+
+  private logger(message: string, type: 'error' | 'info' = 'info') {
+    if (!this.runConfigs.debug) {
+      return;
+    }
+
+    if (type === 'error') console.error(message);
+    if (type === 'info') console.log(message);
+  }
 
   private getOptionsEl(optionsArr: TOptionItem[]) {
     const optionsContainer = document.createElement('div');
@@ -77,16 +88,19 @@ export default class FormFiller {
       if (optionsContainer.style.display === 'none' || optionsContainer.style.display === '') {
         optionsContainer.style.display = 'block';
         document.addEventListener('keydown', (event) => this.detectNumbersPress(event));
+        this.logger('show floating button');
       } else {
         optionsContainer.style.display = 'none';
         document.removeEventListener('keydown', (event) => this.detectNumbersPress(event));
+        this.logger('hide floating button');
       }
     };
 
     button.addEventListener('click', toogleFloating);
 
     document.addEventListener('keydown', (event: KeyboardEvent) => {
-      if (event.ctrlKey && event.code === 'Space') {
+      if ((event.ctrlKey && event.code === 'Space') || (event.altKey && event.code === 'Space')) {
+        this.logger('detected ctrl+space or alt+space, toggling floating button');
         toogleFloating();
       }
     });
@@ -106,6 +120,7 @@ export default class FormFiller {
     const optionEl = document.querySelector(`[data="key_${event.key}"]`) as HTMLElement;
 
     if (optionEl) {
+      this.logger(`detected ${event.key} keypress, exec corresponding action`);
       optionEl.click();
     }
   }

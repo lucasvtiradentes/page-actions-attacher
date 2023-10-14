@@ -32,26 +32,34 @@
   const libInfo = {
       name: 'FORM_FILLER_ASSISTANT',
       version: '1.4.1',
-      buildTime: '14/10/2023 17:42:26',
+      buildTime: '14/10/2023 - 19:05:10',
       link: 'https://github.com/lucasvtiradentes/form_filler_assistant',
       temperMonkeyLink: 'https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo',
       initialScript: 'https://github.com/lucasvtiradentes/form_filler_assistant/dist/initial_temper_monkey_script.js'
+  };
+  const runConfigs = {
+      debug: false,
+      typeDelay: 0
   };
   const CONFIGS = {
       colorScheme,
       buttonConfigs,
       classes,
-      libInfo
+      libInfo,
+      runConfigs
   };
 
   class DomUtils {
       colorScheme;
+      runConfigs;
       constructor(configs) {
           this.colorScheme = { ...CONFIGS.colorScheme, ...(configs?.colorScheme ? configs?.colorScheme : {}) };
+          this.runConfigs = { ...CONFIGS.runConfigs, ...(configs?.runConfigs ? configs?.runConfigs : {}) };
       }
       // JS UTILS ==================================================================
-      delay(ms) {
-          return new Promise((resolve) => setTimeout(resolve, ms));
+      async delay(milliseconds) {
+          this.logger(`waiting: ${milliseconds}`);
+          return new Promise((resolve) => setTimeout(resolve, milliseconds));
       }
       getStorageItem(key) {
           return sessionStorage.getItem(key);
@@ -59,8 +67,13 @@
       setStorageItem(key, value) {
           sessionStorage.setItem(key, value);
       }
-      // ACTION UTILS ==============================================================
-      typeOnInputByElement(inputElement, text) {
+      // TYPE FUNCTIONS ============================================================
+      async typeOnInputByElement(inputElement, text) {
+          if (!inputElement) {
+              this.logger(`not found element to type : ${text}`, 'error');
+              return;
+          }
+          this.logger(`typing: ${text}`);
           for (const char of text) {
               const inputEvent = new Event('input', { bubbles: true });
               const inputPropertyDescriptor = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value');
@@ -74,6 +87,7 @@
                       bubbles: true,
                       cancelable: true
                   });
+                  await this.delay(this.runConfigs.typeDelay);
                   inputElement.dispatchEvent(keyboardEvent);
               }
           }
@@ -85,25 +99,61 @@
           }
           this.typeOnInputByElement(inputElement, text);
       }
-      clickTagByText(tag, textToFind) {
+      // GET ELEMENT FUNCTIONS =====================================================
+      getElementByTagText(tag, textToFind, itemIndex) {
+          const finalIndex = 0 ;
           const allElements = Array.from(document.querySelectorAll(tag));
-          const elButton = allElements.find((itemEl) => itemEl.innerText.search(textToFind) > -1);
-          if (elButton) {
-              elButton.click();
+          const tagItems = allElements.filter((itemEl) => itemEl.innerText.search(textToFind) > -1);
+          const elTag = tagItems.length === 0 ? null : tagItems[finalIndex];
+          if (!elTag) {
+              this.logger(`not found element: [${tag} | ${textToFind} | ${finalIndex}]`, 'error');
           }
-          else {
-              console.log(`not found: ${tag} - ${textToFind}`);
-          }
+          return elTag;
       }
-      clickTagByAttributeValue(tag, attribute, valueAttribute) {
+      getElementByAttributeValue(tag, attribute, valueAttribute, itemIndex) {
+          const finalIndex = 0 ;
           const allElements = Array.from(document.querySelectorAll(tag));
-          const elButton = allElements.find((itemEl) => itemEl.getAttribute(attribute) === valueAttribute);
-          if (elButton) {
-              elButton.click();
+          const tagItems = allElements.filter((itemEl) => itemEl.getAttribute(attribute) === valueAttribute);
+          const elTag = tagItems.length === 0 ? null : tagItems[finalIndex];
+          if (!elTag) {
+              this.logger(`not found element: [${tag} | ${attribute} | ${valueAttribute} | ${finalIndex}]`, 'error');
           }
-          else {
-              console.log(`not found: ${tag} - ${attribute} - ${valueAttribute}`);
+          return elTag;
+      }
+      getElementBySelector(selector) {
+          const inputElement = document.querySelector(selector);
+          if (!inputElement) {
+              this.logger(`not found element by selector: ${selector}`, 'error');
           }
+          return inputElement;
+      }
+      // CLICK FUNCTIONS ===========================================================
+      clickElementBySelector(selector) {
+          const inputElement = this.getElementBySelector(selector);
+          if (!inputElement) {
+              return;
+          }
+          this.clickElement(inputElement);
+      }
+      clickElement(htmlElement) {
+          if (!htmlElement) {
+              return;
+          }
+          htmlElement.click();
+      }
+      clickTagByText(tag, textToFind, itemIndex) {
+          const elTag = this.getElementByTagText(tag, textToFind, itemIndex);
+          if (!elTag) {
+              return;
+          }
+          elTag.click();
+      }
+      clickTagByAttributeValue(tag, attribute, valueAttribute, itemIndex) {
+          const elTag = this.getElementByAttributeValue(tag, attribute, valueAttribute, itemIndex);
+          if (!elTag) {
+              return;
+          }
+          elTag.click();
       }
       // HTML UTILS ================================================================
       generateFormRow(name, value, onAfterClickAction) {
@@ -153,6 +203,7 @@
           };
           const detectEscKeypress = (event) => {
               if (event.key === 'Escape' || event.key === 'Esc' || event.key === "'") {
+                  this.logger(`detected Escape press, closing modal`);
                   closeModal();
               }
           };
@@ -173,6 +224,16 @@
               updateModalContent,
               closeModal
           };
+      }
+      // PRIVATE METHODS ===========================================================
+      logger(message, type = 'info') {
+          if (!this.runConfigs.debug) {
+              return;
+          }
+          if (type === 'error')
+              console.error(message);
+          if (type === 'info')
+              console.log(message);
       }
   }
 
@@ -303,9 +364,11 @@
   class FormFiller {
       colorScheme;
       buttonConfigs;
+      runConfigs;
       constructor(configs) {
           this.colorScheme = { ...CONFIGS.colorScheme, ...(configs?.colorScheme ? configs?.colorScheme : {}) };
           this.buttonConfigs = { ...CONFIGS.buttonConfigs, ...(configs?.buttonConfigs ? configs?.buttonConfigs : {}) };
+          this.runConfigs = { ...CONFIGS.runConfigs, ...(configs?.runConfigs ? configs?.runConfigs : {}) };
       }
       // PUBLIC METHODS ============================================================
       init(optionsArr) {
@@ -320,6 +383,15 @@
           });
       }
       // PRIVATE METHODS ===========================================================
+      logger(message, type = 'info') {
+          if (!this.runConfigs.debug) {
+              return;
+          }
+          if (type === 'error')
+              console.error(message);
+          if (type === 'info')
+              console.log(message);
+      }
       getOptionsEl(optionsArr) {
           const optionsContainer = document.createElement('div');
           optionsContainer.setAttribute('style', `display: none; position: absolute; bottom: 70px; right: 0; color: ${this.colorScheme.secondary.text}; background-color: ${this.colorScheme.secondary.background}; border-radius: 5px; border: 1px solid ${this.colorScheme.secondary.border}; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); white-space: nowrap;`);
@@ -355,15 +427,18 @@
               if (optionsContainer.style.display === 'none' || optionsContainer.style.display === '') {
                   optionsContainer.style.display = 'block';
                   document.addEventListener('keydown', (event) => this.detectNumbersPress(event));
+                  this.logger('show floating button');
               }
               else {
                   optionsContainer.style.display = 'none';
                   document.removeEventListener('keydown', (event) => this.detectNumbersPress(event));
+                  this.logger('hide floating button');
               }
           };
           button.addEventListener('click', toogleFloating);
           document.addEventListener('keydown', (event) => {
-              if (event.ctrlKey && event.code === 'Space') {
+              if ((event.ctrlKey && event.code === 'Space') || (event.altKey && event.code === 'Space')) {
+                  this.logger('detected ctrl+space or alt+space, toggling floating button');
                   toogleFloating();
               }
           });
@@ -379,6 +454,7 @@
           }
           const optionEl = document.querySelector(`[data="key_${event.key}"]`);
           if (optionEl) {
+              this.logger(`detected ${event.key} keypress, exec corresponding action`);
               optionEl.click();
           }
       }
@@ -401,7 +477,7 @@
               parameters: parameterNames.join(', ')
           };
       })
-          .filter((item) => item.name !== 'constructor');
+          .filter((item) => ['constructor', 'logger'].includes(item.name) === false);
       return mappedValues;
   }
   function convertObjectArrayToObject(arr, key) {
@@ -418,12 +494,6 @@
       return parsedClassMethods;
   }
   const help = () => {
-      console.log(`# HOW TO USE IT =================================================\n\n`);
-      console.log(`1 - install the temper monkey extension [${CONFIGS.libInfo.temperMonkeyLink}]\n`);
-      console.log('2 - click on "temper moneky icon" and after on "Create a new script..."\n');
-      console.log(`3 - paste the initial form filler script [${CONFIGS.libInfo.initialScript}]\n`);
-      console.log(`4 - adjust it according to your needs\n`);
-      console.log(`5 - for more detailed usage, go to the project github repository! [${CONFIGS.libInfo.link}\n\n`);
       console.log(`# METHODS =======================================================\n`);
       console.log('\nOther methods\n');
       console.table({ 'formFiller.atach': { parameters: 'optionsArr' }, 'formFiller.help': { parameters: '' } });
@@ -431,30 +501,33 @@
       console.table(getClassDetailedMethods(new DataUtils()));
       console.log('\nformFiller.browserUtils\n');
       console.table(getClassDetailedMethods(new DomUtils()));
-      console.log(`\n# LIB INFO ======================================================\n\n`);
-      console.log(`name      : ${CONFIGS.libInfo.name}`);
-      console.log(`version   : ${CONFIGS.libInfo.version}`);
-      console.log(`build_time: ${CONFIGS.libInfo.buildTime}`);
+      console.log(`\n# PACKAGE INFO ==================================================\n\n`);
+      console.log(`name        : ${CONFIGS.libInfo.name}`);
+      console.log(`version     : ${CONFIGS.libInfo.version}`);
+      console.log(`build_time  : ${CONFIGS.libInfo.buildTime}`);
+      console.log(`package link: ${CONFIGS.libInfo.temperMonkeyLink}`);
   };
 
   class FormFillerAssistant {
       colorScheme;
       buttonConfigs;
+      runConfigs;
       constructor(configs) {
           this.colorScheme = { ...CONFIGS.colorScheme, ...(configs?.colorScheme ? configs?.colorScheme : {}) };
           this.buttonConfigs = { ...CONFIGS.buttonConfigs, ...(configs?.buttonConfigs ? configs?.buttonConfigs : {}) };
+          this.runConfigs = { ...CONFIGS.runConfigs, ...(configs?.runConfigs ? configs?.runConfigs : {}) };
       }
       VERSION = CONFIGS.libInfo.version;
       BUILD_DATETIME = CONFIGS.libInfo.buildTime;
       help = help;
       atach(options) {
-          new FormFiller({ colorScheme: this.colorScheme, buttonConfigs: this.buttonConfigs }).init(options);
+          new FormFiller({ colorScheme: this.colorScheme, runConfigs: this.runConfigs, buttonConfigs: this.buttonConfigs }).init(options);
+      }
+      browserUtils() {
+          return new DomUtils({ colorScheme: this.colorScheme, runConfigs: this.runConfigs });
       }
       dataUtils() {
           return new DataUtils();
-      }
-      browserUtils() {
-          return new DomUtils({ colorScheme: this.colorScheme });
       }
   }
 
