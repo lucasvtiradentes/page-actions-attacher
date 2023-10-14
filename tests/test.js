@@ -9,22 +9,38 @@ if (!FormFillerLib) {
 // ================================================================================================================
 
 async function main(FormFiller) {
-  const dataUtils = new FormFiller.DataUtils();
-  const domUtils = new FormFiller.DomUtils();
-  const formFiller = new FormFiller.FormFiller();
+  const colorScheme = {
+    primary: {
+      background: '#4f07ad',
+      text: '#fff'
+    },
+    secondary: {
+      background: '#fff',
+      hoverBackground: '#ccc',
+      text: '#000000',
+      border: '#ccc'
+    },
+    overlay: 'rgba(0, 0, 0, 0.7)',
+    boxShadown: 'rgba(0, 0, 0, 0.1)'
+  };
+
+  const buttonConfigs = {
+    right: '30px',
+    bottom: '30px'
+  };
+
+  const formFiller = new FormFiller({});
+  const browserUtils = formFiller.browserUtils();
 
   // ===========================================================================
 
   const options = [
-    { name: 'Mostrar modal de utils', action: toogleModal },
-    { name: 'Promotores - etapa 1', action: () => alert(1) },
-    { name: 'Franquias etapa 1', action: () => alert(2) },
-    { name: 'Franquias etapa 2', action: () => alert(3) },
-    { name: 'Franquias tudo', action: () => alert(4) },
-    { name: 'Mostrar inputs da página', action: () => Array.from(document.querySelectorAll('input')).forEach((el) => console.log(el.getAttribute('name'))) }
+    { name: 'show modal utils', action: toogleModal },
+    { name: 'show lib helper', action: () => formFiller.help() },
+    { name: 'show page input fields', action: () => Array.from(document.querySelectorAll('input')).forEach((el) => console.log(el.getAttribute('name'))) }
   ];
 
-  formFiller.init(options);
+  formFiller.atach(options);
 
   // ===========================================================================
 
@@ -46,31 +62,31 @@ async function main(FormFiller) {
         telefone: dt.generateNRandomNumbers(8)
       };
 
-      domUtils.setStorageItem(modalStorageKey, JSON.stringify(generatedData));
+      browserUtils.setStorageItem(modalStorageKey, JSON.stringify(generatedData));
       return generatedData;
     };
 
-    const storageData = domUtils.getStorageItem(modalStorageKey);
-    const data = modalCount > 1 && storageData ? JSON.parse(storageData) : generateData(dataUtils);
+    const storageData = browserUtils.getStorageItem(modalStorageKey);
+    const data = modalCount > 1 && storageData ? JSON.parse(storageData) : generateData(formFiller.dataUtils());
 
     const getFinalHtmlContent = (dt) => {
       const finalHtmlContent = `
-          ${domUtils.generateFormRow('Nome', dt.nome)}
-          ${domUtils.generateFormRow('Username', dt.user_name)}
-          ${domUtils.generateFormRow('Email', dt.email)}
-          ${domUtils.generateFormRow('Nome empresa', dt.nome_empresa)}
-          ${domUtils.generateFormRow('Cpf', dt.cpf)}
-          ${domUtils.generateFormRow('Cnpj', dt.cnpj)}
-          ${domUtils.generateFormRow('Inscricao estadual', dt.inscricao_estadual)}
-          ${domUtils.generateFormRow('Telefone', dt.telefone)}
+          ${browserUtils.generateFormRow('Nome', dt.nome)}
+          ${browserUtils.generateFormRow('Username', dt.user_name)}
+          ${browserUtils.generateFormRow('Email', dt.email)}
+          ${browserUtils.generateFormRow('Nome empresa', dt.nome_empresa)}
+          ${browserUtils.generateFormRow('Cpf', dt.cpf)}
+          ${browserUtils.generateFormRow('Cnpj', dt.cnpj)}
+          ${browserUtils.generateFormRow('Inscricao estadual', dt.inscricao_estadual)}
+          ${browserUtils.generateFormRow('Telefone', dt.telefone)}
         `;
 
       return finalHtmlContent;
     };
 
-    const { updateModalContent } = domUtils.getModal('Dados gerados');
+    const { updateModalContent } = browserUtils.getModal('Dados gerados');
 
-    const regeneratedData = () => getFinalHtmlContent(generateData(new FormFiller.DataUtils()));
+    const regeneratedData = () => getFinalHtmlContent(generateData(new FormFiller().dataUtils()));
 
     const modalButtons = [
       {

@@ -1,36 +1,18 @@
-type TButton = {
-  title: string;
-  action: () => void;
-  exitAfterAction: boolean;
-};
+import { CONFIGS } from '../configs';
+import { TButton, TColorScheme } from '../types/types';
 
 export default class DomUtils {
-  private colorScheme = {
-    primary: {
-      background: '#0074D9',
-      text: '#fff'
-    },
-    secondary: {
-      background: '#fff',
-      hoverBackground: '#ccc',
-      text: '#000000',
-      border: '#ccc'
-    },
-    overlay: 'rgba(0, 0, 0, 0.7)',
-    boxShadown: 'rgba(0, 0, 0, 0.1)'
-  };
+  private colorScheme: TColorScheme;
 
-  private classes = {
-    modalContainer: 'modal_container'
-  };
+  constructor(configs?: { colorScheme: TColorScheme }) {
+    this.colorScheme = { ...CONFIGS.colorScheme, ...(configs?.colorScheme ? configs?.colorScheme : {}) };
+  }
 
   // JS UTILS ==================================================================
 
   delay(ms: number) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
-
-  // STORAGE UTILS =============================================================
 
   getStorageItem(key: string) {
     return sessionStorage.getItem(key);
@@ -72,8 +54,8 @@ export default class DomUtils {
     this.typeOnInputByElement(inputElement, text);
   }
 
-  clickButtonByText(buttonText: string) {
-    const allButtons = Array.from(document.querySelectorAll('button'));
+  clickTagByText(tag: string, buttonText: string) {
+    const allButtons = Array.from(document.querySelectorAll(tag)) as HTMLElement[];
     const elButton = allButtons.find((itemEl) => itemEl.innerText.search(buttonText) > -1);
     if (elButton) {
       console.log('Clickei no botao', buttonText);
@@ -85,7 +67,7 @@ export default class DomUtils {
 
   // HTML UTILS ================================================================
 
-  generateFormRow(name, value, onAfterClickAction) {
+  generateFormRow(name: string, value: string, onAfterClickAction: () => void) {
     const onClickAction = `navigator.clipboard.writeText('${value}');${onAfterClickAction ? `(${onAfterClickAction})()` : ''}`;
 
     return `
@@ -101,7 +83,7 @@ export default class DomUtils {
 
   getModal(title: string) {
     const modalContainerEl = document.createElement('div');
-    modalContainerEl.setAttribute('class', this.classes.modalContainer);
+    modalContainerEl.setAttribute('class', CONFIGS.classes.modalContainer);
     modalContainerEl.setAttribute('style', `display: flex; align-items: center; justify-content: center; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: ${this.colorScheme.overlay}; z-index: 1000;`);
 
     const modalDialog = document.createElement('div');
@@ -146,7 +128,7 @@ export default class DomUtils {
     };
 
     const closeModal = () => {
-      const modalEl = document.querySelector(`.${this.classes.modalContainer}`);
+      const modalEl = document.querySelector(`.${CONFIGS.classes.modalContainer}`);
       if (modalEl) {
         document.body.removeChild(modalContainerEl);
         document.removeEventListener('keydown', detectEscKeypress);

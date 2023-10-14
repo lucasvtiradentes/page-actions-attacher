@@ -4,6 +4,10 @@
   FORM FILLER ASSISTANT
 </h3>
 
+- [ ] colocar configs da uds em um repo e permitir sync entre os devs
+- [ ] colocar click by selector
+- [ ] melhorar forma de autoupdate (talvez colocar version no export global)
+
 <a href="#"><img src="./.github/images/divider.png" /></a>
 
 <div align="center">
@@ -17,3 +21,8 @@
   <p>👉 See also all <a href="https://github.com/lucasvtiradentes/lucasvtiradentes/blob/master/portfolio/PROJECTS.md#TOC">my projects</a></p>
   <p>👉 See also all <a href="https://github.com/lucasvtiradentes/my-tutorials#readme">my articles</a></p>
 </div>
+<!--
+
+class DomUtils { private delay(ms: number) { return new Promise((resolve) => setTimeout(resolve, ms)); } }
+
+class DomUtils { #delay(ms: number) { return new Promise((resolve) => setTimeout(resolve, ms)); } } -->

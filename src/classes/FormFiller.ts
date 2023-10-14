@@ -1,35 +1,24 @@
-type TOptionItem = {
-  name: string;
-  action: () => void;
-};
+import { CONFIGS } from '../configs';
+import { TColorScheme, TOptionItem, TButtonConfigs } from '../types/types';
 
 export default class FormFiller {
-  private colorScheme = {
-    primary: {
-      background: '#0074D9',
-      text: '#fff'
-    },
-    secondary: {
-      background: '#fff',
-      text: '#000000',
-      border: '#ccc'
-    }
-  };
+  private colorScheme: TColorScheme;
+  private buttonConfigs: TButtonConfigs;
 
-  private classes = {
-    floatingButton: 'floating_container',
-    optionsContainer: 'options_container'
-  };
+  constructor(configs?: { colorScheme: TColorScheme; buttonConfigs: TButtonConfigs }) {
+    this.colorScheme = { ...CONFIGS.colorScheme, ...(configs?.colorScheme ? configs?.colorScheme : {}) };
+    this.buttonConfigs = { ...CONFIGS.buttonConfigs, ...(configs?.buttonConfigs ? configs?.buttonConfigs : {}) };
+  }
 
   // PUBLIC METHODS ============================================================
 
-  init(optArr: TOptionItem[]) {
-    const optionsEl = this.getOptionsEl(optArr);
+  init(optionsArr: TOptionItem[]) {
+    const optionsEl = this.getOptionsEl(optionsArr);
     this.atachFloatingToHTML(optionsEl);
 
     document.addEventListener('click', (e: Event) => {
-      const floatingContainer = document.querySelector(`.${this.classes.floatingButton}`) as HTMLElement;
-      const optionsContainer = document.querySelector(`.${this.classes.optionsContainer}`) as HTMLElement;
+      const floatingContainer = document.querySelector(`.${CONFIGS.classes.floatingButton}`) as HTMLElement;
+      const optionsContainer = document.querySelector(`.${CONFIGS.classes.optionsContainer}`) as HTMLElement;
 
       if (optionsContainer.style.display === 'block' && !floatingContainer.contains(e.target as Node)) {
         optionsContainer.style.display = 'none';
@@ -39,15 +28,15 @@ export default class FormFiller {
 
   // PRIVATE METHODS ===========================================================
 
-  private getOptionsEl(optArr: TOptionItem[]) {
+  private getOptionsEl(optionsArr: TOptionItem[]) {
     const optionsContainer = document.createElement('div');
     optionsContainer.setAttribute(
       'style',
       `display: none; position: absolute; bottom: 70px; right: 0; color: ${this.colorScheme.secondary.text}; background-color: ${this.colorScheme.secondary.background}; border-radius: 5px; border: 1px solid ${this.colorScheme.secondary.border}; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); white-space: nowrap;`
     );
-    optionsContainer.setAttribute('class', this.classes.optionsContainer);
+    optionsContainer.setAttribute('class', CONFIGS.classes.optionsContainer);
 
-    optArr.forEach((option, index: number) => {
+    optionsArr.forEach((option, index: number) => {
       const optionButton = document.createElement('button');
       optionButton.textContent = `${index + 1} - ${option.name}`;
       optionButton.setAttribute('data', `key_${index + 1}`);
@@ -65,8 +54,8 @@ export default class FormFiller {
 
   private atachFloatingToHTML(optionsContainer: HTMLElement) {
     const container = document.createElement('div');
-    container.setAttribute('style', 'position: fixed; bottom: 70px; right: 30px; z-index: 9999;');
-    container.setAttribute('class', this.classes.floatingButton);
+    container.setAttribute('style', `position: fixed; bottom: ${this.buttonConfigs.bottom}; right: ${this.buttonConfigs.right}; z-index: 9999;`);
+    container.setAttribute('class', CONFIGS.classes.floatingButton);
 
     const button = document.createElement('button');
     button.setAttribute(
@@ -75,8 +64,8 @@ export default class FormFiller {
     );
 
     const svgIcon = document.createElement('img');
-    svgIcon.src = 'https://www.svgrepo.com/show/532994/plus.svg';
-    svgIcon.setAttribute('style', 'width: 24px; height: 24px;');
+    svgIcon.src = this.buttonConfigs.iconImage;
+    svgIcon.setAttribute('style', `width: 24px; height: 24px; ${this.buttonConfigs.iconColorCss}`);
 
     button.appendChild(svgIcon);
     container.appendChild(button);
@@ -104,7 +93,7 @@ export default class FormFiller {
   }
 
   private detectNumbersPress(event: KeyboardEvent) {
-    const optionsContainerEl = document.querySelector(`.${this.classes.optionsContainer}`) as HTMLElement;
+    const optionsContainerEl = document.querySelector(`.${CONFIGS.classes.optionsContainer}`) as HTMLElement;
     if (!optionsContainerEl || optionsContainerEl.style.display !== 'block') {
       return;
     }

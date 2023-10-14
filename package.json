@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/lucasvtiradentes/form_filler_assistant.git"
+    "url": "git+https://github.com/lucasvtiradentes/form_filler_assistant.git"
   },
   "keywords": [
     "ticktick",
@@ -27,13 +27,14 @@
     "umdfy": "rollup -c rollup.config.js",
     "postversion": "echo writing new version in the dist file && npm run build",
     "pub": "semantic-release",
-    "pub:check": "npm publish --dry-run",
+    "pub_check": "npm publish --dry-run",
     "commit": "cz",
     "lint:staged": "lint-staged --concurrent false --quiet"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.3.0",
     "@commitlint/config-conventional": "^17.7.0",
+    "@rollup/plugin-replace": "^5.0.3",
     "@rollup/plugin-terser": "^0.4.4",
     "@semantic-release/changelog": "^6.0.2",
     "@semantic-release/commit-analyzer": "^9.0.2",
@@ -51,10 +52,10 @@
     "lint-staged": "^13.1.0",
     "prettier": "^2.8.0",
     "rimraf": "^4.0.4",
-    "rollup": "^3.20.2",
+    "rollup": "^4.1.0",
     "rollup-plugin-typescript2": "^0.36.0",
     "semantic-release": "^19.0.5",
     "tsx": "^3.13.0",
-    "typescript": "^4.9.3"
+    "typescript": "^4.9.5"
   }
 }
