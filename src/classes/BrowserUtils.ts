@@ -55,12 +55,22 @@ export default class DomUtils {
   }
 
   clickTagByText(tag: string, textToFind: string) {
-    const allButtons = Array.from(document.querySelectorAll(tag)) as HTMLElement[];
-    const elButton = allButtons.find((itemEl) => itemEl.innerText.search(textToFind) > -1);
+    const allElements = Array.from(document.querySelectorAll(tag)) as HTMLElement[];
+    const elButton = allElements.find((itemEl) => itemEl.innerText.search(textToFind) > -1);
     if (elButton) {
       elButton.click();
     } else {
       console.log(`not found: ${tag} - ${textToFind}`);
+    }
+  }
+
+  clickTagByAttributeValue(tag: string, attribute: string, valueAttribute: string) {
+    const allElements = Array.from(document.querySelectorAll(tag)) as HTMLElement[];
+    const elButton = allElements.find((itemEl) => itemEl.getAttribute(attribute) === valueAttribute);
+    if (elButton) {
+      elButton.click();
+    } else {
+      console.log(`not found: ${tag} - ${attribute} - ${valueAttribute}`);
     }
   }
 

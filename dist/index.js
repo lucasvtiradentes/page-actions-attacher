@@ -32,7 +32,7 @@
   const libInfo = {
       name: 'FORM_FILLER_ASSISTANT',
       version: '1.4.0',
-      buildTime: '14/10/2023 16:29:36',
+      buildTime: '14/10/2023 - 17:41:20',
       link: 'https://github.com/lucasvtiradentes/form_filler_assistant',
       temperMonkeyLink: 'https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo',
       initialScript: 'https://github.com/lucasvtiradentes/form_filler_assistant/dist/initial_temper_monkey_script.js'
@@ -86,13 +86,23 @@
           this.typeOnInputByElement(inputElement, text);
       }
       clickTagByText(tag, textToFind) {
-          const allButtons = Array.from(document.querySelectorAll(tag));
-          const elButton = allButtons.find((itemEl) => itemEl.innerText.search(textToFind) > -1);
+          const allElements = Array.from(document.querySelectorAll(tag));
+          const elButton = allElements.find((itemEl) => itemEl.innerText.search(textToFind) > -1);
           if (elButton) {
               elButton.click();
           }
           else {
               console.log(`not found: ${tag} - ${textToFind}`);
+          }
+      }
+      clickTagByAttributeValue(tag, attribute, valueAttribute) {
+          const allElements = Array.from(document.querySelectorAll(tag));
+          const elButton = allElements.find((itemEl) => itemEl.getAttribute(attribute) === valueAttribute);
+          if (elButton) {
+              elButton.click();
+          }
+          else {
+              console.log(`not found: ${tag} - ${attribute} - ${valueAttribute}`);
           }
       }
       // HTML UTILS ================================================================

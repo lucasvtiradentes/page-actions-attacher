@@ -1,28 +1,35 @@
-# https://prettier.io/docs/en/options.html
-
 # FOLDERS ======================================================================
 
 .github/
 .husky/
 .vscode/
+dist/
+docs/
+# examples/
+ignore/
+node_modules/
+scripts/
+# src/
+# tests/
 
 # FILES ========================================================================
 
-.gitignore
-.npmignore
-commitlint.config.js
-package.json
 .czrc
 .editorconfig
 .eslintignore
 .eslintrc
+.gitignore
 .lintstagedrc
+.npmignore
 .prettierignore
 .prettierrc
+commitlint.config.js
 LICENSE
+package.json
+README.md
+release.config.js
 rollup.config.js
 tsconfig.json
-release.config.js
 
 package-lock.json
 yarn-lock.json

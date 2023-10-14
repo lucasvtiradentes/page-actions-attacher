@@ -15,7 +15,7 @@
 
   const CONFIGS = {
     sessionStorageContentKey: 'FormFillerAssistant',
-    formFillerAssistantVersion: '1.3.0'
+    version: '1.3.0'
   };
 
   async function getFormFillerAssitantContent() {
@@ -34,14 +34,14 @@
 
     const sessionContent = sessionStorage.getItem(CONFIGS.sessionStorageContentKey);
     const sessionContentVersion = getVersionNumber(sessionContent);
-    if (sessionContent && sessionContentVersion === CONFIGS.formFillerAssistantVersion) {
+    if (sessionContent && sessionContentVersion === CONFIGS.version) {
       return {
         content: sessionContent,
         method: 'session'
       };
     }
 
-    const downloadedContent = await getFormFillerAssistantContent(CONFIGS.formFillerAssistantVersion);
+    const downloadedContent = await getFormFillerAssistantContent(CONFIGS.version);
     return {
       content: downloadedContent,
       method: 'downloaded'
