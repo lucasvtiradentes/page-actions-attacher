@@ -1,5 +1,12 @@
 # CHANGELOG HISTORY
 
+## [1.4.0](https://github.com/lucasvtiradentes/form_filler_assistant/compare/v1.3.0...v1.4.0) (2023-10-14)
+
+
+### ✨ feature:
+
+* add examples folder ([c2d846a](https://github.com/lucasvtiradentes/form_filler_assistant/commit/c2d846aa328adcdbc2affd89fcd4e41c5a99a5a0))
+
 ## [1.3.0](https://github.com/lucasvtiradentes/form_filler_assistant/compare/v1.2.0...v1.3.0) (2023-10-14)
 
 
