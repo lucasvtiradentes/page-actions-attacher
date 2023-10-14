@@ -27,7 +27,32 @@
 
   // ===========================================================================
 
-  const formFiller = new FormFiller();
+  const colorScheme = {
+    primary: {
+      background: '#4f07ad',
+      text: '#fff'
+    },
+    secondary: {
+      background: '#fff',
+      hoverBackground: '#ccc',
+      text: '#000000',
+      border: '#ccc'
+    },
+    overlay: 'rgba(0, 0, 0, 0.7)',
+    boxShadown: 'rgba(0, 0, 0, 0.1)'
+  };
+
+  const buttonConfigs = {
+    right: '30px',
+    bottom: '30px'
+  };
+
+  const runConfigs = {
+    debug: true,
+    typeDelay: 500
+  };
+
+  const formFiller = new FormFiller({ colorScheme, buttonConfigs, runConfigs });
   console.log(`loaded FormFillerAssistantContent [${formFiller.VERSION} - ${formFillerAssistantContent.method}]`);
 
   // ===========================================================================
@@ -42,11 +67,65 @@
     Array.from(document.querySelectorAll('input')).forEach((el) => console.log(el.getAttribute('name')));
   }
 
+  function toogleModal() {
+    const modalStorageKey = 'modalData';
+    modalCount = modalCount + 1;
+
+    const generateData = (dt) => {
+      const generatedData = {
+        nome: dt.generatePersonName(),
+        user_name: dt.generatePersonUsername(),
+        email: dt.generatePersonEmail(),
+        nome_empresa: dt.generateCompanyName(),
+        cpf: dt.generateCPF(),
+        cnpj: dt.generateCNPJ(),
+        inscricao_estadual: dt.generateNRandomNumbers(5),
+        telefone: dt.generateNRandomNumbers(8)
+      };
+
+      formFiller.browserUtils().setStorageItem(modalStorageKey, JSON.stringify(generatedData));
+      return generatedData;
+    };
+
+    const storageData = formFiller.browserUtils().getStorageItem(modalStorageKey);
+    const data = modalCount > 1 && storageData ? JSON.parse(storageData) : generateData(formFiller.dataUtils());
+
+    const getFinalHtmlContent = (dt) => {
+      const finalHtmlContent = `
+          ${formFiller.browserUtils().generateFormRow('Nome', dt.nome)}
+          ${formFiller.browserUtils().generateFormRow('Username', dt.user_name)}
+          ${formFiller.browserUtils().generateFormRow('Email', dt.email)}
+          ${formFiller.browserUtils().generateFormRow('Nome empresa', dt.nome_empresa)}
+          ${formFiller.browserUtils().generateFormRow('Cpf', dt.cpf)}
+          ${formFiller.browserUtils().generateFormRow('Cnpj', dt.cnpj)}
+          ${formFiller.browserUtils().generateFormRow('Inscricao estadual', dt.inscricao_estadual)}
+          ${formFiller.browserUtils().generateFormRow('Telefone', dt.telefone)}
+        `;
+
+      return finalHtmlContent;
+    };
+
+    const { updateModalContent } = formFiller.browserUtils().getModal('Dados gerados');
+
+    const regeneratedData = () => getFinalHtmlContent(generateData(new FormFiller().dataUtils()));
+
+    const modalButtons = [
+      {
+        title: 'Regenerate',
+        action: () => updateModalContent(regeneratedData(), modalButtons),
+        exitAfterAction: false
+      }
+    ];
+
+    updateModalContent(getFinalHtmlContent(data), modalButtons);
+  }
+
   // ===========================================================================
 
   const options = [
     { name: 'show lib helper', action: formFiller.help },
     { name: 'show page input fields', action: showPageInputNames },
+    { name: 'show modal utils', action: toogleModal },
     { name: 'fill saucedemo form', action: fillSauceDemoForm }
   ];
 

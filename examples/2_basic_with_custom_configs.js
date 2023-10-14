@@ -27,7 +27,32 @@
 
   // ===========================================================================
 
-  const formFiller = new FormFiller();
+  const colorScheme = {
+    primary: {
+      background: '#4f07ad',
+      text: '#fff'
+    },
+    secondary: {
+      background: '#fff',
+      hoverBackground: '#ccc',
+      text: '#000000',
+      border: '#ccc'
+    },
+    overlay: 'rgba(0, 0, 0, 0.7)',
+    boxShadown: 'rgba(0, 0, 0, 0.1)'
+  };
+
+  const buttonConfigs = {
+    right: '30px',
+    bottom: '30px'
+  };
+
+  const runConfigs = {
+    debug: true,
+    typeDelay: 500
+  };
+
+  const formFiller = new FormFiller({ colorScheme, buttonConfigs, runConfigs });
   console.log(`loaded FormFillerAssistantContent [${formFiller.VERSION} - ${formFillerAssistantContent.method}]`);
 
   // ===========================================================================

@@ -4,13 +4,19 @@ import packageJson from '../package.json';
 function updateFormFillerAssistantVersion(filePath: string, newVersion: string): void {
   if (existsSync(filePath)) {
     let fileContent = readFileSync(filePath, 'utf8');
-    const versionRegex = /formFillerAssistantVersion:\s*'([\d.]+)'/;
-    fileContent = fileContent.replace(versionRegex, `formFillerAssistantVersion: '${newVersion}'`);
+    const versionRegex = /version:\s*'([\d.]+)'/;
+    fileContent = fileContent.replace(versionRegex, `version: '${newVersion}'`);
     writeFileSync(filePath, fileContent, 'utf8');
     console.log(`updated version to ${newVersion} [${filePath}]`);
   }
 }
 
-const filesToUpdate = ['./examples/1_basic.js', './examples/2_normal.js', './examples/3_advanced.js'];
+// prettier-ignore
+const filesToUpdate = [
+  './examples/1_basic.js',
+  './examples/2_basic_with_custom_configs.js',
+  './examples/3_normal_with_modal.js',
+  './examples/4_advanced.js'
+];
 
 filesToUpdate.forEach((item) => updateFormFillerAssistantVersion(item, packageJson.version));
