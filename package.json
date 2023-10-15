@@ -24,7 +24,6 @@
     "start": "node dist/index.js",
     "dev": "tsx ./src/index.ts",
     "build": "rimraf ./dist && npm run umdfy",
-    "postbuild": "tsx ./scripts/post_build.ts",
     "umdfy": "rollup -c rollup.config.js",
     "postversion": "echo writing new version in the dist file && npm run build",
     "pub": "semantic-release",

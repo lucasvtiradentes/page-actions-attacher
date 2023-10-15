@@ -77,9 +77,9 @@ My main motivation to built this was to don't spend too much time on filling for
 
 ## :dart: Features<a href="#TOC"><img align="right" src="./.github/images/up_arrow.png" width="22"></a>
 
-&nbsp;&nbsp;&nbsp;✔️ atach a floating buttom with custom actions (`ctrl+space` to toogle it);<br>
+&nbsp;&nbsp;&nbsp;✔️ atach a floating buttom with custom actions (`ctrl+space` or `alt+space` to toogle it);<br>
 &nbsp;&nbsp;&nbsp;✔️ out of the box methods to fill website forms (type, click, etc);<br>
-&nbsp;&nbsp;&nbsp;✔️ dynamic keybinding to all available options (1-9);<br>
+&nbsp;&nbsp;&nbsp;✔️ dynamic keybinding to all available options (1-9) when the options container is displayed;<br>
 &nbsp;&nbsp;&nbsp;✔️ auto-updatable initial temper monkeys userscript;<br>
 &nbsp;&nbsp;&nbsp;✔️ allow custom configs (color scheme, debug_mode, etc);<br>
 &nbsp;&nbsp;&nbsp;✔️ examples provided on folder [./examples](./examples).<br>
@@ -90,8 +90,8 @@ To use it, you'll have to:
 
 * 1 - install [temper monkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=pt-BR) to your browser;
 * 2 - click on "temper moneky icon" and after on "Create a new script...";
-* 3 - paste the initial temper monkey basic example [./examples/1_basic.js](./examples/1_basic.js) to the document content and save it;
-* 4 - go to the [saucedemo](https://www.saucedemo.com) site and hit `ctrl+space` to test it;
+* 3 - paste the initial temper monkey basic example [1_basic.js](./examples/1_basic.js) to the document content and save it;
+* 4 - go to the [saucedemo](https://www.saucedemo.com) site and hit `ctrl+space` or `alt+space` to test it;
 * 5 - get inspired by the other [./examples](./examples) and have fun!
 
 
@@ -104,7 +104,8 @@ This project will
 - atach a floating button with custom options to the specified website;
 - allow you to hit keyboard shortcuts to easily perform actions to the specified website;
 - in order to update the actions you'll have to update the `optionsArr`;
-- it will get the package content from [jsdelivr](https://cdn.jsdelivr.net/npm/form_filler_assistant) and save it to session storage;
+- it will get the package content from [jsdelivr](https://cdn.jsdelivr.net/npm/form_filler_assistant) and save it to local storage so you dont have to fetch it all the time;
+- If you want to update it, simply click on the header icon, as shown in the example [2_with_custom_configs.js](./examples/2_with_custom_configs.js).
 
 ### Uninstall
 
