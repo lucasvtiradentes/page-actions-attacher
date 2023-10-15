@@ -13,7 +13,7 @@
 
   const CONFIGS = {
     sessionStorageContentKey: 'FormFillerAssistant',
-    version: '1.4.1'
+    version: '1.5.0'
   };
 
   const formFillerAssistantContent = await getFormFillerAssitantContent(CONFIGS);

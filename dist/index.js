@@ -32,7 +32,7 @@
   const libInfo = {
       name: 'FORM_FILLER_ASSISTANT',
       version: '1.5.0',
-      buildTime: '14/10/2023 19:21:32',
+      buildTime: '14/10/2023 - 22:15:08',
       link: 'https://github.com/lucasvtiradentes/form_filler_assistant',
       temperMonkeyLink: 'https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo',
       initialScript: 'https://github.com/lucasvtiradentes/form_filler_assistant/dist/initial_temper_monkey_script.js'
@@ -57,8 +57,10 @@
           this.runConfigs = { ...CONFIGS.runConfigs, ...(configs?.runConfigs ? configs?.runConfigs : {}) };
       }
       // JS UTILS ==================================================================
-      async delay(milliseconds) {
-          this.logger(`waiting: ${milliseconds}`);
+      async delay(milliseconds, shouldShowLog) {
+          if (shouldShowLog) {
+              this.logger(`waiting: ${milliseconds}`);
+          }
           return new Promise((resolve) => setTimeout(resolve, milliseconds));
       }
       getStorageItem(key) {
@@ -92,12 +94,12 @@
               }
           }
       }
-      typeOnInputBySelector(selector, text) {
+      async typeOnInputBySelector(selector, text) {
           const inputElement = document.querySelector(selector);
           if (!inputElement) {
               return;
           }
-          this.typeOnInputByElement(inputElement, text);
+          await this.typeOnInputByElement(inputElement, text);
       }
       // GET ELEMENT FUNCTIONS =====================================================
       getElementByTagText(tag, textToFind, itemIndex) {
@@ -128,7 +130,7 @@
           return inputElement;
       }
       // CLICK FUNCTIONS ===========================================================
-      clickElementBySelector(selector) {
+      clickBySelector(selector) {
           const inputElement = this.getElementBySelector(selector);
           if (!inputElement) {
               return;
@@ -371,8 +373,8 @@
           this.runConfigs = { ...CONFIGS.runConfigs, ...(configs?.runConfigs ? configs?.runConfigs : {}) };
       }
       // PUBLIC METHODS ============================================================
-      init(optionsArr) {
-          const optionsEl = this.getOptionsEl(optionsArr);
+      atach(optionsArr, checkForUpdatesAction) {
+          const optionsEl = this.getOptionsEl(optionsArr, checkForUpdatesAction);
           this.atachFloatingToHTML(optionsEl);
           document.addEventListener('click', (e) => {
               const floatingContainer = document.querySelector(`.${CONFIGS.classes.floatingButton}`);
@@ -392,15 +394,41 @@
           if (type === 'info')
               console.log(message);
       }
-      getOptionsEl(optionsArr) {
+      getOptionsEl(optionsArr, checkForUpdatesAction) {
           const optionsContainer = document.createElement('div');
           optionsContainer.setAttribute('style', `display: none; position: absolute; bottom: 70px; right: 0; color: ${this.colorScheme.secondary.text}; background-color: ${this.colorScheme.secondary.background}; border-radius: 5px; border: 1px solid ${this.colorScheme.secondary.border}; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); white-space: nowrap;`);
           optionsContainer.setAttribute('class', CONFIGS.classes.optionsContainer);
+          // add header to options menu ==============================================
+          const headerDiv = document.createElement('div');
+          headerDiv.setAttribute('style', `width: 100%; display: grid; grid-template-columns: 1fr 1fr; padding: 3px 5px;`);
+          const versionDiv = document.createElement('div');
+          versionDiv.textContent = `V${CONFIGS.libInfo.version}`;
+          versionDiv.setAttribute('style', `display: flex; align-items: center; justify-content: center;`);
+          headerDiv.appendChild(versionDiv);
+          const actionsDiv = document.createElement('div');
+          actionsDiv.setAttribute('style', `display: flex; align-items: center; justify-content: center; gap: 10px;`);
+          const githubIcon = document.createElement('img');
+          githubIcon.src = 'https://www.svgrepo.com/show/512317/github-142.svg';
+          githubIcon.setAttribute('style', `width: 18px; height: 18px; cursor: pointer;`);
+          githubIcon.addEventListener('click', () => window.open(CONFIGS.libInfo.link, '_blank'));
+          actionsDiv.appendChild(githubIcon);
+          if (checkForUpdatesAction) {
+              const updateIcon = document.createElement('img');
+              updateIcon.src = 'https://www.svgrepo.com/show/460136/update-alt.svg';
+              updateIcon.setAttribute('style', `width: 20px; height: 20px; cursor: pointer;`);
+              updateIcon.addEventListener('click', checkForUpdatesAction);
+              actionsDiv.appendChild(updateIcon);
+          }
+          headerDiv.appendChild(actionsDiv);
+          optionsContainer.appendChild(headerDiv);
+          // add options =============================================================
           optionsArr.forEach((option, index) => {
               const optionButton = document.createElement('button');
               optionButton.textContent = `${index + 1} - ${option.name}`;
               optionButton.setAttribute('data', `key_${index + 1}`);
-              optionButton.setAttribute('style', 'display: block; width: 100%; padding: 10px; border: none; background-color: transparent; text-align: left; cursor: pointer;');
+              optionButton.setAttribute('style', 'display: block; width: 100%; padding: 10px; border: none; background-color: transparent; text-align: left;');
+              optionButton.setAttribute('onmouseover', `this.style.backgroundColor = '${this.colorScheme.secondary.hoverBackground}'; this.style.cursor = 'pointer';`);
+              optionButton.setAttribute('onmouseout', `this.style.backgroundColor = '${this.colorScheme.secondary.background}'; this.style.cursor = 'default';`);
               optionButton.addEventListener('click', () => {
                   optionsContainer.style.display = 'none';
                   document.removeEventListener('keydown', this.detectNumbersPress);
@@ -505,7 +533,7 @@
       console.log(`name        : ${CONFIGS.libInfo.name}`);
       console.log(`version     : ${CONFIGS.libInfo.version}`);
       console.log(`build_time  : ${CONFIGS.libInfo.buildTime}`);
-      console.log(`package link: ${CONFIGS.libInfo.temperMonkeyLink}`);
+      console.log(`package link: ${CONFIGS.libInfo.link}`);
   };
 
   class FormFillerAssistant {
@@ -520,8 +548,8 @@
       VERSION = CONFIGS.libInfo.version;
       BUILD_DATETIME = CONFIGS.libInfo.buildTime;
       help = help;
-      atach(options) {
-          new FormFiller({ colorScheme: this.colorScheme, runConfigs: this.runConfigs, buttonConfigs: this.buttonConfigs }).init(options);
+      atach(options, checkForUpdatesAction) {
+          new FormFiller({ colorScheme: this.colorScheme, runConfigs: this.runConfigs, buttonConfigs: this.buttonConfigs }).atach(options, checkForUpdatesAction);
       }
       browserUtils() {
           return new DomUtils({ colorScheme: this.colorScheme, runConfigs: this.runConfigs });

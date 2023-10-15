@@ -12,8 +12,11 @@ export default class DomUtils {
 
   // JS UTILS ==================================================================
 
-  async delay(milliseconds: number) {
-    this.logger(`waiting: ${milliseconds}`);
+  async delay(milliseconds: number, shouldShowLog?: boolean) {
+    if (shouldShowLog) {
+      this.logger(`waiting: ${milliseconds}`);
+    }
+
     return new Promise((resolve) => setTimeout(resolve, milliseconds));
   }
 
@@ -56,13 +59,13 @@ export default class DomUtils {
     }
   }
 
-  typeOnInputBySelector(selector: string, text: string) {
+  async typeOnInputBySelector(selector: string, text: string) {
     const inputElement = document.querySelector(selector);
     if (!inputElement) {
       return;
     }
 
-    this.typeOnInputByElement(inputElement, text);
+    await this.typeOnInputByElement(inputElement, text);
   }
 
   // GET ELEMENT FUNCTIONS =====================================================
@@ -99,7 +102,7 @@ export default class DomUtils {
 
   // CLICK FUNCTIONS ===========================================================
 
-  clickElementBySelector(selector: string) {
+  clickBySelector(selector: string) {
     const inputElement = this.getElementBySelector(selector);
     if (!inputElement) {
       return;

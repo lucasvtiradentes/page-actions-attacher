@@ -71,7 +71,7 @@ module.exports = {
     [
       '@semantic-release/git',
       {
-        assets: ['docs/CHANGELOG.MD', 'package.json', 'README.md', 'dist/index.js'],
+        assets: ['package.json', 'README.md', 'docs/*', 'dist/*', 'examples/*'],
         message: ':bookmark: tags: new version release ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}'
       }
     ]

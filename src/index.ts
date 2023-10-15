@@ -20,8 +20,8 @@ class FormFillerAssistant {
   BUILD_DATETIME = CONFIGS.libInfo.buildTime;
   help = helpFn;
 
-  atach(options: TOptionItem[]) {
-    new FormFiller({ colorScheme: this.colorScheme, runConfigs: this.runConfigs, buttonConfigs: this.buttonConfigs }).init(options);
+  atach(options: TOptionItem[], checkForUpdatesAction?: () => void) {
+    new FormFiller({ colorScheme: this.colorScheme, runConfigs: this.runConfigs, buttonConfigs: this.buttonConfigs }).atach(options, checkForUpdatesAction);
   }
 
   browserUtils() {

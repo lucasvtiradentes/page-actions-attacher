@@ -56,5 +56,5 @@ export const help = () => {
   console.log(`name        : ${CONFIGS.libInfo.name}`);
   console.log(`version     : ${CONFIGS.libInfo.version}`);
   console.log(`build_time  : ${CONFIGS.libInfo.buildTime}`);
-  console.log(`package link: ${CONFIGS.libInfo.temperMonkeyLink}`);
+  console.log(`package link: ${CONFIGS.libInfo.link}`);
 };
