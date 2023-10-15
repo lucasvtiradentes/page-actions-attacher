@@ -32,7 +32,7 @@
   const libInfo = {
       name: 'FORM_FILLER_ASSISTANT',
       version: '1.6.2',
-      buildTime: '15/10/2023 - 08:44:38',
+      buildTime: '15/10/2023 - 08:56:02',
       link: 'https://github.com/lucasvtiradentes/form_filler_assistant',
       temperMonkeyLink: 'https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo',
       initialScript: 'https://github.com/lucasvtiradentes/form_filler_assistant/dist/initial_temper_monkey_script.js'
@@ -176,7 +176,7 @@
       }
       // HTML UTILS ================================================================
       generateFormRow(name, value, onAfterClickAction) {
-          const onClickAction = `navigator.clipboard.writeText('${value}'); ${onAfterClickAction ? `(${onAfterClickAction})()` : ''}`;
+          const onClickAction = `navigator.clipboard.writeText('${value}'); ${onAfterClickAction ? `(${String(onAfterClickAction).replace(/"/g, "'")})()` : ''};`;
           return `
       <div style="display: grid; grid-template-columns: 1fr 2fr;">
         <div style="flex: 1; padding: 3px 10px; font-weight: 600;">${name}</div>

@@ -160,8 +160,7 @@ export default class DomUtils {
   // HTML UTILS ================================================================
 
   generateFormRow(name: string, value: string, onAfterClickAction?: () => void) {
-    const onClickAction = `navigator.clipboard.writeText('${value}'); ${onAfterClickAction ? `(${onAfterClickAction})()` : ''}`;
-
+    const onClickAction = `navigator.clipboard.writeText('${value}'); ${onAfterClickAction ? `(${String(onAfterClickAction).replace(/"/g, "'")})()` : ''};`;
     return `
       <div style="display: grid; grid-template-columns: 1fr 2fr;">
         <div style="flex: 1; padding: 3px 10px; font-weight: 600;">${name}</div>
