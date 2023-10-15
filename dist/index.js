@@ -32,7 +32,7 @@
   const libInfo = {
       name: 'FORM_FILLER_ASSISTANT',
       version: '1.6.2',
-      buildTime: '15/10/2023 - 08:09:14',
+      buildTime: '15/10/2023 - 08:44:38',
       link: 'https://github.com/lucasvtiradentes/form_filler_assistant',
       temperMonkeyLink: 'https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo',
       initialScript: 'https://github.com/lucasvtiradentes/form_filler_assistant/dist/initial_temper_monkey_script.js'

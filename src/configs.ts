@@ -1,4 +1,4 @@
-import { TButtonConfigs, TColorScheme, TRunConfigs } from './types/types';
+import { TFloatingButtonConfigs, TColorScheme, TRunConfigs } from './types/types';
 
 const colorScheme: TColorScheme = {
   primary: {
@@ -15,7 +15,7 @@ const colorScheme: TColorScheme = {
   boxShadown: 'rgba(0, 0, 0, 0.1)'
 };
 
-const buttonConfigs: TButtonConfigs = {
+const buttonConfigs: TFloatingButtonConfigs = {
   iconImage: 'https://www.svgrepo.com/show/532994/plus.svg',
   iconColorCss: 'filter: invert(100%);',
   right: '30px',

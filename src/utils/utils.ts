@@ -8,7 +8,7 @@ function getClassMethods<T>(instance: T) {
 
   const mappedValues = methodNames
     .map((methodName) => {
-      const method = Reflect.get(prototype, methodName) as (...args: any[]) => any;
+      const method = Reflect.get(prototype, methodName) as (...args: unknown[]) => unknown;
 
       const parameterNames =
         method

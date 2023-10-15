@@ -15,8 +15,8 @@
     - you only need to update the sections 3 (add your methods), 4 (setup your methods on the options array)
 
   - EXAMPLE FEATURES:
-    - fill up the form present on the page: https://www.saucedemo.com/ (70-82)
-    - setup update header option (line 91)
+    - fill up the form present on the page: https://www.saucedemo.com/ (44 - 56)
+    - setup update header option (65 - 70)
 */
 
 (async function () {
@@ -34,7 +34,7 @@
   eval(formFillerAssistantContent.content); // eslint-disable-line
   const FormFiller = FormFillerAssistant; // eslint-disable-line
 
-  // 2 - CREATEA A NEW INSTANCE ================================================
+  // 2 - SETUP YOUR INSTANCE ===================================================
 
   const formFiller = new FormFiller();
   console.log(`loaded ${CONFIGS.packageName} [${formFiller.VERSION} - ${formFillerAssistantContent.method}]`);
@@ -62,7 +62,12 @@
     { name: 'fill saucedemo form', action: fillSauceDemoForm }
   ];
 
-  formFiller.atach(options, () => updateFormFillerAssistantContent(CONFIGS));
+  const headerOption = [
+    { icon: 'https://www.svgrepo.com/show/460136/update-alt.svg', action: () => updateFormFillerAssistantContent(CONFIGS) },
+    { icon: 'https://www.svgrepo.com/show/403847/monkey-face.svg', action: () => window.open('https://www.tampermonkey.net', '_blank') }
+  ];
+
+  formFiller.atach(options, headerOption);
 
   // 5 - DONT NEED TO CHANGE AFTER THIS ========================================
 
@@ -98,15 +103,20 @@
     const cachedContent = localStorage.getItem(configsObj.contentStorageKey) ?? '';
     const cachedVersion = localStorage.getItem(configsObj.versionStorageKey) ?? '';
 
-    const isInitialRun = !cachedContent || !cachedVersion;
-    const isForcedVersion = forceVersion && forceVersion !== cachedVersion;
-
-    if (isInitialRun || isForcedVersion) {
-      const finalVersion = forceVersion ? forceVersion : await getLatestFormFillerAssistantVersion();
-      const content = await downloadAndCacheVersion(configsObj, finalVersion);
+    if (!cachedContent || !cachedVersion) {
+      const latestVersion = await getLatestFormFillerAssistantVersion();
+      const content = await downloadAndCacheVersion(configsObj, latestVersion);
       return {
         content: content,
-        method: isInitialRun ? 'initial' : 'forced_version'
+        method: 'initial'
+      };
+    }
+
+    if (forceVersion && forceVersion !== cachedVersion) {
+      const content = await downloadAndCacheVersion(configsObj, forceVersion);
+      return {
+        content: content,
+        method: 'forced_version'
       };
     }
 

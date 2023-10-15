@@ -15,10 +15,8 @@
     - you only need to update the sections 3 (add your methods), 4 (setup your methods on the options array)
 
   - EXAMPLE FEATURES:
-    - fill up the form present on the page: https://www.saucedemo.com/ (71-83)
-    - setup custom configs (line 41-66)
-    - setup update header option (line 153)
-    - add a simple modal option (line 91-142)
+    - fill up the form present on the page: https://www.saucedemo.com/ (44 - 56)
+    - add a simple modal option (58 - 70)
 */
 
 (async function () {
@@ -36,34 +34,9 @@
   eval(formFillerAssistantContent.content); // eslint-disable-line
   const FormFiller = FormFillerAssistant; // eslint-disable-line
 
-  // 2 - CREATEA A NEW INSTANCE ================================================
+  // 2 - SETUP YOUR INSTANCE ===================================================
 
-  const colorScheme = {
-    primary: {
-      background: '#4f07ad',
-      text: '#fff'
-    },
-    secondary: {
-      background: '#fff',
-      hoverBackground: '#ccc',
-      text: '#000000',
-      border: '#ccc'
-    },
-    overlay: 'rgba(0, 0, 0, 0.7)',
-    boxShadown: 'rgba(0, 0, 0, 0.1)'
-  };
-
-  const buttonConfigs = {
-    right: '30px',
-    bottom: '30px'
-  };
-
-  const runConfigs = {
-    debug: true,
-    typeDelay: 100
-  };
-
-  const formFiller = new FormFiller({ colorScheme, buttonConfigs, runConfigs });
+  const formFiller = new FormFiller();
   console.log(`loaded ${CONFIGS.packageName} [${formFiller.VERSION} - ${formFillerAssistantContent.method}]`);
 
   // 3 - CREATE YOUR METHODS HERE ==============================================
@@ -82,63 +55,18 @@
     browserUtils.clickBySelector('#logout_sidebar_link');
   }
 
-  function showPageInputNames() {
-    Array.from(document.querySelectorAll('input')).forEach((el) => console.log(el.getAttribute('name')));
-  }
-
-  let modalCount = 0;
-
   function toogleModal() {
-    const modalStorageKey = 'modalData';
-    modalCount = modalCount + 1;
-
-    const generateData = (dt) => {
-      const generatedData = {
-        nome: dt.generatePersonName(),
-        user_name: dt.generatePersonUsername(),
-        email: dt.generatePersonEmail(),
-        nome_empresa: dt.generateCompanyName(),
-        cpf: dt.generateCPF(),
-        cnpj: dt.generateCNPJ(),
-        inscricao_estadual: dt.generateNRandomNumbers(5),
-        telefone: dt.generateNRandomNumbers(8)
-      };
-
-      formFiller.browserUtils().setStorageItem(modalStorageKey, JSON.stringify(generatedData));
-      return generatedData;
-    };
-
-    const storageData = formFiller.browserUtils().getStorageItem(modalStorageKey);
-    const data = modalCount > 1 && storageData ? JSON.parse(storageData) : generateData(formFiller.dataUtils());
-
-    const getFinalHtmlContent = (dt) => {
-      const finalHtmlContent = `
-          ${formFiller.browserUtils().generateFormRow('Nome', dt.nome)}
-          ${formFiller.browserUtils().generateFormRow('Username', dt.user_name)}
-          ${formFiller.browserUtils().generateFormRow('Email', dt.email)}
-          ${formFiller.browserUtils().generateFormRow('Nome empresa', dt.nome_empresa)}
-          ${formFiller.browserUtils().generateFormRow('Cpf', dt.cpf)}
-          ${formFiller.browserUtils().generateFormRow('Cnpj', dt.cnpj)}
-          ${formFiller.browserUtils().generateFormRow('Inscricao estadual', dt.inscricao_estadual)}
-          ${formFiller.browserUtils().generateFormRow('Telefone', dt.telefone)}
-        `;
-
-      return finalHtmlContent;
-    };
-
     const { updateModalContent } = formFiller.browserUtils().getModal('Dados gerados');
 
-    const regeneratedData = () => getFinalHtmlContent(generateData(new FormFiller().dataUtils()));
-
+    const modalHtml = '<p>HTML modal content</p>';
     const modalButtons = [
       {
-        title: 'Regenerate',
-        action: () => updateModalContent(regeneratedData(), modalButtons),
-        exitAfterAction: false
+        title: 'Confirm',
+        action: () => alert('you have confirmed!')
       }
     ];
 
-    updateModalContent(getFinalHtmlContent(data), modalButtons);
+    updateModalContent(modalHtml, modalButtons);
   }
 
   // 4 - ADDING YOUR METHODS TO THE FLOATING BUTTON ============================
@@ -146,11 +74,10 @@
   const options = [
     { name: 'show lib helper', action: formFiller.help },
     { name: 'fill saucedemo form', action: fillSauceDemoForm },
-    { name: 'show modal utils', action: toogleModal },
-    { name: 'show page inputs names', action: showPageInputNames }
+    { name: 'show simple modal', action: toogleModal }
   ];
 
-  formFiller.atach(options, () => updateFormFillerAssistantContent(CONFIGS));
+  formFiller.atach(options);
 
   // 5 - DONT NEED TO CHANGE AFTER THIS ========================================
 
@@ -186,15 +113,20 @@
     const cachedContent = localStorage.getItem(configsObj.contentStorageKey) ?? '';
     const cachedVersion = localStorage.getItem(configsObj.versionStorageKey) ?? '';
 
-    const isInitialRun = !cachedContent || !cachedVersion;
-    const isForcedVersion = forceVersion && forceVersion !== cachedVersion;
-
-    if (isInitialRun || isForcedVersion) {
-      const finalVersion = forceVersion ? forceVersion : await getLatestFormFillerAssistantVersion();
-      const content = await downloadAndCacheVersion(configsObj, finalVersion);
+    if (!cachedContent || !cachedVersion) {
+      const latestVersion = await getLatestFormFillerAssistantVersion();
+      const content = await downloadAndCacheVersion(configsObj, latestVersion);
       return {
         content: content,
-        method: isInitialRun ? 'initial' : 'forced_version'
+        method: 'initial'
+      };
+    }
+
+    if (forceVersion && forceVersion !== cachedVersion) {
+      const content = await downloadAndCacheVersion(configsObj, forceVersion);
+      return {
+        content: content,
+        method: 'forced_version'
       };
     }
 

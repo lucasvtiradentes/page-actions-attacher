@@ -1,12 +1,12 @@
 import { CONFIGS } from '../configs';
-import { TColorScheme, TOptionItem, TButtonConfigs, TRunConfigs, THeaderOptionItem } from '../types/types';
+import { TColorScheme, TListOptionItem, TFloatingButtonConfigs, TRunConfigs, THeaderOptionItem } from '../types/types';
 
 export default class FormFiller {
   private colorScheme: TColorScheme;
-  private buttonConfigs: TButtonConfigs;
+  private buttonConfigs: TFloatingButtonConfigs;
   private runConfigs: TRunConfigs;
 
-  constructor(configs?: { colorScheme?: TColorScheme; buttonConfigs?: TButtonConfigs; runConfigs?: TRunConfigs }) {
+  constructor(configs?: { colorScheme?: TColorScheme; buttonConfigs?: TFloatingButtonConfigs; runConfigs?: TRunConfigs }) {
     this.colorScheme = { ...CONFIGS.colorScheme, ...(configs?.colorScheme ? configs?.colorScheme : {}) };
     this.buttonConfigs = { ...CONFIGS.buttonConfigs, ...(configs?.buttonConfigs ? configs?.buttonConfigs : {}) };
     this.runConfigs = { ...CONFIGS.runConfigs, ...(configs?.runConfigs ? configs?.runConfigs : {}) };
@@ -14,7 +14,7 @@ export default class FormFiller {
 
   // PUBLIC METHODS ============================================================
 
-  atach(optionsArr: TOptionItem[], headerOptions?: THeaderOptionItem[]) {
+  atach(optionsArr: TListOptionItem[], headerOptions?: THeaderOptionItem[]) {
     const optionsEl = this.getOptionsEl(optionsArr, headerOptions);
     this.atachFloatingToHTML(optionsEl);
 
@@ -39,7 +39,7 @@ export default class FormFiller {
     if (type === 'info') console.log(message);
   }
 
-  private getOptionsEl(optionsArr: TOptionItem[], headerOptions?: THeaderOptionItem[]) {
+  private getOptionsEl(optionsArr: TListOptionItem[], headerOptions?: THeaderOptionItem[]) {
     const hasHeaderOptions = headerOptions && headerOptions.length > 0;
 
     const optionsContainer = document.createElement('div');

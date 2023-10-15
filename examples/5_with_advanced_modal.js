@@ -15,8 +15,8 @@
     - you only need to update the sections 3 (add your methods), 4 (setup your methods on the options array)
 
   - EXAMPLE FEATURES:
-    - fill up the form present on the page: https://www.saucedemo.com/ (69-81)
-    - setup custom configs (line 39-64)
+    - fill up the form present on the page: https://www.saucedemo.com/ (44 - 56)
+    - add an advanced modal option (58 - 112)
 */
 
 (async function () {
@@ -36,32 +36,7 @@
 
   // 2 - SETUP YOUR INSTANCE ===================================================
 
-  const colorScheme = {
-    primary: {
-      background: '#4f07ad',
-      text: '#fff'
-    },
-    secondary: {
-      background: '#fff',
-      hoverBackground: '#ccc',
-      text: '#000000',
-      border: '#ccc'
-    },
-    overlay: 'rgba(0, 0, 0, 0.7)',
-    boxShadown: 'rgba(0, 0, 0, 0.1)'
-  };
-
-  const buttonConfigs = {
-    right: '30px',
-    bottom: '30px'
-  };
-
-  const runConfigs = {
-    debug: true,
-    typeDelay: 100
-  };
-
-  const formFiller = new FormFiller({ colorScheme, buttonConfigs, runConfigs });
+  const formFiller = new FormFiller();
   console.log(`loaded ${CONFIGS.packageName} [${formFiller.VERSION} - ${formFillerAssistantContent.method}]`);
 
   // 3 - CREATE YOUR METHODS HERE ==============================================
@@ -80,11 +55,68 @@
     browserUtils.clickBySelector('#logout_sidebar_link');
   }
 
+  let modalCount = 0;
+
+  function toogleModal() {
+    const modalStorageKey = 'modalData';
+    modalCount = modalCount + 1;
+
+    const generateData = (dt) => {
+      const generatedData = {
+        nome: dt.generatePersonName(),
+        user_name: dt.generatePersonUsername(),
+        email: dt.generatePersonEmail(),
+        nome_empresa: dt.generateCompanyName(),
+        cpf: dt.generateCPF(),
+        cnpj: dt.generateCNPJ(),
+        inscricao_estadual: dt.generateNRandomNumbers(5),
+        telefone: dt.generateNRandomNumbers(8)
+      };
+
+      formFiller.browserUtils().setStorageItem(modalStorageKey, JSON.stringify(generatedData));
+      return generatedData;
+    };
+
+    const storageData = formFiller.browserUtils().getStorageItem(modalStorageKey);
+    const data = modalCount > 1 && storageData ? JSON.parse(storageData) : generateData(formFiller.dataUtils());
+
+    const { updateModalContent, closeModal } = formFiller.browserUtils().getModal('Dados gerados');
+
+    const getFinalHtmlContent = (dt) => {
+      const items = [
+        ['Name', dt.nome],
+        ['Username', dt.user_name],
+        ['Email', dt.nome_empresa],
+        ['Cpf', dt.cpf],
+        ['Cnpj', dt.cnpj],
+        ['Inscricao estadual', dt.inscricao_estadual],
+        ['Telefone', dt.telefone]
+      ];
+      const finalHTML = items.map((item) => `${formFiller.browserUtils().generateFormRow(item[0], item[1], closeModal)}`).join('');
+      return finalHTML;
+    };
+
+    const regeneretadHtmlContent = () => getFinalHtmlContent(generateData(new FormFiller().dataUtils()));
+
+    const modalButtons = [
+      {
+        title: 'Regenerate',
+        action: () => updateModalContent(regeneretadHtmlContent(), modalButtons),
+        exitAfterAction: false
+      }
+    ];
+
+    const initialHTML = getFinalHtmlContent(data);
+
+    updateModalContent(initialHTML, modalButtons);
+  }
+
   // 4 - ADDING YOUR METHODS TO THE FLOATING BUTTON ============================
 
   const options = [
     { name: 'show lib helper', action: formFiller.help },
-    { name: 'fill saucedemo form', action: fillSauceDemoForm }
+    { name: 'fill saucedemo form', action: fillSauceDemoForm },
+    { name: 'show advanced modal', action: toogleModal }
   ];
 
   formFiller.atach(options);

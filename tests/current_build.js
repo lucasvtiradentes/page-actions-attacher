@@ -39,8 +39,9 @@ async function main(FormFiller) {
   // ===========================================================================
 
   const options = [
-    { name: 'show modal utils', action: toogleModal },
     { name: 'show lib helper', action: () => formFiller.help() },
+    { name: 'show advanced modal', action: toogleModal },
+    { name: 'show simple modal', action: toogleSimpleModal },
     { name: 'show page input fields', action: () => Array.from(document.querySelectorAll('input')).forEach((el) => console.log(el.getAttribute('name'))) }
   ];
 
@@ -52,6 +53,20 @@ async function main(FormFiller) {
   formFiller.atach(options, headerOption);
 
   // ===========================================================================
+
+  function toogleSimpleModal() {
+    const { updateModalContent } = formFiller.browserUtils().getModal('Dados gerados');
+
+    const modalHtml = '<p>HTML modal content</p>';
+    const modalButtons = [
+      {
+        title: 'Confirm',
+        action: () => alert('you have confirmed!')
+      }
+    ];
+
+    updateModalContent(modalHtml, modalButtons);
+  }
 
   let modalCount = 0;
 

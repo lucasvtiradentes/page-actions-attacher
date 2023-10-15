@@ -1,5 +1,5 @@
 import { CONFIGS } from '../configs';
-import { TButton, TColorScheme, TRunConfigs } from '../types/types';
+import { TModalButton, TColorScheme, TRunConfigs } from '../types/types';
 
 export default class DomUtils {
   private colorScheme: TColorScheme;
@@ -192,7 +192,7 @@ export default class DomUtils {
 
     document.body.appendChild(modalContainerEl);
 
-    const updateModalContent = (htmlContent: string, buttonsArr?: TButton[]) => {
+    const updateModalContent = (htmlContent: string, buttonsArr?: TModalButton[]) => {
       const divContent = document.createElement('div');
       divContent.innerHTML = htmlContent;
       modalContent.innerHTML = modalTitle.outerHTML + divContent.outerHTML;

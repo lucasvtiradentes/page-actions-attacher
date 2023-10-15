@@ -1,10 +1,10 @@
-export type TButton = {
+export type TModalButton = {
   title: string;
   action: () => void;
   exitAfterAction: boolean;
 };
 
-export type TOptionItem = {
+export type TListOptionItem = {
   name: string;
   action: () => void;
 };
@@ -30,7 +30,7 @@ export type TColorScheme = {
   boxShadown: string;
 };
 
-export type TButtonConfigs = {
+export type TFloatingButtonConfigs = {
   iconImage: string;
   iconColorCss: string;
   right: string;

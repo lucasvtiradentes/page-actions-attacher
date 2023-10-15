@@ -33,7 +33,7 @@
   eval(formFillerAssistantContent.content); // eslint-disable-line
   const FormFiller = FormFillerAssistant; // eslint-disable-line
 
-  // 2 - CREATEA A NEW INSTANCE ================================================
+  // 2 - SETUP YOUR INSTANCE ===================================================
 
   const formFiller = new FormFiller();
   console.log(`loaded ${CONFIGS.packageName} [${formFiller.VERSION} - ${formFillerAssistantContent.method}]`);
@@ -97,15 +97,20 @@
     const cachedContent = localStorage.getItem(configsObj.contentStorageKey) ?? '';
     const cachedVersion = localStorage.getItem(configsObj.versionStorageKey) ?? '';
 
-    const isInitialRun = !cachedContent || !cachedVersion;
-    const isForcedVersion = forceVersion && forceVersion !== cachedVersion;
-
-    if (isInitialRun || isForcedVersion) {
-      const finalVersion = forceVersion ? forceVersion : await getLatestFormFillerAssistantVersion();
-      const content = await downloadAndCacheVersion(configsObj, finalVersion);
+    if (!cachedContent || !cachedVersion) {
+      const latestVersion = await getLatestFormFillerAssistantVersion();
+      const content = await downloadAndCacheVersion(configsObj, latestVersion);
       return {
         content: content,
-        method: isInitialRun ? 'initial' : 'forced_version'
+        method: 'initial'
+      };
+    }
+
+    if (forceVersion && forceVersion !== cachedVersion) {
+      const content = await downloadAndCacheVersion(configsObj, forceVersion);
+      return {
+        content: content,
+        method: 'forced_version'
       };
     }
 
