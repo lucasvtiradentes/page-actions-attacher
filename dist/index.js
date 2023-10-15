@@ -31,8 +31,8 @@
   };
   const libInfo = {
       name: 'FORM_FILLER_ASSISTANT',
-      version: '1.5.0',
-      buildTime: '14/10/2023 - 22:15:08',
+      version: '1.6.0',
+      buildTime: '14/10/2023 22:16:10',
       link: 'https://github.com/lucasvtiradentes/form_filler_assistant',
       temperMonkeyLink: 'https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo',
       initialScript: 'https://github.com/lucasvtiradentes/form_filler_assistant/dist/initial_temper_monkey_script.js'

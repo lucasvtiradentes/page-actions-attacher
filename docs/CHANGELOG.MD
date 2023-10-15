@@ -1,5 +1,12 @@
 # CHANGELOG HISTORY
 
+## [1.6.0](https://github.com/lucasvtiradentes/form_filler_assistant/compare/v1.5.0...v1.6.0) (2023-10-15)
+
+
+### ✨ feature:
+
+* add header menu actions ([71d77c9](https://github.com/lucasvtiradentes/form_filler_assistant/commit/71d77c910c0f902a4ad1bafa02897d710c0bd12f))
+
 ## [1.5.0](https://github.com/lucasvtiradentes/form_filler_assistant/compare/v1.4.1...v1.5.0) (2023-10-14)
 
 
