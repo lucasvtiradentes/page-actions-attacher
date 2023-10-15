@@ -5,6 +5,7 @@ import DataUtils from '../classes/DataUtils';
 function getClassMethods<T>(instance: T) {
   const prototype = Object.getPrototypeOf(instance);
   const methodNames = Object.getOwnPropertyNames(prototype);
+  const ignoredMethods = ['constructor', 'logger', 'click', 'typeOnInput'];
 
   const mappedValues = methodNames
     .map((methodName) => {
@@ -23,7 +24,7 @@ function getClassMethods<T>(instance: T) {
         parameters: parameterNames.join(', ')
       };
     })
-    .filter((item) => ['constructor', 'logger'].includes(item.name) === false);
+    .filter((item) => ignoredMethods.includes(item.name) === false);
 
   return mappedValues;
 }

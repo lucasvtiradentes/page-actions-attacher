@@ -46,13 +46,13 @@
 
     await browserUtils.typeOnInputBySelector('input[name="user-name"]', 'standard_user');
     await browserUtils.typeOnInputBySelector('input[name="password"]', 'secret_sauce');
-    browserUtils.clickTagByAttributeValue('input', 'value', 'Login');
+    browserUtils.clickElementByTagAttributeValue('input', 'value', 'Login');
 
     await browserUtils.delay(3000);
-    browserUtils.clickBySelector('#react-burger-menu-btn');
+    browserUtils.clickElementBySelector('#react-burger-menu-btn');
 
     await browserUtils.delay(300);
-    browserUtils.clickBySelector('#logout_sidebar_link');
+    browserUtils.clickElementBySelector('#logout_sidebar_link');
   }
 
   let modalCount = 0;
@@ -73,11 +73,11 @@
         telefone: dt.generateNRandomNumbers(8)
       };
 
-      formFiller.browserUtils().setStorageItem(modalStorageKey, JSON.stringify(generatedData));
+      sessionStorage.setItem(modalStorageKey, JSON.stringify(generatedData));
       return generatedData;
     };
 
-    const storageData = formFiller.browserUtils().getStorageItem(modalStorageKey);
+    const storageData = sessionStorage.getItem(modalStorageKey);
     const data = modalCount > 1 && storageData ? JSON.parse(storageData) : generateData(formFiller.dataUtils());
 
     const { updateModalContent, closeModal } = formFiller.browserUtils().getModal('Dados gerados');

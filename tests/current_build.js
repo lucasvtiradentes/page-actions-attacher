@@ -86,11 +86,11 @@ async function main(FormFiller) {
         telefone: dt.generateNRandomNumbers(8)
       };
 
-      formFiller.browserUtils().setStorageItem(modalStorageKey, JSON.stringify(generatedData));
+      sessionStorage.setItem(modalStorageKey, JSON.stringify(generatedData));
       return generatedData;
     };
 
-    const storageData = formFiller.browserUtils().getStorageItem(modalStorageKey);
+    const storageData = sessionStorage.getItem(modalStorageKey);
     const data = modalCount > 1 && storageData ? JSON.parse(storageData) : generateData(formFiller.dataUtils());
 
     const { updateModalContent, closeModal } = formFiller.browserUtils().getModal('Dados gerados');

@@ -25,7 +25,7 @@
     "dev": "tsx ./src/index.ts",
     "build": "rimraf ./dist && npm run umdfy",
     "umdfy": "rollup -c rollup.config.js",
-    "postversion": "echo writing new version in the dist file && npm run build",
+    "postversion": "echo building to save the latest version number on distribution files. && npm run build",
     "pub": "semantic-release",
     "pub_check": "npm publish --dry-run",
     "commit": "cz",

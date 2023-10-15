@@ -20,14 +20,6 @@ export default class DomUtils {
     return new Promise((resolve) => setTimeout(resolve, milliseconds));
   }
 
-  getStorageItem(key: string) {
-    return sessionStorage.getItem(key);
-  }
-
-  setStorageItem(key: string, value: string) {
-    sessionStorage.setItem(key, value);
-  }
-
   // GET ELEMENT FUNCTIONS =====================================================
 
   getElementByTagText(tag: string, textToFind: string, itemIndex?: number) {
@@ -125,7 +117,7 @@ export default class DomUtils {
     this.click(htmlElement);
   }
 
-  clickBySelector(selector: string) {
+  clickElementBySelector(selector: string) {
     const inputElement = this.getElementBySelector(selector);
     if (!inputElement) {
       return;
@@ -135,7 +127,7 @@ export default class DomUtils {
     this.click(inputElement);
   }
 
-  clickTagByText(tag: string, textToFind: string, itemIndex?: number) {
+  clickElementByTagText(tag: string, textToFind: string, itemIndex?: number) {
     const finalIndex = 0 ?? itemIndex;
     const elTag = this.getElementByTagText(tag, textToFind, finalIndex);
     if (!elTag) {
@@ -146,7 +138,7 @@ export default class DomUtils {
     elTag.click();
   }
 
-  clickTagByAttributeValue(tag: string, attribute: string, valueAttribute: string, itemIndex?: number) {
+  clickElementByTagAttributeValue(tag: string, attribute: string, valueAttribute: string, itemIndex?: number) {
     const finalIndex = 0 ?? itemIndex;
     const elTag = this.getElementByAttributeValue(tag, attribute, valueAttribute, finalIndex);
     if (!elTag) {

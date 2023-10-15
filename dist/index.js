@@ -32,7 +32,7 @@
   const libInfo = {
       name: 'FORM_FILLER_ASSISTANT',
       version: '1.6.2',
-      buildTime: '15/10/2023 - 08:56:02',
+      buildTime: '15/10/2023 - 09:54:08',
       link: 'https://github.com/lucasvtiradentes/form_filler_assistant',
       temperMonkeyLink: 'https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo',
       initialScript: 'https://github.com/lucasvtiradentes/form_filler_assistant/dist/initial_temper_monkey_script.js'
@@ -62,12 +62,6 @@
               this.logger(`waiting: ${milliseconds}`);
           }
           return new Promise((resolve) => setTimeout(resolve, milliseconds));
-      }
-      getStorageItem(key) {
-          return sessionStorage.getItem(key);
-      }
-      setStorageItem(key, value) {
-          sessionStorage.setItem(key, value);
       }
       // GET ELEMENT FUNCTIONS =====================================================
       getElementByTagText(tag, textToFind, itemIndex) {
@@ -148,7 +142,7 @@
           this.logger(`clicked element: [${htmlElement}]`);
           this.click(htmlElement);
       }
-      clickBySelector(selector) {
+      clickElementBySelector(selector) {
           const inputElement = this.getElementBySelector(selector);
           if (!inputElement) {
               return;
@@ -156,7 +150,7 @@
           this.logger(`clicked element by selector: [${selector}]`);
           this.click(inputElement);
       }
-      clickTagByText(tag, textToFind, itemIndex) {
+      clickElementByTagText(tag, textToFind, itemIndex) {
           const finalIndex = 0 ;
           const elTag = this.getElementByTagText(tag, textToFind, finalIndex);
           if (!elTag) {
@@ -165,7 +159,7 @@
           this.logger(`clicked element by tag text: [${tag} | ${textToFind} | ${finalIndex}]`);
           elTag.click();
       }
-      clickTagByAttributeValue(tag, attribute, valueAttribute, itemIndex) {
+      clickElementByTagAttributeValue(tag, attribute, valueAttribute, itemIndex) {
           const finalIndex = 0 ;
           const elTag = this.getElementByAttributeValue(tag, attribute, valueAttribute, finalIndex);
           if (!elTag) {
@@ -534,6 +528,7 @@
   function getClassMethods(instance) {
       const prototype = Object.getPrototypeOf(instance);
       const methodNames = Object.getOwnPropertyNames(prototype);
+      const ignoredMethods = ['constructor', 'logger', 'click', 'typeOnInput'];
       const mappedValues = methodNames
           .map((methodName) => {
           const method = Reflect.get(prototype, methodName);
@@ -548,7 +543,7 @@
               parameters: parameterNames.join(', ')
           };
       })
-          .filter((item) => ['constructor', 'logger'].includes(item.name) === false);
+          .filter((item) => ignoredMethods.includes(item.name) === false);
       return mappedValues;
   }
   function convertObjectArrayToObject(arr, key) {

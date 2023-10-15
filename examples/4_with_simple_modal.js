@@ -46,13 +46,13 @@
 
     await browserUtils.typeOnInputBySelector('input[name="user-name"]', 'standard_user');
     await browserUtils.typeOnInputBySelector('input[name="password"]', 'secret_sauce');
-    browserUtils.clickTagByAttributeValue('input', 'value', 'Login');
+    browserUtils.clickElementByTagAttributeValue('input', 'value', 'Login');
 
     await browserUtils.delay(3000);
-    browserUtils.clickBySelector('#react-burger-menu-btn');
+    browserUtils.clickElementBySelector('#react-burger-menu-btn');
 
     await browserUtils.delay(300);
-    browserUtils.clickBySelector('#logout_sidebar_link');
+    browserUtils.clickElementBySelector('#logout_sidebar_link');
   }
 
   function toogleModal() {

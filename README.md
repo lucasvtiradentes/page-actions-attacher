@@ -25,8 +25,10 @@
       <li>
         <a href="#bulb-usage">Usage</a>
         <ul>
-          <li><a href="#installation">Installation</a></li>
+          <li><a href="#install">Install</a></li>
           <li><a href="#uninstall">Uninstall</a></li>
+          <li><a href="#how-it-works">How it works</a></li>
+          <li><a href="#available-methods">Available methods</a></li>
         </ul>
       </li>
       <li>
@@ -79,37 +81,154 @@ My main motivation to built this was to don't spend too much time on filling for
 
 &nbsp;&nbsp;&nbsp;✔️ atach a floating buttom with custom actions (`ctrl+space` or `alt+space` to toogle it);<br>
 &nbsp;&nbsp;&nbsp;✔️ out of the box methods to fill website forms (type, click, etc);<br>
-&nbsp;&nbsp;&nbsp;✔️ dynamic keybinding to all available options (1-9) when the options container is displayed;<br>
+&nbsp;&nbsp;&nbsp;✔️ dynamic keybinding to all available options (`1-9`) when the options container is displayed;<br>
 &nbsp;&nbsp;&nbsp;✔️ auto-updatable initial temper monkeys userscript;<br>
 &nbsp;&nbsp;&nbsp;✔️ allow custom configs (color scheme, debug_mode, etc);<br>
 &nbsp;&nbsp;&nbsp;✔️ examples provided on folder [./examples](./examples).<br>
 
 ## :warning: Requirements<a href="#TOC"><img align="right" src="./.github/images/up_arrow.png" width="22"></a>
 
-To use it, you'll have to:
-
-* 1 - install [temper monkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=pt-BR) to your browser;
-* 2 - click on "temper moneky icon" and after on "Create a new script...";
-* 3 - paste the initial temper monkey basic example [1_basic.js](./examples/1_basic.js) to the document content and save it;
-* 4 - go to the [saucedemo](https://www.saucedemo.com) site and hit `ctrl+space` or `alt+space` to test it;
-* 5 - get inspired by the other [./examples](./examples) and have fun!
-
+The only requirement to use this project is [temper monkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=pt-BR), a browser extension which allow us to autorun some javascript on certain specified websites.
 
 ## :bulb: Usage<a href="#TOC"><img align="right" src="./.github/images/up_arrow.png" width="22"></a>
+
+### Install
+
+* 1 - install [temper monkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=pt-BR) to your browser;
+* 2 - click on "temper monkey icon" and after on "Create a new script...";
+* 3 - paste the initial temper monkey basic example [1_basic.js](./examples/1_basic.js) to the document content and save it;
+* 4 - go to the [saucedemo](https://www.saucedemo.com) site and hit `ctrl+space` or `alt+space` to show the options menu;
+* 4 - click on the available options or hit the `numeric keys (1 - 9)` when the options menu appears;
+* 5 - get inspired by the other [./examples](./examples) and have fun!
+
+### Uninstall
+
+If you want to uninstall, just remove the temper monkey userscript on its dashboard.
 
 ### How it works
 
 This project will
 
 - atach a floating button with custom options to the specified website;
-- allow you to hit keyboard shortcuts to easily perform actions to the specified website;
-- in order to update the actions you'll have to update the `optionsArr`;
 - it will get the package content from [jsdelivr](https://cdn.jsdelivr.net/npm/form_filler_assistant) and save it to local storage so you dont have to fetch it all the time;
-- If you want to update it, simply click on the header icon, as shown in the example [2_with_custom_configs.js](./examples/2_with_custom_configs.js).
+- if you want to update it, simply click on the header icon, as shown in the example [3_with_header_buttons.js](./examples/3_with_header_buttons.js).
 
-### Uninstall
+### Available methods
 
-If you want to uninstall, just remove the temper monkey userscript on its dashboard.
+This package comes with the following commands list:
+
+<table>
+  <tr>
+    <th>Command</th>
+    <th>Methods</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td rowspan="1"><code>atach(optionsArr, headerOptionsArr?)</code></td>
+    <td>-</td>
+    <td>Used to atach your options to the floating button. You can also specify custom header options.</td>
+  </tr>
+  <tr>
+    <td rowspan="1"><code>help()</code></td>
+    <td>-</td>
+    <td>Show helper information on runtime environment.</td>
+  </tr>
+  <tr>
+    <td rowspan="7"><code>dataUtils()</code></td>
+    <td><code>.generateCNPJ()</code></td>
+    <td>Generate a unique Brazilian identification number for each company.</td>
+  </tr>
+  <tr>
+    <!-- <td rowspan="1"><code>dataUtils()</code></td> -->
+    <td><code>.generateCPF()</code></td>
+    <td>Generate a unique Brazilian identification number for each individual.</td>
+  </tr>
+  <tr>
+    <!-- <td rowspan="1"><code>dataUtils()</code></td> -->
+    <td><code>.generateRandomNumbers(length)</code></td>
+    <td>Generate a randomly generated number with a specified length.</td>
+  </tr>
+  <tr>
+    <!-- <td rowspan="1"><code>dataUtils()</code></td> -->
+    <td><code>.generateCompanyName()</code></td>
+    <td>Generate a randomly generated company name.</td>
+  </tr>
+  <tr>
+    <!-- <td rowspan="1"><code>dataUtils()</code></td> -->
+    <td><code>.generatePersonName()</code></td>
+    <td>Generate a randomly generated person name.</td>
+  </tr>
+  <tr>
+    <!-- <td rowspan="1"><code>dataUtils()</code></td> -->
+    <td><code>.generatePersonEmail()</code></td>
+    <td>Generate a randomly generated person email.</td>
+  </tr>
+  <tr>
+    <!-- <td rowspan="1"><code>dataUtils()</code></td> -->
+    <td><code>.generatePersonUsername()</code></td>
+    <td>Generate a randomly generated person username.</td>
+  </tr>
+  <tr>
+    <td rowspan="12"><code>browserUtils()</code></td>
+    <td><code>.delay(milliseconds, ignoreLog?)</code></td>
+    <td>Introduces a delay in the program execution for the specified number of milliseconds. If ignoreLog parameter is provided and set to true, the function will suppress any logging or output during the delay.</td>
+  </tr>
+  <tr>
+    <!-- <td rowspan="1"><code>browserUtils()</code></td> -->
+    <td><code>.getElementByTagText(tag, textToFind, itemIndex?)</code></td>
+    <td>Returns the HTML element with the specified tag that contains the given text to find. If itemIndex is provided, it retrieves the element at the specified index when multiple elements are found.</td>
+  </tr>
+  <tr>
+    <!-- <td rowspan="1"><code>browserUtils()</code></td> -->
+    <td><code>.getElementByTagAttributeValue(tag, attribute, attributeValue, itemIndex?)</code></td>
+    <td>Returns the HTML element with the specified tag that has the attribute matching the given attribute value. If itemIndex is provided, it retrieves the element at the specified index when multiple elements are found.</td>
+  </tr>
+  <tr>
+    <!-- <td rowspan="1"><code>browserUtils()</code></td> -->
+    <td><code>.getElementBySelector(selector)</code></td>
+    <td>Returns the HTML element that matches the specified CSS selector. The selector can be used to target elements by tag name, class name, ID, or other CSS selectors.</td>
+  </tr>
+  <tr>
+    <!-- <td rowspan="1"><code>browserUtils()</code></td> -->
+    <td>.typeOnInputByElement(inputElement, text)</td>
+    <td>Simulates typing the specified text into the given inputElement. This function interacts with the HTML input element and populates it with the provided text.</td>
+  </tr>
+  <tr>
+    <!-- <td rowspan="1"><code>browserUtils()</code></td> -->
+    <td><code>.typeOnInputBySelector(selector, text)</code></td>
+    <td>Simulates typing the specified text into the HTML input element selected using the given selector. This function interacts with the input element matching the selector and populates it with the provided text.</td>
+  </tr>
+  <tr>
+    <!-- <td rowspan="1"><code>browserUtils()</code></td> -->
+    <td><code>.clickElement(htmlElement)</code></td>
+    <td>Simulates a click on the specified htmlElement. This function triggers a click event on the element, simulating a user interaction as if the element were physically clicked.</td>
+  </tr>
+  <tr>
+    <!-- <td rowspan="1"><code>browserUtils()</code></td> -->
+    <td><code>.clickElementBySelector(selector)</code></td>
+    <td>Simulates a click on the HTML element selected using the given selector. This function triggers a click event on the element matching the selector, simulating a user interaction as if the element were physically clicked.</td>
+  </tr>
+  <tr>
+    <!-- <td rowspan="1"><code>browserUtils()</code></td> -->
+    <td><code>.clickElementByTagText(tag, textToFind, itemIndex?)</code></td>
+    <td>Simulates a click on the HTML element with the specified tag that contains the given textToFind. If itemIndex is provided, it clicks on the element at the specified index when multiple elements are found. This function simulates a user interaction as if the element were physically clicked.</td>
+  </tr>
+  <tr>
+    <!-- <td rowspan="1"><code>browserUtils()</code></td> -->
+    <td><code>.clickElementByTagAttributeValue(tag, attribute, valueAttribute, itemIndex?)</code></td>
+    <td>Simulates a click on the HTML element with the specified tag that has the attribute matching the given valueAttribute. If itemIndex is provided, it clicks on the element at the specified index when multiple elements are found. This function simulates a user interaction as if the element were physically clicked.</td>
+  </tr>
+  <tr>
+    <!-- <td rowspan="1"><code>browserUtils()</code></td> -->
+    <td><code>.generateFormRow(name, value, onAfterClickAction?)</code></td>
+    <td>Generates a form row with the specified name and value. If onAfterClickAction is provided, it specifies an optional action to perform after clicking the form row.</td>
+  </tr>
+  <tr>
+    <!-- <td rowspan="1"><code>browserUtils()</code></td> -->
+    <td><code>.getModal(title)</code></td>
+    <td>Utility function for easily handling modals on the options. The function returns two functions, one to update the modal's content and another to close the modal.</td>
+  </tr>
+</table>
 
 ## :wrench: Development<a href="#TOC"><img align="right" src="./.github/images/up_arrow.png" width="22"></a>
 
