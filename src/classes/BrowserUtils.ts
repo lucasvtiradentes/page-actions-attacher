@@ -159,8 +159,8 @@ export default class DomUtils {
 
   // HTML UTILS ================================================================
 
-  generateFormRow(name: string, value: string, onAfterClickAction: () => void) {
-    const onClickAction = `navigator.clipboard.writeText('${value}');${onAfterClickAction ? `(${onAfterClickAction})()` : ''}`;
+  generateFormRow(name: string, value: string, onAfterClickAction?: () => void) {
+    const onClickAction = `navigator.clipboard.writeText('${value}'); ${onAfterClickAction ? `(${onAfterClickAction})()` : ''}`;
 
     return `
       <div style="display: grid; grid-template-columns: 1fr 2fr;">
@@ -221,9 +221,22 @@ export default class DomUtils {
     };
 
     const closeModal = () => {
-      const modalEl = document.querySelector(`.${CONFIGS.classes.modalContainer}`);
+      let modalSelector = '';
+      let escAction = null;
+
+      try {
+        modalSelector = `.${CONFIGS.classes.modalContainer}`;
+        escAction = detectEscKeypress;
+      } catch (e) {
+        modalSelector = `.${'ffa_modal_container'}`;
+      }
+
+      const modalEl = document.querySelector(modalSelector);
+
       if (modalEl) {
-        document.body.removeChild(modalContainerEl);
+        document.body.removeChild(modalEl);
+      }
+      if (escAction) {
         document.removeEventListener('keydown', detectEscKeypress);
       }
     };

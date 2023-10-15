@@ -9,6 +9,12 @@ export type TOptionItem = {
   action: () => void;
 };
 
+export type THeaderOptionItem = {
+  icon: string;
+  action: () => void;
+  cssStyle?: string;
+};
+
 export type TColorScheme = {
   primary: {
     background: string;

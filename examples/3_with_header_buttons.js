@@ -16,7 +16,7 @@
 
   - EXAMPLE FEATURES:
     - fill up the form present on the page: https://www.saucedemo.com/ (70-82)
-    - setup custom configs (line 39-64)
+    - setup update header option (line 91)
 */
 
 (async function () {
@@ -36,32 +36,7 @@
 
   // 2 - CREATEA A NEW INSTANCE ================================================
 
-  const colorScheme = {
-    primary: {
-      background: '#4f07ad',
-      text: '#fff'
-    },
-    secondary: {
-      background: '#fff',
-      hoverBackground: '#ccc',
-      text: '#000000',
-      border: '#ccc'
-    },
-    overlay: 'rgba(0, 0, 0, 0.7)',
-    boxShadown: 'rgba(0, 0, 0, 0.1)'
-  };
-
-  const buttonConfigs = {
-    right: '30px',
-    bottom: '30px'
-  };
-
-  const runConfigs = {
-    debug: true,
-    typeDelay: 100
-  };
-
-  const formFiller = new FormFiller({ colorScheme, buttonConfigs, runConfigs });
+  const formFiller = new FormFiller();
   console.log(`loaded ${CONFIGS.packageName} [${formFiller.VERSION} - ${formFillerAssistantContent.method}]`);
 
   // 3 - CREATE YOUR METHODS HERE ==============================================
@@ -87,7 +62,7 @@
     { name: 'fill saucedemo form', action: fillSauceDemoForm }
   ];
 
-  formFiller.atach(options);
+  formFiller.atach(options, () => updateFormFillerAssistantContent(CONFIGS));
 
   // 5 - DONT NEED TO CHANGE AFTER THIS ========================================
 

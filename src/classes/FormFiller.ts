@@ -1,5 +1,5 @@
 import { CONFIGS } from '../configs';
-import { TColorScheme, TOptionItem, TButtonConfigs, TRunConfigs } from '../types/types';
+import { TColorScheme, TOptionItem, TButtonConfigs, TRunConfigs, THeaderOptionItem } from '../types/types';
 
 export default class FormFiller {
   private colorScheme: TColorScheme;
@@ -14,8 +14,8 @@ export default class FormFiller {
 
   // PUBLIC METHODS ============================================================
 
-  atach(optionsArr: TOptionItem[], checkForUpdatesAction?: () => void) {
-    const optionsEl = this.getOptionsEl(optionsArr, checkForUpdatesAction);
+  atach(optionsArr: TOptionItem[], headerOptions?: THeaderOptionItem[]) {
+    const optionsEl = this.getOptionsEl(optionsArr, headerOptions);
     this.atachFloatingToHTML(optionsEl);
 
     document.addEventListener('click', (e: Event) => {
@@ -39,7 +39,9 @@ export default class FormFiller {
     if (type === 'info') console.log(message);
   }
 
-  private getOptionsEl(optionsArr: TOptionItem[], checkForUpdatesAction?: () => void) {
+  private getOptionsEl(optionsArr: TOptionItem[], headerOptions?: THeaderOptionItem[]) {
+    const hasHeaderOptions = headerOptions && headerOptions.length > 0;
+
     const optionsContainer = document.createElement('div');
     optionsContainer.setAttribute(
       'style',
@@ -50,15 +52,19 @@ export default class FormFiller {
     // add header to options menu ==============================================
 
     const headerDiv = document.createElement('div');
-    headerDiv.setAttribute('style', `width: 100%; display: grid; grid-template-columns: 1fr 1fr; padding: 3px`);
+    headerDiv.setAttribute('style', `width: 100%; display: grid; padding-top: 5px; grid-template-columns: ${hasHeaderOptions ? '1fr 2fr' : '1fr 1fr'};`);
 
     const versionDiv = document.createElement('div');
     versionDiv.textContent = `V${CONFIGS.libInfo.version}`;
-    versionDiv.setAttribute('style', `display: flex; align-items: center; justify-content: center; font-size: 14px; color: ${this.colorScheme.primary.background}`);
+    versionDiv.setAttribute('style', `display: flex; align-items: center; justify-content: center; font-size: 12px; color: ${this.colorScheme.primary.background}; cursor: pointer;`);
+    versionDiv.addEventListener('click', () => {
+      optionsContainer.style.display = 'none';
+      window.open(`${CONFIGS.libInfo.link}/releases/tag/v${CONFIGS.libInfo.version}`, '_blank');
+    });
     headerDiv.appendChild(versionDiv);
 
     const actionsDiv = document.createElement('div');
-    actionsDiv.setAttribute('style', `display: flex; align-items: center; justify-content: center; gap: 10px;`);
+    actionsDiv.setAttribute('style', `display: flex; align-items: center; justify-content: space-around;`);
 
     const githubIcon = document.createElement('img');
     githubIcon.src = 'https://www.svgrepo.com/show/512317/github-142.svg';
@@ -69,15 +75,17 @@ export default class FormFiller {
     });
     actionsDiv.appendChild(githubIcon);
 
-    if (checkForUpdatesAction) {
-      const updateIcon = document.createElement('img');
-      updateIcon.src = 'https://www.svgrepo.com/show/460136/update-alt.svg';
-      updateIcon.setAttribute('style', `width: 20px; height: 20px; cursor: pointer;`);
-      updateIcon.addEventListener('click', () => {
-        optionsContainer.style.display = 'none';
-        checkForUpdatesAction();
+    if (hasHeaderOptions) {
+      headerOptions.forEach((item) => {
+        const updateIcon = document.createElement('img');
+        updateIcon.src = item.icon;
+        updateIcon.setAttribute('style', `width: 20px; height: 20px; cursor: pointer; ${item.cssStyle ?? ''}`);
+        updateIcon.addEventListener('click', () => {
+          optionsContainer.style.display = 'none';
+          item.action();
+        });
+        actionsDiv.appendChild(updateIcon);
       });
-      actionsDiv.appendChild(updateIcon);
     }
 
     headerDiv.appendChild(actionsDiv);
@@ -86,7 +94,7 @@ export default class FormFiller {
     // divider div =============================================================
 
     const dividerDiv = document.createElement('div');
-    dividerDiv.setAttribute('style', `border-top: 1px solid #ccc; margin-top: 5px; margin-bottom: 5px;`);
+    dividerDiv.setAttribute('style', `border-top: 1px solid ${this.colorScheme.secondary.border}; margin-top: 8px;`);
     optionsContainer.appendChild(dividerDiv);
 
     // add options =============================================================
@@ -134,11 +142,9 @@ export default class FormFiller {
       if (optionsContainer.style.display === 'none' || optionsContainer.style.display === '') {
         optionsContainer.style.display = 'block';
         document.addEventListener('keydown', (event) => this.detectNumbersPress(event));
-        this.logger('show floating button');
       } else {
         optionsContainer.style.display = 'none';
         document.removeEventListener('keydown', (event) => this.detectNumbersPress(event));
-        this.logger('hide floating button');
       }
     };
 

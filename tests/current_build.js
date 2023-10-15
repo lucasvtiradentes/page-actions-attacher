@@ -38,17 +38,22 @@ async function main(FormFiller) {
 
   // ===========================================================================
 
-  let modalCount = 0;
-
   const options = [
     { name: 'show modal utils', action: toogleModal },
     { name: 'show lib helper', action: () => formFiller.help() },
     { name: 'show page input fields', action: () => Array.from(document.querySelectorAll('input')).forEach((el) => console.log(el.getAttribute('name'))) }
   ];
 
-  formFiller.atach(options);
+  const headerOption = [
+    { icon: 'https://www.svgrepo.com/show/460136/update-alt.svg', action: () => alert(1) },
+    { icon: 'https://www.svgrepo.com/show/403847/monkey-face.svg', action: () => window.open('chrome-extension://dhdgffkkebhmkfjojejmpbldmpobfkfo/options.html#nav=c84b1043-636c-416b-8b31-e843e818ee49+editor', '_blank') }
+  ];
+
+  formFiller.atach(options, headerOption);
 
   // ===========================================================================
+
+  let modalCount = 0;
 
   function toogleModal() {
     const modalStorageKey = 'modalData';
@@ -73,33 +78,34 @@ async function main(FormFiller) {
     const storageData = formFiller.browserUtils().getStorageItem(modalStorageKey);
     const data = modalCount > 1 && storageData ? JSON.parse(storageData) : generateData(formFiller.dataUtils());
 
-    const getFinalHtmlContent = (dt) => {
-      const finalHtmlContent = `
-          ${formFiller.browserUtils().generateFormRow('Nome', dt.nome)}
-          ${formFiller.browserUtils().generateFormRow('Username', dt.user_name)}
-          ${formFiller.browserUtils().generateFormRow('Email', dt.email)}
-          ${formFiller.browserUtils().generateFormRow('Nome empresa', dt.nome_empresa)}
-          ${formFiller.browserUtils().generateFormRow('Cpf', dt.cpf)}
-          ${formFiller.browserUtils().generateFormRow('Cnpj', dt.cnpj)}
-          ${formFiller.browserUtils().generateFormRow('Inscricao estadual', dt.inscricao_estadual)}
-          ${formFiller.browserUtils().generateFormRow('Telefone', dt.telefone)}
-        `;
+    const { updateModalContent, closeModal } = formFiller.browserUtils().getModal('Dados gerados');
 
-      return finalHtmlContent;
+    const getFinalHtmlContent = (dt) => {
+      const items = [
+        ['Name', dt.nome],
+        ['Username', dt.user_name],
+        ['Email', dt.nome_empresa],
+        ['Cpf', dt.cpf],
+        ['Cnpj', dt.cnpj],
+        ['Inscricao estadual', dt.inscricao_estadual],
+        ['Telefone', dt.telefone]
+      ];
+      const finalHTML = items.map((item) => `${formFiller.browserUtils().generateFormRow(item[0], item[1], closeModal)}`).join('');
+      return finalHTML;
     };
 
-    const { updateModalContent } = formFiller.browserUtils().getModal('Dados gerados');
-
-    const regeneratedData = () => getFinalHtmlContent(generateData(new FormFiller().dataUtils()));
+    const regeneretadHtmlContent = () => getFinalHtmlContent(generateData(new FormFiller().dataUtils()));
 
     const modalButtons = [
       {
         title: 'Regenerate',
-        action: () => updateModalContent(regeneratedData(), modalButtons),
+        action: () => updateModalContent(regeneretadHtmlContent(), modalButtons),
         exitAfterAction: false
       }
     ];
 
-    updateModalContent(getFinalHtmlContent(data), modalButtons);
+    const initialHTML = getFinalHtmlContent(data);
+
+    updateModalContent(initialHTML, modalButtons);
   }
 }

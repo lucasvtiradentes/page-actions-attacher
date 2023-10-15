@@ -2,7 +2,7 @@ import { default as BrowserUtils } from './classes/BrowserUtils';
 import { default as DataUtils } from './classes/DataUtils';
 import { default as FormFiller } from './classes/FormFiller';
 import { CONFIGS } from './configs';
-import { TButtonConfigs, TColorScheme, TOptionItem, TRunConfigs } from './types/types';
+import { TButtonConfigs, TColorScheme, THeaderOptionItem, TOptionItem, TRunConfigs } from './types/types';
 import { help as helpFn } from './utils/utils';
 
 class FormFillerAssistant {
@@ -20,8 +20,8 @@ class FormFillerAssistant {
   BUILD_DATETIME = CONFIGS.libInfo.buildTime;
   help = helpFn;
 
-  atach(options: TOptionItem[], checkForUpdatesAction?: () => void) {
-    new FormFiller({ colorScheme: this.colorScheme, runConfigs: this.runConfigs, buttonConfigs: this.buttonConfigs }).atach(options, checkForUpdatesAction);
+  atach(options: TOptionItem[], headerOptions?: THeaderOptionItem[]) {
+    new FormFiller({ colorScheme: this.colorScheme, runConfigs: this.runConfigs, buttonConfigs: this.buttonConfigs }).atach(options, headerOptions);
   }
 
   browserUtils() {

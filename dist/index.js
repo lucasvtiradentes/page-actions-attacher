@@ -32,7 +32,7 @@
   const libInfo = {
       name: 'FORM_FILLER_ASSISTANT',
       version: '1.6.2',
-      buildTime: '14/10/2023 23:22:36',
+      buildTime: '15/10/2023 - 08:09:14',
       link: 'https://github.com/lucasvtiradentes/form_filler_assistant',
       temperMonkeyLink: 'https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo',
       initialScript: 'https://github.com/lucasvtiradentes/form_filler_assistant/dist/initial_temper_monkey_script.js'
@@ -176,7 +176,7 @@
       }
       // HTML UTILS ================================================================
       generateFormRow(name, value, onAfterClickAction) {
-          const onClickAction = `navigator.clipboard.writeText('${value}');${onAfterClickAction ? `(${onAfterClickAction})()` : ''}`;
+          const onClickAction = `navigator.clipboard.writeText('${value}'); ${onAfterClickAction ? `(${onAfterClickAction})()` : ''}`;
           return `
       <div style="display: grid; grid-template-columns: 1fr 2fr;">
         <div style="flex: 1; padding: 3px 10px; font-weight: 600;">${name}</div>
@@ -227,9 +227,20 @@
               }
           };
           const closeModal = () => {
-              const modalEl = document.querySelector(`.${CONFIGS.classes.modalContainer}`);
+              let modalSelector = '';
+              let escAction = null;
+              try {
+                  modalSelector = `.${CONFIGS.classes.modalContainer}`;
+                  escAction = detectEscKeypress;
+              }
+              catch (e) {
+                  modalSelector = `.${'ffa_modal_container'}`;
+              }
+              const modalEl = document.querySelector(modalSelector);
               if (modalEl) {
-                  document.body.removeChild(modalContainerEl);
+                  document.body.removeChild(modalEl);
+              }
+              if (escAction) {
                   document.removeEventListener('keydown', detectEscKeypress);
               }
           };
@@ -390,8 +401,8 @@
           this.runConfigs = { ...CONFIGS.runConfigs, ...(configs?.runConfigs ? configs?.runConfigs : {}) };
       }
       // PUBLIC METHODS ============================================================
-      atach(optionsArr, checkForUpdatesAction) {
-          const optionsEl = this.getOptionsEl(optionsArr, checkForUpdatesAction);
+      atach(optionsArr, headerOptions) {
+          const optionsEl = this.getOptionsEl(optionsArr, headerOptions);
           this.atachFloatingToHTML(optionsEl);
           document.addEventListener('click', (e) => {
               const floatingContainer = document.querySelector(`.${CONFIGS.classes.floatingButton}`);
@@ -411,19 +422,24 @@
           if (type === 'info')
               console.log(message);
       }
-      getOptionsEl(optionsArr, checkForUpdatesAction) {
+      getOptionsEl(optionsArr, headerOptions) {
+          const hasHeaderOptions = headerOptions && headerOptions.length > 0;
           const optionsContainer = document.createElement('div');
           optionsContainer.setAttribute('style', `display: none; position: absolute; bottom: 70px; right: 0; color: ${this.colorScheme.secondary.text}; background-color: ${this.colorScheme.secondary.background}; border-radius: 5px; border: 1px solid ${this.colorScheme.secondary.border}; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); white-space: nowrap;`);
           optionsContainer.setAttribute('class', CONFIGS.classes.optionsContainer);
           // add header to options menu ==============================================
           const headerDiv = document.createElement('div');
-          headerDiv.setAttribute('style', `width: 100%; display: grid; grid-template-columns: 1fr 1fr; padding: 3px`);
+          headerDiv.setAttribute('style', `width: 100%; display: grid; padding-top: 5px; grid-template-columns: ${hasHeaderOptions ? '1fr 2fr' : '1fr 1fr'};`);
           const versionDiv = document.createElement('div');
           versionDiv.textContent = `V${CONFIGS.libInfo.version}`;
-          versionDiv.setAttribute('style', `display: flex; align-items: center; justify-content: center; font-size: 14px; color: ${this.colorScheme.primary.background}`);
+          versionDiv.setAttribute('style', `display: flex; align-items: center; justify-content: center; font-size: 12px; color: ${this.colorScheme.primary.background}; cursor: pointer;`);
+          versionDiv.addEventListener('click', () => {
+              optionsContainer.style.display = 'none';
+              window.open(`${CONFIGS.libInfo.link}/releases/tag/v${CONFIGS.libInfo.version}`, '_blank');
+          });
           headerDiv.appendChild(versionDiv);
           const actionsDiv = document.createElement('div');
-          actionsDiv.setAttribute('style', `display: flex; align-items: center; justify-content: center; gap: 10px;`);
+          actionsDiv.setAttribute('style', `display: flex; align-items: center; justify-content: space-around;`);
           const githubIcon = document.createElement('img');
           githubIcon.src = 'https://www.svgrepo.com/show/512317/github-142.svg';
           githubIcon.setAttribute('style', `width: 18px; height: 18px; cursor: pointer;`);
@@ -432,21 +448,23 @@
               window.open(CONFIGS.libInfo.link, '_blank');
           });
           actionsDiv.appendChild(githubIcon);
-          if (checkForUpdatesAction) {
-              const updateIcon = document.createElement('img');
-              updateIcon.src = 'https://www.svgrepo.com/show/460136/update-alt.svg';
-              updateIcon.setAttribute('style', `width: 20px; height: 20px; cursor: pointer;`);
-              updateIcon.addEventListener('click', () => {
-                  optionsContainer.style.display = 'none';
-                  checkForUpdatesAction();
+          if (hasHeaderOptions) {
+              headerOptions.forEach((item) => {
+                  const updateIcon = document.createElement('img');
+                  updateIcon.src = item.icon;
+                  updateIcon.setAttribute('style', `width: 20px; height: 20px; cursor: pointer; ${item.cssStyle ?? ''}`);
+                  updateIcon.addEventListener('click', () => {
+                      optionsContainer.style.display = 'none';
+                      item.action();
+                  });
+                  actionsDiv.appendChild(updateIcon);
               });
-              actionsDiv.appendChild(updateIcon);
           }
           headerDiv.appendChild(actionsDiv);
           optionsContainer.appendChild(headerDiv);
           // divider div =============================================================
           const dividerDiv = document.createElement('div');
-          dividerDiv.setAttribute('style', `border-top: 1px solid #ccc; margin-top: 5px; margin-bottom: 5px;`);
+          dividerDiv.setAttribute('style', `border-top: 1px solid ${this.colorScheme.secondary.border}; margin-top: 8px;`);
           optionsContainer.appendChild(dividerDiv);
           // add options =============================================================
           optionsArr.forEach((option, index) => {
@@ -482,12 +500,10 @@
               if (optionsContainer.style.display === 'none' || optionsContainer.style.display === '') {
                   optionsContainer.style.display = 'block';
                   document.addEventListener('keydown', (event) => this.detectNumbersPress(event));
-                  this.logger('show floating button');
               }
               else {
                   optionsContainer.style.display = 'none';
                   document.removeEventListener('keydown', (event) => this.detectNumbersPress(event));
-                  this.logger('hide floating button');
               }
           };
           button.addEventListener('click', toogleFloating);
@@ -575,8 +591,8 @@
       VERSION = CONFIGS.libInfo.version;
       BUILD_DATETIME = CONFIGS.libInfo.buildTime;
       help = help;
-      atach(options, checkForUpdatesAction) {
-          new FormFiller({ colorScheme: this.colorScheme, runConfigs: this.runConfigs, buttonConfigs: this.buttonConfigs }).atach(options, checkForUpdatesAction);
+      atach(options, headerOptions) {
+          new FormFiller({ colorScheme: this.colorScheme, runConfigs: this.runConfigs, buttonConfigs: this.buttonConfigs }).atach(options, headerOptions);
       }
       browserUtils() {
           return new DomUtils({ colorScheme: this.colorScheme, runConfigs: this.runConfigs });
