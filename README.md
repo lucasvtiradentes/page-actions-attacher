@@ -26,8 +26,6 @@
         <a href="#bulb-usage">Usage</a>
         <ul>
           <li><a href="#installation">Installation</a></li>
-          <li><a href="#general-tips">General tips</a></li>
-          <li><a href="#updating">Updating</a></li>
           <li><a href="#uninstall">Uninstall</a></li>
         </ul>
       </li>
@@ -46,13 +44,6 @@
           <li><a href="#feedback">Feedback</a></li>
         </ul>
       </li>
-      <li>
-        <a href="#family-community">Community</a>
-        <ul>
-          <li><a href="#contributing">Contributing</a></li>
-          <li><a href="#feedback">Feedback</a></li>
-        </ul>
-      </li>
     </ul>
   </p>
 </details>
@@ -64,7 +55,20 @@
 Easily fill forms on websites with an easy to use temper monkey userscript.
 
 <div align="center">
-  <img width="80%" src="./.github/images/demo.webp" />
+  <table>
+  <thead>
+    <tr>
+      <th>code</th>
+      <th>result</th>
+    </tr>
+  </thead>
+    <tbody>
+      <tr>
+        <td><img width="300px" src="./.github/images/demo_code.png" /></td>
+        <td><img width="405px" src="./.github/images/demo.webp" /></td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
 ## :question: Motivation
@@ -101,19 +105,6 @@ This project will
 - allow you to hit keyboard shortcuts to easily perform actions to the specified website;
 - in order to update the actions you'll have to update the `optionsArr`;
 - it will get the package content from [jsdelivr](https://cdn.jsdelivr.net/npm/form_filler_assistant) and save it to session storage;
-
-### Updating
-
-To update your FormFillerAssistant instance and use the latest features, you just need to change the `version` number on the `CONFIGS` variables, as it is shown bellow:
-
-<pre>
-  const CONFIGS = {
-    sessionStorageContentKey: 'FormFillerAssistant',
-    version: '1.4.0'
-  };
-</pre>
-
-So if your instance is running at version "1.0.0" and the latest is "3.6.1", just replace those numbers in the `version` variable.
 
 ### Uninstall
 
