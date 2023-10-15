@@ -3,7 +3,8 @@
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  try to take over the world!
-// @match        https://www.saucedemo.com/*
+// @match        https://frontend.itworks.beta.uds.com.br/*
+// @match        http://localhost:3000/*
 // @icon         https://wchrome-extension://dhdgffkkebhmkfjojejmpbldmpobfkfo/options.html#nav=c84b1043-636c-416b-8b31-e843e818ee49+editorww.google.com/s2/favicons?sz=64&domain=github.com
 // @grant        none
 // ==/UserScript==
@@ -15,8 +16,9 @@
     - you only need to update the sections 3 (add your methods), 4 (setup your methods on the options array)
 
   - EXAMPLE FEATURES:
-    - fill up the form present on the page: https://www.saucedemo.com/ (44 - 56)
-    - add a simple toast (58 - 60)
+    - this example is integrated with the repo [https://github.com/lucasvtiradentes/uds_apps_form_fill_utils]
+    - it allow to sync filler methods by different devs on different projects with low effort
+    - it has also a header icon to get the latest available options
 */
 
 (async function () {
@@ -36,38 +38,82 @@
 
   // 2 - SETUP YOUR INSTANCE ===================================================
 
-  const formFiller = new FormFiller();
+  const runConfigs = {
+    debug: false
+  };
+
+  const formFiller = new FormFiller({ runConfigs });
   console.log(`loaded ${CONFIGS.packageName} [${formFiller.VERSION} - ${formFillerAssistantContent.method}]`);
 
   // 3 - CREATE YOUR METHODS HERE ==============================================
 
-  async function fillSauceDemoForm() {
-    const browserUtils = formFiller.browserUtils();
+  async function updateLatestUdsOptions(configsObj) {
+    const latestContent = await downloadLatestUdsOptions();
+    const cachedVersion = localStorage.getItem(configsObj.udsOptionsContentStorageKey) ?? '';
+    const shouldUpdate = latestContent !== cachedVersion;
 
-    await browserUtils.typeOnInputBySelector('input[name="user-name"]', 'standard_user');
-    await browserUtils.typeOnInputBySelector('input[name="password"]', 'secret_sauce');
-    browserUtils.clickElementByTagAttributeValue('input', 'value', 'Login');
-
-    await browserUtils.delay(3000);
-    browserUtils.clickElementBySelector('#react-burger-menu-btn');
-
-    await browserUtils.delay(300);
-    browserUtils.clickElementBySelector('#logout_sidebar_link');
+    if (shouldUpdate) {
+      console.log(`found new ${configsObj.udsOptionsName} version`);
+      await cacheUdsOptions(configsObj, latestContent);
+      formFiller.browserUtils().showToast(`Updated ${configsObj.udsOptionsName}.\n refresh the page to see the changes!`);
+    } else {
+      formFiller.browserUtils().showToast(`No newer ${configsObj.udsOptionsName} version found!`);
+    }
   }
 
-  function showToast() {
-    formFiller.browserUtils().showToast('new version found!\nPlease refresh the page!', 2);
+  async function downloadLatestUdsOptions() {
+    const branch = 'main';
+    const filePath = 'dist/index.js';
+    const final_link = `https://api.github.com/repos/lucasvtiradentes/uds_apps_form_fill_utils/contents/${filePath}${branch ? `?ref=${branch}` : ''}`;
+    const response = await fetch(final_link, { method: 'get', contentType: 'application/json' });
+    const base64Content = JSON.parse(await response.text()).content;
+    const decodedString = atob(base64Content);
+    return decodedString;
+  }
+
+  async function cacheUdsOptions(configsObj, content) {
+    localStorage.setItem(configsObj.udsOptionsContentStorageKey, content);
+    console.log(`downloaded and cached latest ${configsObj.udsOptionsName} content`);
+    return content;
+  }
+
+  async function getLatestUdsOptions(configsObj) {
+    const cachedContent = localStorage.getItem(configsObj.udsOptionsContentStorageKey) ?? '';
+
+    if (!cachedContent) {
+      const downloadedContent = await downloadLatestUdsOptions();
+      await cacheUdsOptions(configsObj, downloadedContent);
+
+      return {
+        content: downloadedContent,
+        method: 'downloaded'
+      };
+    }
+
+    return {
+      content: cachedContent,
+      method: 'cached'
+    };
   }
 
   // 4 - ADDING YOUR METHODS TO THE FLOATING BUTTON ============================
 
-  const options = [
-    { name: 'show lib helper', action: formFiller.help },
-    { name: 'fill saucedemo form', action: fillSauceDemoForm },
-    { name: 'show simple toast', action: showToast }
+  const udsOptionsContent = await getLatestUdsOptions(CONFIGS);
+  eval(udsOptionsContent.content); // eslint-disable-line
+  const UdsFormFiller = UdsFormFillerAssistant; // eslint-disable-line
+  const udsOptionsConfigs = {};
+  const udsFormFiller = new UdsFormFiller(udsOptionsConfigs);
+  const udsOptions = udsFormFiller.getAvailableOptions();
+  console.log(`loaded ${CONFIGS.udsOptionsName} [${udsOptionsContent.method}]`);
+
+  const options = [{ name: 'show lib helper', action: formFiller.help }, ...udsOptions];
+
+  const headerOption = [
+    { icon: 'https://www.svgrepo.com/show/460136/update-alt.svg', action: () => updateFormFillerAssistantContent(CONFIGS) },
+    { icon: 'https://www.svgrepo.com/show/403847/monkey-face.svg', action: () => updateLatestUdsOptions(CONFIGS) }
   ];
 
-  formFiller.atach(options);
+  formFiller.atach(options, headerOption);
 
   // 5 - DONT NEED TO CHANGE AFTER THIS ========================================
 
@@ -75,7 +121,9 @@
     return {
       packageName: 'FormFillerAssistant',
       versionStorageKey: '_ffa_version',
-      contentStorageKey: '_ffa_content'
+      contentStorageKey: '_ffa_content',
+      udsOptionsName: 'UDS OPTIONS',
+      udsOptionsContentStorageKey: '_ffa_uds_options_content'
     };
   }
 
@@ -144,7 +192,7 @@
     if (shouldUpdate) {
       console.log(`found new ${configsObj.packageName} version: ${latestVersion}`);
       await downloadAndCacheVersion(configsObj, latestVersion);
-      formFiller.browserUtils().showToast(`Updated ${configsObj.packageName} from ${cachedVersion} to ${latestVersion}.\nRefresh the page to see the changes!`);
+      formFiller.browserUtils().showToast(`Updated ${configsObj.packageName} from ${cachedVersion} to ${latestVersion}.\n refresh the page to see the changes!`);
     } else {
       formFiller.browserUtils().showToast(`No newer ${configsObj.packageName} version found!`);
     }

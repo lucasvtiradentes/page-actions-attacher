@@ -246,8 +246,8 @@ export default class DomUtils {
     };
   }
 
-  showToast(message: string, milliseconds?: number) {
-    const initialCounter = milliseconds ?? 5;
+  showToast(message: string, seconds?: number) {
+    const initialCounter = seconds ?? 3;
     let counter = initialCounter;
 
     const showCountdown = (msg: string) => {
@@ -274,12 +274,11 @@ export default class DomUtils {
 
       document.body.appendChild(toastDiv);
 
-      // Calculate width of message content
+      // set responsive width ==================================================
       const messageWidth = message.getBoundingClientRect().width;
+      toastDiv.style.width = `${Math.min(messageWidth, 600)}px`;
 
-      // Set width of toastDiv based on the content but with a minimum and maximum width
-      toastDiv.style.width = `${Math.min(Math.max(messageWidth, 200), 500)}px`;
-
+      // add progress animation ================================================
       const timer: NodeJS.Timeout = setInterval(() => {
         counter--;
 

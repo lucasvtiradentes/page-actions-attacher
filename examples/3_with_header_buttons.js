@@ -74,8 +74,8 @@
   function getConfigsObject() {
     return {
       packageName: 'FormFillerAssistant',
-      versionStorageKey: 'form_filler_assistant_version',
-      contentStorageKey: 'form_filler_assistant_content'
+      versionStorageKey: '_ffa_version',
+      contentStorageKey: '_ffa_content'
     };
   }
 
@@ -144,9 +144,9 @@
     if (shouldUpdate) {
       console.log(`found new ${configsObj.packageName} version: ${latestVersion}`);
       await downloadAndCacheVersion(configsObj, latestVersion);
-      alert(`updated ${configsObj.packageName} from ${cachedVersion} to ${latestVersion}.\n refresh the page to see the changes!`);
+      formFiller.browserUtils().showToast(`Updated ${configsObj.packageName} from ${cachedVersion} to ${latestVersion}.\nRefresh the page to see the changes!`);
     } else {
-      alert(`you are using the latest ${configsObj.packageName} version`);
+      formFiller.browserUtils().showToast(`No newer ${configsObj.packageName} version found!`);
     }
   }
 })();

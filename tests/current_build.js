@@ -56,7 +56,7 @@ async function main(FormFiller) {
   // ===========================================================================
 
   function showToast() {
-    formFiller.browserUtils().showToast('Nova versão encontrada!\nPor favor reinicie a página!', 2);
+    formFiller.browserUtils().showToast('Nova versão encontrada!\nPor favor reinicie a página!');
   }
 
   function toogleSimpleModal() {

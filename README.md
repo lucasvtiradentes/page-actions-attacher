@@ -243,8 +243,8 @@ This package comes with the following commands list:
   </tr>
   <tr>
     <!-- <td rowspan="1"><code>browserUtils()</code></td> -->
-    <td><code>.showToast(message, milliseconds?)</code></td>
-    <td>Utility function for easily creating toast messages</td>
+    <td><code>.showToast(message, seconds?)</code></td>
+    <td>Utility function for easily creating toast messages.</td>
   </tr>
 </table>
   </div>

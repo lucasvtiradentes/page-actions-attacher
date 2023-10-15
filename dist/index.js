@@ -32,7 +32,7 @@
   const libInfo = {
       name: 'FORM_FILLER_ASSISTANT',
       version: '1.8.0',
-      buildTime: '15/10/2023 19:43:58',
+      buildTime: '15/10/2023 - 20:05:19',
       link: 'https://github.com/lucasvtiradentes/form_filler_assistant',
       temperMonkeyLink: 'https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo',
       initialScript: 'https://github.com/lucasvtiradentes/form_filler_assistant/dist/initial_temper_monkey_script.js'
@@ -249,8 +249,8 @@
               closeModal
           };
       }
-      showToast(message, milliseconds) {
-          const initialCounter = milliseconds ?? 5;
+      showToast(message, seconds) {
+          const initialCounter = seconds ?? 3;
           let counter = initialCounter;
           const showCountdown = (msg) => {
               const toastId = '_ffa_toast';
@@ -268,10 +268,10 @@
               progress.setAttribute('style', `width: 100%; background-color: ${this.colorScheme.primary.background}; height: 100%; border-radius: 3px;`);
               progressBar.appendChild(progress);
               document.body.appendChild(toastDiv);
-              // Calculate width of message content
+              // set responsive width ==================================================
               const messageWidth = message.getBoundingClientRect().width;
-              // Set width of toastDiv based on the content but with a minimum and maximum width
-              toastDiv.style.width = `${Math.min(Math.max(messageWidth, 200), 500)}px`;
+              toastDiv.style.width = `${Math.min(messageWidth, 600)}px`;
+              // add progress animation ================================================
               const timer = setInterval(() => {
                   counter--;
                   const progressEl = progress;
