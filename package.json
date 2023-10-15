@@ -1,6 +1,6 @@
 {
   "name": "form_filler_assistant",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "description": "🤖 a tampermonkey userscript designed to assist frontend developers in filling forms during the development phase.",
   "license": "MIT",
   "author": {
