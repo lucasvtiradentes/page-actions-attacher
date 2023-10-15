@@ -12,8 +12,8 @@ export default class DomUtils {
 
   // JS UTILS ==================================================================
 
-  async delay(milliseconds: number, shouldShowLog?: boolean) {
-    if (shouldShowLog) {
+  async delay(milliseconds: number, ignoreLog?: boolean) {
+    if (!ignoreLog) {
       this.logger(`waiting: ${milliseconds}`);
     }
 
@@ -26,46 +26,6 @@ export default class DomUtils {
 
   setStorageItem(key: string, value: string) {
     sessionStorage.setItem(key, value);
-  }
-
-  // TYPE FUNCTIONS ============================================================
-
-  async typeOnInputByElement(inputElement: Element, text: string) {
-    if (!inputElement) {
-      this.logger(`not found element to type : ${text}`, 'error');
-      return;
-    }
-
-    this.logger(`typing: ${text}`);
-    for (const char of text) {
-      const inputEvent = new Event('input', { bubbles: true });
-      const inputPropertyDescriptor = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value');
-      if (inputPropertyDescriptor) {
-        const inputSetValue = inputPropertyDescriptor.set;
-        inputSetValue && inputSetValue.call(inputElement, (inputElement as HTMLInputElement).value + char);
-        inputElement.dispatchEvent(inputEvent);
-
-        const keyboardEvent = new KeyboardEvent('keydown', {
-          key: char,
-          code: `Key${char.toUpperCase()}`,
-          bubbles: true,
-          cancelable: true
-        });
-
-        await this.delay(this.runConfigs.typeDelay);
-
-        inputElement.dispatchEvent(keyboardEvent);
-      }
-    }
-  }
-
-  async typeOnInputBySelector(selector: string, text: string) {
-    const inputElement = document.querySelector(selector);
-    if (!inputElement) {
-      return;
-    }
-
-    await this.typeOnInputByElement(inputElement, text);
   }
 
   // GET ELEMENT FUNCTIONS =====================================================
@@ -95,12 +55,75 @@ export default class DomUtils {
   getElementBySelector(selector: string) {
     const inputElement = document.querySelector(selector) as HTMLElement;
     if (!inputElement) {
-      this.logger(`not found element by selector: ${selector}`, 'error');
+      this.logger(`not found element by selector: [${selector}]`, 'error');
     }
     return inputElement;
   }
 
+  // TYPE FUNCTIONS ============================================================
+
+  private async typeOnInput(inputElement: Element, text: string) {
+    this.logger(`typing: ${text}`);
+    for (const char of text) {
+      const inputEvent = new Event('input', { bubbles: true });
+      const inputPropertyDescriptor = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value');
+      if (inputPropertyDescriptor) {
+        const inputSetValue = inputPropertyDescriptor.set;
+        inputSetValue && inputSetValue.call(inputElement, (inputElement as HTMLInputElement).value + char);
+        inputElement.dispatchEvent(inputEvent);
+
+        const keyboardEvent = new KeyboardEvent('keydown', {
+          key: char,
+          code: `Key${char.toUpperCase()}`,
+          bubbles: true,
+          cancelable: true
+        });
+
+        await this.delay(this.runConfigs.typeDelay, true);
+
+        inputElement.dispatchEvent(keyboardEvent);
+      }
+    }
+  }
+
+  async typeOnInputByElement(inputElement: Element, text: string) {
+    if (!inputElement) {
+      this.logger(`not found element to type : ${text}`, 'error');
+      return;
+    }
+
+    this.logger(`type on element [${inputElement}]`);
+    await this.typeOnInput(inputElement, text);
+  }
+
+  async typeOnInputBySelector(selector: string, text: string) {
+    const inputElement = document.querySelector(selector);
+    if (!inputElement) {
+      return;
+    }
+
+    this.logger(`type on element by selector [${selector}]`);
+    await this.typeOnInput(inputElement, text);
+  }
+
   // CLICK FUNCTIONS ===========================================================
+
+  click(htmlElement: HTMLElement) {
+    if (!htmlElement) {
+      return;
+    }
+
+    htmlElement.click();
+  }
+
+  clickElement(htmlElement: HTMLElement) {
+    if (!htmlElement) {
+      return;
+    }
+
+    this.logger(`clicked element: [${htmlElement}]`);
+    this.click(htmlElement);
+  }
 
   clickBySelector(selector: string) {
     const inputElement = this.getElementBySelector(selector);
@@ -108,29 +131,29 @@ export default class DomUtils {
       return;
     }
 
-    this.clickElement(inputElement);
-  }
-
-  clickElement(htmlElement: HTMLElement) {
-    if (!htmlElement) {
-      return;
-    }
-    htmlElement.click();
+    this.logger(`clicked element by selector: [${selector}]`);
+    this.click(inputElement);
   }
 
   clickTagByText(tag: string, textToFind: string, itemIndex?: number) {
-    const elTag = this.getElementByTagText(tag, textToFind, itemIndex);
+    const finalIndex = 0 ?? itemIndex;
+    const elTag = this.getElementByTagText(tag, textToFind, finalIndex);
     if (!elTag) {
       return;
     }
+
+    this.logger(`clicked element by tag text: [${tag} | ${textToFind} | ${finalIndex}]`);
     elTag.click();
   }
 
   clickTagByAttributeValue(tag: string, attribute: string, valueAttribute: string, itemIndex?: number) {
-    const elTag = this.getElementByAttributeValue(tag, attribute, valueAttribute, itemIndex);
+    const finalIndex = 0 ?? itemIndex;
+    const elTag = this.getElementByAttributeValue(tag, attribute, valueAttribute, finalIndex);
     if (!elTag) {
       return;
     }
+
+    this.logger(`clicked element by attribute value: [${tag} | ${attribute} | ${valueAttribute} | ${finalIndex}]`);
     elTag.click();
   }
 
@@ -142,9 +165,9 @@ export default class DomUtils {
     return `
       <div style="display: grid; grid-template-columns: 1fr 2fr;">
         <div style="flex: 1; padding: 3px 10px; font-weight: 600;">${name}</div>
-        <div style="flex: 1; padding: 3px 10px; background-color: ${this.colorScheme.secondary.background}; cursor: pointer;"
-          onmouseover="this.style.backgroundColor = '${this.colorScheme.secondary.hoverBackground}'; this.style.cursor = 'pointer';"
-          onmouseout="this.style.backgroundColor = '${this.colorScheme.secondary.background}'; this.style.cursor = 'default';"
+        <div style="flex: 1; padding: 3px 10px; background-color: ${this.colorScheme.secondary.background}; this.style.color = '${this.colorScheme.secondary.text}'; cursor: pointer;"
+          onmouseover="this.style.backgroundColor = '${this.colorScheme.primary.background}'; this.style.color = '${this.colorScheme.primary.text}'; this.style.cursor = 'pointer';"
+          onmouseout="this.style.backgroundColor = '${this.colorScheme.secondary.background}'; this.style.color = '${this.colorScheme.secondary.text}'; this.style.cursor = 'default';"
           onclick="${onClickAction}"
         >${value}</div>
       </div>`;
@@ -172,7 +195,7 @@ export default class DomUtils {
     const updateModalContent = (htmlContent: string, buttonsArr?: TButton[]) => {
       const divContent = document.createElement('div');
       divContent.innerHTML = htmlContent;
-      modalContent.innerHTML = divContent.outerHTML;
+      modalContent.innerHTML = modalTitle.outerHTML + divContent.outerHTML;
 
       if (buttonsArr && buttonsArr.length > 0) {
         buttonsArr.forEach((item) => {

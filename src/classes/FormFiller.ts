@@ -48,12 +48,13 @@ export default class FormFiller {
     optionsContainer.setAttribute('class', CONFIGS.classes.optionsContainer);
 
     // add header to options menu ==============================================
+
     const headerDiv = document.createElement('div');
-    headerDiv.setAttribute('style', `width: 100%; display: grid; grid-template-columns: 1fr 1fr; padding: 3px 5px;`);
+    headerDiv.setAttribute('style', `width: 100%; display: grid; grid-template-columns: 1fr 1fr; padding: 3px`);
 
     const versionDiv = document.createElement('div');
     versionDiv.textContent = `V${CONFIGS.libInfo.version}`;
-    versionDiv.setAttribute('style', `display: flex; align-items: center; justify-content: center;`);
+    versionDiv.setAttribute('style', `display: flex; align-items: center; justify-content: center; font-size: 14px; color: ${this.colorScheme.primary.background}`);
     headerDiv.appendChild(versionDiv);
 
     const actionsDiv = document.createElement('div');
@@ -62,28 +63,41 @@ export default class FormFiller {
     const githubIcon = document.createElement('img');
     githubIcon.src = 'https://www.svgrepo.com/show/512317/github-142.svg';
     githubIcon.setAttribute('style', `width: 18px; height: 18px; cursor: pointer;`);
-    githubIcon.addEventListener('click', () => window.open(CONFIGS.libInfo.link, '_blank'));
+    githubIcon.addEventListener('click', () => {
+      optionsContainer.style.display = 'none';
+      window.open(CONFIGS.libInfo.link, '_blank');
+    });
     actionsDiv.appendChild(githubIcon);
 
     if (checkForUpdatesAction) {
       const updateIcon = document.createElement('img');
       updateIcon.src = 'https://www.svgrepo.com/show/460136/update-alt.svg';
       updateIcon.setAttribute('style', `width: 20px; height: 20px; cursor: pointer;`);
-      updateIcon.addEventListener('click', checkForUpdatesAction);
+      updateIcon.addEventListener('click', () => {
+        optionsContainer.style.display = 'none';
+        checkForUpdatesAction();
+      });
       actionsDiv.appendChild(updateIcon);
     }
 
     headerDiv.appendChild(actionsDiv);
     optionsContainer.appendChild(headerDiv);
 
+    // divider div =============================================================
+
+    const dividerDiv = document.createElement('div');
+    dividerDiv.setAttribute('style', `border-top: 1px solid #ccc; margin-top: 5px; margin-bottom: 5px;`);
+    optionsContainer.appendChild(dividerDiv);
+
     // add options =============================================================
+
     optionsArr.forEach((option, index: number) => {
       const optionButton = document.createElement('button');
       optionButton.textContent = `${index + 1} - ${option.name}`;
       optionButton.setAttribute('data', `key_${index + 1}`);
       optionButton.setAttribute('style', 'display: block; width: 100%; padding: 10px; border: none; background-color: transparent; text-align: left;');
-      optionButton.setAttribute('onmouseover', `this.style.backgroundColor = '${this.colorScheme.secondary.hoverBackground}'; this.style.cursor = 'pointer';`);
-      optionButton.setAttribute('onmouseout', `this.style.backgroundColor = '${this.colorScheme.secondary.background}'; this.style.cursor = 'default';`);
+      optionButton.setAttribute('onmouseover', `this.style.backgroundColor = '${this.colorScheme.primary.background}'; this.style.color = '${this.colorScheme.primary.text}'; this.style.cursor = 'pointer';`);
+      optionButton.setAttribute('onmouseout', `this.style.backgroundColor = '${this.colorScheme.secondary.background}'; this.style.color = '${this.colorScheme.secondary.text}'; this.style.cursor = 'default';`);
       optionButton.addEventListener('click', () => {
         optionsContainer.style.display = 'none';
         document.removeEventListener('keydown', this.detectNumbersPress);

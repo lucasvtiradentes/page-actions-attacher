@@ -32,7 +32,7 @@
   const libInfo = {
       name: 'FORM_FILLER_ASSISTANT',
       version: '1.6.0',
-      buildTime: '14/10/2023 22:16:10',
+      buildTime: '14/10/2023 - 23:02:45',
       link: 'https://github.com/lucasvtiradentes/form_filler_assistant',
       temperMonkeyLink: 'https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo',
       initialScript: 'https://github.com/lucasvtiradentes/form_filler_assistant/dist/initial_temper_monkey_script.js'
@@ -57,8 +57,8 @@
           this.runConfigs = { ...CONFIGS.runConfigs, ...(configs?.runConfigs ? configs?.runConfigs : {}) };
       }
       // JS UTILS ==================================================================
-      async delay(milliseconds, shouldShowLog) {
-          if (shouldShowLog) {
+      async delay(milliseconds, ignoreLog) {
+          if (!ignoreLog) {
               this.logger(`waiting: ${milliseconds}`);
           }
           return new Promise((resolve) => setTimeout(resolve, milliseconds));
@@ -68,38 +68,6 @@
       }
       setStorageItem(key, value) {
           sessionStorage.setItem(key, value);
-      }
-      // TYPE FUNCTIONS ============================================================
-      async typeOnInputByElement(inputElement, text) {
-          if (!inputElement) {
-              this.logger(`not found element to type : ${text}`, 'error');
-              return;
-          }
-          this.logger(`typing: ${text}`);
-          for (const char of text) {
-              const inputEvent = new Event('input', { bubbles: true });
-              const inputPropertyDescriptor = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value');
-              if (inputPropertyDescriptor) {
-                  const inputSetValue = inputPropertyDescriptor.set;
-                  inputSetValue && inputSetValue.call(inputElement, inputElement.value + char);
-                  inputElement.dispatchEvent(inputEvent);
-                  const keyboardEvent = new KeyboardEvent('keydown', {
-                      key: char,
-                      code: `Key${char.toUpperCase()}`,
-                      bubbles: true,
-                      cancelable: true
-                  });
-                  await this.delay(this.runConfigs.typeDelay);
-                  inputElement.dispatchEvent(keyboardEvent);
-              }
-          }
-      }
-      async typeOnInputBySelector(selector, text) {
-          const inputElement = document.querySelector(selector);
-          if (!inputElement) {
-              return;
-          }
-          await this.typeOnInputByElement(inputElement, text);
       }
       // GET ELEMENT FUNCTIONS =====================================================
       getElementByTagText(tag, textToFind, itemIndex) {
@@ -125,36 +93,85 @@
       getElementBySelector(selector) {
           const inputElement = document.querySelector(selector);
           if (!inputElement) {
-              this.logger(`not found element by selector: ${selector}`, 'error');
+              this.logger(`not found element by selector: [${selector}]`, 'error');
           }
           return inputElement;
       }
-      // CLICK FUNCTIONS ===========================================================
-      clickBySelector(selector) {
-          const inputElement = this.getElementBySelector(selector);
+      // TYPE FUNCTIONS ============================================================
+      async typeOnInput(inputElement, text) {
+          this.logger(`typing: ${text}`);
+          for (const char of text) {
+              const inputEvent = new Event('input', { bubbles: true });
+              const inputPropertyDescriptor = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value');
+              if (inputPropertyDescriptor) {
+                  const inputSetValue = inputPropertyDescriptor.set;
+                  inputSetValue && inputSetValue.call(inputElement, inputElement.value + char);
+                  inputElement.dispatchEvent(inputEvent);
+                  const keyboardEvent = new KeyboardEvent('keydown', {
+                      key: char,
+                      code: `Key${char.toUpperCase()}`,
+                      bubbles: true,
+                      cancelable: true
+                  });
+                  await this.delay(this.runConfigs.typeDelay, true);
+                  inputElement.dispatchEvent(keyboardEvent);
+              }
+          }
+      }
+      async typeOnInputByElement(inputElement, text) {
+          if (!inputElement) {
+              this.logger(`not found element to type : ${text}`, 'error');
+              return;
+          }
+          this.logger(`type on element [${inputElement}]`);
+          await this.typeOnInput(inputElement, text);
+      }
+      async typeOnInputBySelector(selector, text) {
+          const inputElement = document.querySelector(selector);
           if (!inputElement) {
               return;
           }
-          this.clickElement(inputElement);
+          this.logger(`type on element by selector [${selector}]`);
+          await this.typeOnInput(inputElement, text);
       }
-      clickElement(htmlElement) {
+      // CLICK FUNCTIONS ===========================================================
+      click(htmlElement) {
           if (!htmlElement) {
               return;
           }
           htmlElement.click();
       }
+      clickElement(htmlElement) {
+          if (!htmlElement) {
+              return;
+          }
+          this.logger(`clicked element: [${htmlElement}]`);
+          this.click(htmlElement);
+      }
+      clickBySelector(selector) {
+          const inputElement = this.getElementBySelector(selector);
+          if (!inputElement) {
+              return;
+          }
+          this.logger(`clicked element by selector: [${selector}]`);
+          this.click(inputElement);
+      }
       clickTagByText(tag, textToFind, itemIndex) {
-          const elTag = this.getElementByTagText(tag, textToFind, itemIndex);
+          const finalIndex = 0 ;
+          const elTag = this.getElementByTagText(tag, textToFind, finalIndex);
           if (!elTag) {
               return;
           }
+          this.logger(`clicked element by tag text: [${tag} | ${textToFind} | ${finalIndex}]`);
           elTag.click();
       }
       clickTagByAttributeValue(tag, attribute, valueAttribute, itemIndex) {
-          const elTag = this.getElementByAttributeValue(tag, attribute, valueAttribute, itemIndex);
+          const finalIndex = 0 ;
+          const elTag = this.getElementByAttributeValue(tag, attribute, valueAttribute, finalIndex);
           if (!elTag) {
               return;
           }
+          this.logger(`clicked element by attribute value: [${tag} | ${attribute} | ${valueAttribute} | ${finalIndex}]`);
           elTag.click();
       }
       // HTML UTILS ================================================================
@@ -163,9 +180,9 @@
           return `
       <div style="display: grid; grid-template-columns: 1fr 2fr;">
         <div style="flex: 1; padding: 3px 10px; font-weight: 600;">${name}</div>
-        <div style="flex: 1; padding: 3px 10px; background-color: ${this.colorScheme.secondary.background}; cursor: pointer;"
-          onmouseover="this.style.backgroundColor = '${this.colorScheme.secondary.hoverBackground}'; this.style.cursor = 'pointer';"
-          onmouseout="this.style.backgroundColor = '${this.colorScheme.secondary.background}'; this.style.cursor = 'default';"
+        <div style="flex: 1; padding: 3px 10px; background-color: ${this.colorScheme.secondary.background}; this.style.color = '${this.colorScheme.secondary.text}'; cursor: pointer;"
+          onmouseover="this.style.backgroundColor = '${this.colorScheme.primary.background}'; this.style.color = '${this.colorScheme.primary.text}'; this.style.cursor = 'pointer';"
+          onmouseout="this.style.backgroundColor = '${this.colorScheme.secondary.background}'; this.style.color = '${this.colorScheme.secondary.text}'; this.style.cursor = 'default';"
           onclick="${onClickAction}"
         >${value}</div>
       </div>`;
@@ -187,7 +204,7 @@
           const updateModalContent = (htmlContent, buttonsArr) => {
               const divContent = document.createElement('div');
               divContent.innerHTML = htmlContent;
-              modalContent.innerHTML = divContent.outerHTML;
+              modalContent.innerHTML = modalTitle.outerHTML + divContent.outerHTML;
               if (buttonsArr && buttonsArr.length > 0) {
                   buttonsArr.forEach((item) => {
                       const confirmButton = document.createElement('button');
@@ -400,35 +417,45 @@
           optionsContainer.setAttribute('class', CONFIGS.classes.optionsContainer);
           // add header to options menu ==============================================
           const headerDiv = document.createElement('div');
-          headerDiv.setAttribute('style', `width: 100%; display: grid; grid-template-columns: 1fr 1fr; padding: 3px 5px;`);
+          headerDiv.setAttribute('style', `width: 100%; display: grid; grid-template-columns: 1fr 1fr; padding: 3px`);
           const versionDiv = document.createElement('div');
           versionDiv.textContent = `V${CONFIGS.libInfo.version}`;
-          versionDiv.setAttribute('style', `display: flex; align-items: center; justify-content: center;`);
+          versionDiv.setAttribute('style', `display: flex; align-items: center; justify-content: center; font-size: 14px; color: ${this.colorScheme.primary.background}`);
           headerDiv.appendChild(versionDiv);
           const actionsDiv = document.createElement('div');
           actionsDiv.setAttribute('style', `display: flex; align-items: center; justify-content: center; gap: 10px;`);
           const githubIcon = document.createElement('img');
           githubIcon.src = 'https://www.svgrepo.com/show/512317/github-142.svg';
           githubIcon.setAttribute('style', `width: 18px; height: 18px; cursor: pointer;`);
-          githubIcon.addEventListener('click', () => window.open(CONFIGS.libInfo.link, '_blank'));
+          githubIcon.addEventListener('click', () => {
+              optionsContainer.style.display = 'none';
+              window.open(CONFIGS.libInfo.link, '_blank');
+          });
           actionsDiv.appendChild(githubIcon);
           if (checkForUpdatesAction) {
               const updateIcon = document.createElement('img');
               updateIcon.src = 'https://www.svgrepo.com/show/460136/update-alt.svg';
               updateIcon.setAttribute('style', `width: 20px; height: 20px; cursor: pointer;`);
-              updateIcon.addEventListener('click', checkForUpdatesAction);
+              updateIcon.addEventListener('click', () => {
+                  optionsContainer.style.display = 'none';
+                  checkForUpdatesAction();
+              });
               actionsDiv.appendChild(updateIcon);
           }
           headerDiv.appendChild(actionsDiv);
           optionsContainer.appendChild(headerDiv);
+          // divider div =============================================================
+          const dividerDiv = document.createElement('div');
+          dividerDiv.setAttribute('style', `border-top: 1px solid #ccc; margin-top: 5px; margin-bottom: 5px;`);
+          optionsContainer.appendChild(dividerDiv);
           // add options =============================================================
           optionsArr.forEach((option, index) => {
               const optionButton = document.createElement('button');
               optionButton.textContent = `${index + 1} - ${option.name}`;
               optionButton.setAttribute('data', `key_${index + 1}`);
               optionButton.setAttribute('style', 'display: block; width: 100%; padding: 10px; border: none; background-color: transparent; text-align: left;');
-              optionButton.setAttribute('onmouseover', `this.style.backgroundColor = '${this.colorScheme.secondary.hoverBackground}'; this.style.cursor = 'pointer';`);
-              optionButton.setAttribute('onmouseout', `this.style.backgroundColor = '${this.colorScheme.secondary.background}'; this.style.cursor = 'default';`);
+              optionButton.setAttribute('onmouseover', `this.style.backgroundColor = '${this.colorScheme.primary.background}'; this.style.color = '${this.colorScheme.primary.text}'; this.style.cursor = 'pointer';`);
+              optionButton.setAttribute('onmouseout', `this.style.backgroundColor = '${this.colorScheme.secondary.background}'; this.style.color = '${this.colorScheme.secondary.text}'; this.style.cursor = 'default';`);
               optionButton.addEventListener('click', () => {
                   optionsContainer.style.display = 'none';
                   document.removeEventListener('keydown', this.detectNumbersPress);

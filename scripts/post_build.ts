@@ -14,9 +14,8 @@ function updateFormFillerAssistantVersion(filePath: string, newVersion: string):
 // prettier-ignore
 const filesToUpdate = [
   './examples/1_basic.js',
-  './examples/2_basic_with_custom_configs.js',
-  './examples/3_normal_with_modal.js',
-  './examples/4_advanced.js'
+  './examples/2_with_custom_configs.js',
+  './examples/3_with_modal.js',
 ];
 
 filesToUpdate.forEach((item) => updateFormFillerAssistantVersion(item, packageJson.version));
