@@ -1,5 +1,12 @@
 # CHANGELOG HISTORY
 
+## [1.8.1](https://github.com/lucasvtiradentes/form_filler_assistant/compare/v1.8.0...v1.8.1) (2023-10-15)
+
+
+### 📝 docs:
+
+* add advanced working example ([6907908](https://github.com/lucasvtiradentes/form_filler_assistant/commit/6907908cfad0be66cf27d305c59fcb61abdd6399))
+
 ## [1.8.0](https://github.com/lucasvtiradentes/form_filler_assistant/compare/v1.7.1...v1.8.0) (2023-10-15)
 
 
