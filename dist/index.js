@@ -32,7 +32,7 @@
   const libInfo = {
       name: 'FORM_FILLER_ASSISTANT',
       version: '1.7.0',
-      buildTime: '15/10/2023 09:55:25',
+      buildTime: '15/10/2023 - 10:34:16',
       link: 'https://github.com/lucasvtiradentes/form_filler_assistant',
       temperMonkeyLink: 'https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo',
       initialScript: 'https://github.com/lucasvtiradentes/form_filler_assistant/dist/initial_temper_monkey_script.js'
@@ -74,33 +74,33 @@
           }
           return elTag;
       }
-      getElementByAttributeValue(tag, attribute, valueAttribute, itemIndex) {
+      getElementByAttributeValue(tag, attribute, attributeValue, itemIndex) {
           const finalIndex = 0 ;
           const allElements = Array.from(document.querySelectorAll(tag));
-          const tagItems = allElements.filter((itemEl) => itemEl.getAttribute(attribute) === valueAttribute);
+          const tagItems = allElements.filter((itemEl) => itemEl.getAttribute(attribute) === attributeValue);
           const elTag = tagItems.length === 0 ? null : tagItems[finalIndex];
           if (!elTag) {
-              this.logger(`not found element: [${tag} | ${attribute} | ${valueAttribute} | ${finalIndex}]`, 'error');
+              this.logger(`not found element: [${tag} | ${attribute} | ${attributeValue} | ${finalIndex}]`, 'error');
           }
           return elTag;
       }
       getElementBySelector(selector) {
-          const inputElement = document.querySelector(selector);
-          if (!inputElement) {
+          const htmlElement = document.querySelector(selector);
+          if (!htmlElement) {
               this.logger(`not found element by selector: [${selector}]`, 'error');
           }
-          return inputElement;
+          return htmlElement;
       }
       // TYPE FUNCTIONS ============================================================
-      async typeOnInput(inputElement, text) {
+      async typeOnInput(htmlElement, text) {
           this.logger(`typing: ${text}`);
           for (const char of text) {
               const inputEvent = new Event('input', { bubbles: true });
               const inputPropertyDescriptor = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value');
               if (inputPropertyDescriptor) {
                   const inputSetValue = inputPropertyDescriptor.set;
-                  inputSetValue && inputSetValue.call(inputElement, inputElement.value + char);
-                  inputElement.dispatchEvent(inputEvent);
+                  inputSetValue && inputSetValue.call(htmlElement, htmlElement.value + char);
+                  htmlElement.dispatchEvent(inputEvent);
                   const keyboardEvent = new KeyboardEvent('keydown', {
                       key: char,
                       code: `Key${char.toUpperCase()}`,
@@ -108,25 +108,25 @@
                       cancelable: true
                   });
                   await this.delay(this.runConfigs.typeDelay, true);
-                  inputElement.dispatchEvent(keyboardEvent);
+                  htmlElement.dispatchEvent(keyboardEvent);
               }
           }
       }
-      async typeOnInputByElement(inputElement, text) {
-          if (!inputElement) {
+      async typeOnInputByElement(htmlElement, text) {
+          if (!htmlElement) {
               this.logger(`not found element to type : ${text}`, 'error');
               return;
           }
-          this.logger(`type on element [${inputElement}]`);
-          await this.typeOnInput(inputElement, text);
+          this.logger(`type on element [${htmlElement}]`);
+          await this.typeOnInput(htmlElement, text);
       }
       async typeOnInputBySelector(selector, text) {
-          const inputElement = document.querySelector(selector);
-          if (!inputElement) {
+          const htmlElement = document.querySelector(selector);
+          if (!htmlElement) {
               return;
           }
           this.logger(`type on element by selector [${selector}]`);
-          await this.typeOnInput(inputElement, text);
+          await this.typeOnInput(htmlElement, text);
       }
       // CLICK FUNCTIONS ===========================================================
       click(htmlElement) {
@@ -143,12 +143,12 @@
           this.click(htmlElement);
       }
       clickElementBySelector(selector) {
-          const inputElement = this.getElementBySelector(selector);
-          if (!inputElement) {
+          const htmlElement = this.getElementBySelector(selector);
+          if (!htmlElement) {
               return;
           }
           this.logger(`clicked element by selector: [${selector}]`);
-          this.click(inputElement);
+          this.click(htmlElement);
       }
       clickElementByTagText(tag, textToFind, itemIndex) {
           const finalIndex = 0 ;
@@ -159,13 +159,13 @@
           this.logger(`clicked element by tag text: [${tag} | ${textToFind} | ${finalIndex}]`);
           elTag.click();
       }
-      clickElementByTagAttributeValue(tag, attribute, valueAttribute, itemIndex) {
+      clickElementByTagAttributeValue(tag, attribute, attributeValue, itemIndex) {
           const finalIndex = 0 ;
-          const elTag = this.getElementByAttributeValue(tag, attribute, valueAttribute, finalIndex);
+          const elTag = this.getElementByAttributeValue(tag, attribute, attributeValue, finalIndex);
           if (!elTag) {
               return;
           }
-          this.logger(`clicked element by attribute value: [${tag} | ${attribute} | ${valueAttribute} | ${finalIndex}]`);
+          this.logger(`clicked element by attribute value: [${tag} | ${attribute} | ${attributeValue} | ${finalIndex}]`);
           elTag.click();
       }
       // HTML UTILS ================================================================

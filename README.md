@@ -73,18 +73,27 @@ Easily fill forms on websites with an easy to use temper monkey userscript.
   </table>
 </div>
 
+Instead of manually filling out a four-step React form to view your current working page, why not simplify the process by clicking a button that completes it for you? 🤖
+
 ## :question: Motivation
 
-My main motivation to built this was to don't spend too much time on filling forms in my react applications on the **development phase**.
+My main motivation for building this tool was to save time when filling out forms in my React applications during the development phase.
+
+* It's important to note that this tool does not aim (or would be able) to replace end-to-end testing tools. Instead, it serves as a more efficient and faster option specifically for development phase.
+* I have explored other solutions such as [Cypress](https://www.cypress.io) and [Selenium](https://chrome.google.com/webstore/detail/selenium-ide/mooikfkahbdckldjjndioackbalphokd), but they didn't meet my needs for:
+  * Keyboard shortcuts;
+  * Synchronization between multiple developers;
+  * Randomly generated data, particularly unique Brazilian person and company numbers like CPF and CNPJ;
+  * Allow me to fill the form while inside my vscode debugger chrome instance.
 
 ## :dart: Features<a href="#TOC"><img align="right" src="./.github/images/up_arrow.png" width="22"></a>
 
 &nbsp;&nbsp;&nbsp;✔️ atach a floating buttom with custom actions (`ctrl+space` or `alt+space` to toogle it);<br>
 &nbsp;&nbsp;&nbsp;✔️ out of the box methods to fill website forms (type, click, etc);<br>
 &nbsp;&nbsp;&nbsp;✔️ dynamic keybinding to all available options (`1-9`) when the options container is displayed;<br>
-&nbsp;&nbsp;&nbsp;✔️ auto-updatable initial temper monkeys userscript;<br>
+&nbsp;&nbsp;&nbsp;✔️ auto-updatable temper monkeys [userscript](./examples/3_with_header_buttons.js);<br>
 &nbsp;&nbsp;&nbsp;✔️ allow custom configs (color scheme, debug_mode, etc);<br>
-&nbsp;&nbsp;&nbsp;✔️ examples provided on folder [./examples](./examples).<br>
+&nbsp;&nbsp;&nbsp;✔️ ready to use examples provided on [./examples](./examples).<br>
 
 ## :warning: Requirements<a href="#TOC"><img align="right" src="./.github/images/up_arrow.png" width="22"></a>
 
@@ -114,6 +123,11 @@ This project will
 - if you want to update it, simply click on the header icon, as shown in the example [3_with_header_buttons.js](./examples/3_with_header_buttons.js).
 
 ### Available methods
+
+<details>
+  <summary align="center">Show all available methods</summary>
+  <div>
+<br>
 
 This package comes with the following commands list:
 
@@ -190,8 +204,8 @@ This package comes with the following commands list:
   </tr>
   <tr>
     <!-- <td rowspan="1"><code>browserUtils()</code></td> -->
-    <td>.typeOnInputByElement(inputElement, text)</td>
-    <td>Simulates typing the specified text into the given inputElement. This function interacts with the HTML input element and populates it with the provided text.</td>
+    <td>.typeOnInputByElement(htmlElement, text)</td>
+    <td>Simulates typing the specified text into the given htmlElement. This function interacts with the HTML input element and populates it with the provided text.</td>
   </tr>
   <tr>
     <!-- <td rowspan="1"><code>browserUtils()</code></td> -->
@@ -215,8 +229,8 @@ This package comes with the following commands list:
   </tr>
   <tr>
     <!-- <td rowspan="1"><code>browserUtils()</code></td> -->
-    <td><code>.clickElementByTagAttributeValue(tag, attribute, valueAttribute, itemIndex?)</code></td>
-    <td>Simulates a click on the HTML element with the specified tag that has the attribute matching the given valueAttribute. If itemIndex is provided, it clicks on the element at the specified index when multiple elements are found. This function simulates a user interaction as if the element were physically clicked.</td>
+    <td><code>.clickElementByTagAttributeValue(tag, attribute, attributeValue, itemIndex?)</code></td>
+    <td>Simulates a click on the HTML element with the specified tag that has the attribute matching the given attributeValue. If itemIndex is provided, it clicks on the element at the specified index when multiple elements are found. This function simulates a user interaction as if the element were physically clicked.</td>
   </tr>
   <tr>
     <!-- <td rowspan="1"><code>browserUtils()</code></td> -->
@@ -229,13 +243,16 @@ This package comes with the following commands list:
     <td>Utility function for easily handling modals on the options. The function returns two functions, one to update the modal's content and another to close the modal.</td>
   </tr>
 </table>
+  </div>
+</details>
+
 
 ## :wrench: Development<a href="#TOC"><img align="right" src="./.github/images/up_arrow.png" width="22"></a>
 
 ### Development setup
 
 <details>
-  <summary align="center">Instructions for development setup</summary>
+  <summary align="center">Show instructions for development setup</summary>
   <div>
 <br>
 To setup this project in your computer, run the following commands:
@@ -312,7 +329,8 @@ This project uses the following thechnologies:
 ## Related
 
 - [cypress](https://www.cypress.io): With Cypress, you can easily create tests for your modern web applications, debug them visually, and automatically run them in your continuous integration builds;
-- [robotframework](https://robotframework.org): Robot Framework is a generic open source automation framework. It can be used for test automation and robotic process automation (RPA).;
+- [robotframework](https://robotframework.org): Robot Framework is a generic open source automation framework. It can be used for test automation and robotic process automation (RPA);
+- [selenium IDS](https://chrome.google.com/webstore/detail/selenium-ide/mooikfkahbdckldjjndioackbalphokd): Selenium Record and Playback tool for ease of getting acquainted with Selenium WebDriver.
 
 ## License
 

@@ -1,7 +1,7 @@
 {
   "name": "form_filler_assistant",
   "version": "1.7.0",
-  "description": "🤖 a temper monkey userscript to help frontend developers to fill the forms in development phase.",
+  "description": "🤖 a tampermonkey userscript designed to assist frontend developers in filling forms during the development phase.",
   "license": "MIT",
   "author": {
     "name": "Lucas Vieira",

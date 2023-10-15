@@ -33,36 +33,36 @@ export default class DomUtils {
     return elTag;
   }
 
-  getElementByAttributeValue(tag: string, attribute: string, valueAttribute: string, itemIndex?: number) {
+  getElementByAttributeValue(tag: string, attribute: string, attributeValue: string, itemIndex?: number) {
     const finalIndex = 0 ?? itemIndex;
     const allElements = Array.from(document.querySelectorAll(tag)) as HTMLElement[];
-    const tagItems = allElements.filter((itemEl) => itemEl.getAttribute(attribute) === valueAttribute);
+    const tagItems = allElements.filter((itemEl) => itemEl.getAttribute(attribute) === attributeValue);
     const elTag = tagItems.length === 0 ? null : tagItems[finalIndex];
     if (!elTag) {
-      this.logger(`not found element: [${tag} | ${attribute} | ${valueAttribute} | ${finalIndex}]`, 'error');
+      this.logger(`not found element: [${tag} | ${attribute} | ${attributeValue} | ${finalIndex}]`, 'error');
     }
     return elTag;
   }
 
   getElementBySelector(selector: string) {
-    const inputElement = document.querySelector(selector) as HTMLElement;
-    if (!inputElement) {
+    const htmlElement = document.querySelector(selector) as HTMLElement;
+    if (!htmlElement) {
       this.logger(`not found element by selector: [${selector}]`, 'error');
     }
-    return inputElement;
+    return htmlElement;
   }
 
   // TYPE FUNCTIONS ============================================================
 
-  private async typeOnInput(inputElement: Element, text: string) {
+  private async typeOnInput(htmlElement: Element, text: string) {
     this.logger(`typing: ${text}`);
     for (const char of text) {
       const inputEvent = new Event('input', { bubbles: true });
       const inputPropertyDescriptor = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value');
       if (inputPropertyDescriptor) {
         const inputSetValue = inputPropertyDescriptor.set;
-        inputSetValue && inputSetValue.call(inputElement, (inputElement as HTMLInputElement).value + char);
-        inputElement.dispatchEvent(inputEvent);
+        inputSetValue && inputSetValue.call(htmlElement, (htmlElement as HTMLInputElement).value + char);
+        htmlElement.dispatchEvent(inputEvent);
 
         const keyboardEvent = new KeyboardEvent('keydown', {
           key: char,
@@ -73,29 +73,29 @@ export default class DomUtils {
 
         await this.delay(this.runConfigs.typeDelay, true);
 
-        inputElement.dispatchEvent(keyboardEvent);
+        htmlElement.dispatchEvent(keyboardEvent);
       }
     }
   }
 
-  async typeOnInputByElement(inputElement: Element, text: string) {
-    if (!inputElement) {
+  async typeOnInputByElement(htmlElement: Element, text: string) {
+    if (!htmlElement) {
       this.logger(`not found element to type : ${text}`, 'error');
       return;
     }
 
-    this.logger(`type on element [${inputElement}]`);
-    await this.typeOnInput(inputElement, text);
+    this.logger(`type on element [${htmlElement}]`);
+    await this.typeOnInput(htmlElement, text);
   }
 
   async typeOnInputBySelector(selector: string, text: string) {
-    const inputElement = document.querySelector(selector);
-    if (!inputElement) {
+    const htmlElement = document.querySelector(selector);
+    if (!htmlElement) {
       return;
     }
 
     this.logger(`type on element by selector [${selector}]`);
-    await this.typeOnInput(inputElement, text);
+    await this.typeOnInput(htmlElement, text);
   }
 
   // CLICK FUNCTIONS ===========================================================
@@ -118,13 +118,13 @@ export default class DomUtils {
   }
 
   clickElementBySelector(selector: string) {
-    const inputElement = this.getElementBySelector(selector);
-    if (!inputElement) {
+    const htmlElement = this.getElementBySelector(selector);
+    if (!htmlElement) {
       return;
     }
 
     this.logger(`clicked element by selector: [${selector}]`);
-    this.click(inputElement);
+    this.click(htmlElement);
   }
 
   clickElementByTagText(tag: string, textToFind: string, itemIndex?: number) {
@@ -138,14 +138,14 @@ export default class DomUtils {
     elTag.click();
   }
 
-  clickElementByTagAttributeValue(tag: string, attribute: string, valueAttribute: string, itemIndex?: number) {
+  clickElementByTagAttributeValue(tag: string, attribute: string, attributeValue: string, itemIndex?: number) {
     const finalIndex = 0 ?? itemIndex;
-    const elTag = this.getElementByAttributeValue(tag, attribute, valueAttribute, finalIndex);
+    const elTag = this.getElementByAttributeValue(tag, attribute, attributeValue, finalIndex);
     if (!elTag) {
       return;
     }
 
-    this.logger(`clicked element by attribute value: [${tag} | ${attribute} | ${valueAttribute} | ${finalIndex}]`);
+    this.logger(`clicked element by attribute value: [${tag} | ${attribute} | ${attributeValue} | ${finalIndex}]`);
     elTag.click();
   }
 
