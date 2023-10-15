@@ -1,5 +1,12 @@
 # CHANGELOG HISTORY
 
+## [1.8.0](https://github.com/lucasvtiradentes/form_filler_assistant/compare/v1.7.1...v1.8.0) (2023-10-15)
+
+
+### ✨ feature:
+
+* add toast method ([1aae246](https://github.com/lucasvtiradentes/form_filler_assistant/commit/1aae246b830d1d61149982af5232e257b33c29d1))
+
 ## [1.7.1](https://github.com/lucasvtiradentes/form_filler_assistant/compare/v1.7.0...v1.7.1) (2023-10-15)
 
 
