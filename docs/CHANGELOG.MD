@@ -1,5 +1,23 @@
 # CHANGELOG HISTORY
 
+## [1.7.0](https://github.com/lucasvtiradentes/form_filler_assistant/compare/v1.6.2...v1.7.0) (2023-10-15)
+
+
+### ✨ feature:
+
+* improve random data modal usability ([3aaf010](https://github.com/lucasvtiradentes/form_filler_assistant/commit/3aaf0108991bfc870d27af7947abb6e067ccee9e))
+
+
+### 📝 docs:
+
+* add available methods to read me ([44a27e7](https://github.com/lucasvtiradentes/form_filler_assistant/commit/44a27e7f6daddb0127b2074eedacc0b1a4713e91))
+* update examples instructions ([9ce4613](https://github.com/lucasvtiradentes/form_filler_assistant/commit/9ce46136983353693e07d65a0afd2ae73b111563))
+
+
+### 🐛 bugfix:
+
+* minified version modal close function error ([daa8bbe](https://github.com/lucasvtiradentes/form_filler_assistant/commit/daa8bbe7cd2b17a70533ce11da991053a0c52e8f))
+
 ## [1.6.2](https://github.com/lucasvtiradentes/form_filler_assistant/compare/v1.6.1...v1.6.2) (2023-10-15)
 
 ## [1.6.1](https://github.com/lucasvtiradentes/form_filler_assistant/compare/v1.6.0...v1.6.1) (2023-10-15)
