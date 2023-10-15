@@ -32,7 +32,7 @@
   const libInfo = {
       name: 'FORM_FILLER_ASSISTANT',
       version: '1.7.1',
-      buildTime: '15/10/2023 10:35:31',
+      buildTime: '15/10/2023 - 19:42:52',
       link: 'https://github.com/lucasvtiradentes/form_filler_assistant',
       temperMonkeyLink: 'https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo',
       initialScript: 'https://github.com/lucasvtiradentes/form_filler_assistant/dist/initial_temper_monkey_script.js'
@@ -248,6 +248,45 @@
               updateModalContent,
               closeModal
           };
+      }
+      showToast(message, milliseconds) {
+          const initialCounter = milliseconds ?? 5;
+          let counter = initialCounter;
+          const showCountdown = (msg) => {
+              const toastId = '_ffa_toast';
+              const toastDiv = document.createElement('div');
+              toastDiv.id = toastId;
+              toastDiv.setAttribute('style', `position: fixed; padding: 10px; top: 20px; right: 20px; background-color: ${this.colorScheme.secondary.background}; color: ${this.colorScheme.secondary.text}; z-index: 1002; border-radius: 10px; box-shadow: 0 0 10px ${this.colorScheme.primary.background}; font-size: 16px;`);
+              const message = document.createElement('span');
+              message.innerHTML = msg.replace(/\n/g, '<br>');
+              message.setAttribute('style', 'display: flex; justify-content: center; align-items: center; height: 100%;');
+              toastDiv.appendChild(message);
+              const progressBar = document.createElement('div');
+              progressBar.setAttribute('style', `width: 100%; background-color: ${this.colorScheme.secondary.background}; height: 5px; margin-top: 5px; border-radius: 3px; transition: width 1s linear;`);
+              toastDiv.appendChild(progressBar);
+              const progress = document.createElement('div');
+              progress.setAttribute('style', `width: 100%; background-color: ${this.colorScheme.primary.background}; height: 100%; border-radius: 3px;`);
+              progressBar.appendChild(progress);
+              document.body.appendChild(toastDiv);
+              // Calculate width of message content
+              const messageWidth = message.getBoundingClientRect().width;
+              // Set width of toastDiv based on the content but with a minimum and maximum width
+              toastDiv.style.width = `${Math.min(Math.max(messageWidth, 200), 500)}px`;
+              const timer = setInterval(() => {
+                  counter--;
+                  const progressEl = progress;
+                  const progressWidth = (counter / initialCounter) * 100;
+                  progressEl.style.width = `${progressWidth}%`;
+                  if (counter < 0) {
+                      clearInterval(timer);
+                      const toastEl = document.getElementById(toastId);
+                      if (toastEl) {
+                          toastEl.remove();
+                      }
+                  }
+              }, 1000);
+          };
+          showCountdown(message);
       }
       // PRIVATE METHODS ===========================================================
       logger(message, type = 'info') {
@@ -572,6 +611,8 @@
       console.log(`version     : ${CONFIGS.libInfo.version}`);
       console.log(`build_time  : ${CONFIGS.libInfo.buildTime}`);
       console.log(`package link: ${CONFIGS.libInfo.link}`);
+      console.log('\n# CURRENT PAGE INPUT NAMES ======================================');
+      Array.from(document.querySelectorAll('input')).forEach((el) => console.log(el.getAttribute('name')));
   };
 
   class FormFillerAssistant {

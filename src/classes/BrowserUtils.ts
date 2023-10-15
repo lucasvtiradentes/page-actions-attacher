@@ -246,6 +246,60 @@ export default class DomUtils {
     };
   }
 
+  showToast(message: string, milliseconds?: number) {
+    const initialCounter = milliseconds ?? 5;
+    let counter = initialCounter;
+
+    const showCountdown = (msg: string) => {
+      const toastId = '_ffa_toast';
+      const toastDiv: HTMLDivElement = document.createElement('div');
+      toastDiv.id = toastId;
+      toastDiv.setAttribute(
+        'style',
+        `position: fixed; padding: 10px; top: 20px; right: 20px; background-color: ${this.colorScheme.secondary.background}; color: ${this.colorScheme.secondary.text}; z-index: 1002; border-radius: 10px; box-shadow: 0 0 10px ${this.colorScheme.primary.background}; font-size: 16px;`
+      );
+
+      const message: HTMLSpanElement = document.createElement('span');
+      message.innerHTML = msg.replace(/\n/g, '<br>');
+      message.setAttribute('style', 'display: flex; justify-content: center; align-items: center; height: 100%;');
+      toastDiv.appendChild(message);
+
+      const progressBar: HTMLDivElement = document.createElement('div');
+      progressBar.setAttribute('style', `width: 100%; background-color: ${this.colorScheme.secondary.background}; height: 5px; margin-top: 5px; border-radius: 3px; transition: width 1s linear;`);
+      toastDiv.appendChild(progressBar);
+
+      const progress: HTMLDivElement = document.createElement('div');
+      progress.setAttribute('style', `width: 100%; background-color: ${this.colorScheme.primary.background}; height: 100%; border-radius: 3px;`);
+      progressBar.appendChild(progress);
+
+      document.body.appendChild(toastDiv);
+
+      // Calculate width of message content
+      const messageWidth = message.getBoundingClientRect().width;
+
+      // Set width of toastDiv based on the content but with a minimum and maximum width
+      toastDiv.style.width = `${Math.min(Math.max(messageWidth, 200), 500)}px`;
+
+      const timer: NodeJS.Timeout = setInterval(() => {
+        counter--;
+
+        const progressEl = progress as HTMLElement;
+        const progressWidth = (counter / initialCounter) * 100;
+        progressEl.style.width = `${progressWidth}%`;
+
+        if (counter < 0) {
+          clearInterval(timer);
+          const toastEl = document.getElementById(toastId) as HTMLElement;
+          if (toastEl) {
+            toastEl.remove();
+          }
+        }
+      }, 1000);
+    };
+
+    showCountdown(message);
+  }
+
   // PRIVATE METHODS ===========================================================
 
   private logger(message: string, type: 'error' | 'info' = 'info') {

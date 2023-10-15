@@ -83,7 +83,7 @@ My main motivation for building this tool was to save time when filling out form
 * I have explored other solutions such as [Cypress](https://www.cypress.io) and [Selenium](https://chrome.google.com/webstore/detail/selenium-ide/mooikfkahbdckldjjndioackbalphokd), but they didn't meet my needs for:
   * Keyboard shortcuts;
   * Synchronization between multiple developers;
-  * Randomly generated data, particularly unique Brazilian person and company numbers like CPF and CNPJ;
+  * Randomly generated data, particularly unique Brazilian person and company numbers;
   * Allow me to fill the form while inside my vscode debugger chrome instance.
 
 ## :dart: Features<a href="#TOC"><img align="right" src="./.github/images/up_arrow.png" width="22"></a>
@@ -91,7 +91,7 @@ My main motivation for building this tool was to save time when filling out form
 &nbsp;&nbsp;&nbsp;✔️ atach a floating buttom with custom actions (`ctrl+space` or `alt+space` to toogle it);<br>
 &nbsp;&nbsp;&nbsp;✔️ out of the box methods to fill website forms (type, click, etc);<br>
 &nbsp;&nbsp;&nbsp;✔️ dynamic keybinding to all available options (`1-9`) when the options container is displayed;<br>
-&nbsp;&nbsp;&nbsp;✔️ auto-updatable temper monkeys [userscript](./examples/3_with_header_buttons.js);<br>
+&nbsp;&nbsp;&nbsp;✔️ auto-updatable working [userscript](./examples/3_with_header_buttons.js) example;<br>
 &nbsp;&nbsp;&nbsp;✔️ allow custom configs (color scheme, debug_mode, etc);<br>
 &nbsp;&nbsp;&nbsp;✔️ ready to use examples provided on [./examples](./examples).<br>
 
@@ -119,8 +119,7 @@ If you want to uninstall, just remove the temper monkey userscript on its dashbo
 This project will
 
 - atach a floating button with custom options to the specified website;
-- it will get the package content from [jsdelivr](https://cdn.jsdelivr.net/npm/form_filler_assistant) and save it to local storage so you dont have to fetch it all the time;
-- if you want to update it, simply click on the header icon, as shown in the example [3_with_header_buttons.js](./examples/3_with_header_buttons.js).
+- it will get the package content from [jsdelivr](https://cdn.jsdelivr.net/npm/form_filler_assistant) and save it to storage so you dont have to fetch it all the time;
 
 ### Available methods
 
@@ -183,7 +182,7 @@ This package comes with the following commands list:
     <td>Generate a randomly generated person username.</td>
   </tr>
   <tr>
-    <td rowspan="12"><code>browserUtils()</code></td>
+    <td rowspan="13"><code>browserUtils()</code></td>
     <td><code>.delay(milliseconds, ignoreLog?)</code></td>
     <td>Introduces a delay in the program execution for the specified number of milliseconds. If ignoreLog parameter is provided and set to true, the function will suppress any logging or output during the delay.</td>
   </tr>
@@ -241,6 +240,11 @@ This package comes with the following commands list:
     <!-- <td rowspan="1"><code>browserUtils()</code></td> -->
     <td><code>.getModal(title)</code></td>
     <td>Utility function for easily handling modals on the options. The function returns two functions, one to update the modal's content and another to close the modal.</td>
+  </tr>
+  <tr>
+    <!-- <td rowspan="1"><code>browserUtils()</code></td> -->
+    <td><code>.showToast(message, milliseconds?)</code></td>
+    <td>Utility function for easily creating toast messages</td>
   </tr>
 </table>
   </div>

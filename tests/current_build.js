@@ -42,6 +42,7 @@ async function main(FormFiller) {
     { name: 'show lib helper', action: () => formFiller.help() },
     { name: 'show advanced modal', action: toogleModal },
     { name: 'show simple modal', action: toogleSimpleModal },
+    { name: 'show simple toast', action: showToast },
     { name: 'show page input fields', action: () => Array.from(document.querySelectorAll('input')).forEach((el) => console.log(el.getAttribute('name'))) }
   ];
 
@@ -53,6 +54,10 @@ async function main(FormFiller) {
   formFiller.atach(options, headerOption);
 
   // ===========================================================================
+
+  function showToast() {
+    formFiller.browserUtils().showToast('Nova versão encontrada!\nPor favor reinicie a página!', 2);
+  }
 
   function toogleSimpleModal() {
     const { updateModalContent } = formFiller.browserUtils().getModal('Dados gerados');

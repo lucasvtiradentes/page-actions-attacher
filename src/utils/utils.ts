@@ -58,4 +58,7 @@ export const help = () => {
   console.log(`version     : ${CONFIGS.libInfo.version}`);
   console.log(`build_time  : ${CONFIGS.libInfo.buildTime}`);
   console.log(`package link: ${CONFIGS.libInfo.link}`);
+
+  console.log('\n# CURRENT PAGE INPUT NAMES ======================================');
+  Array.from(document.querySelectorAll('input')).forEach((el) => console.log(el.getAttribute('name')));
 };

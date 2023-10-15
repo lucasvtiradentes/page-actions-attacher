@@ -1,5 +1,4 @@
 {
-  "css.lint.unknownAtRules": "ignore",
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
@@ -12,10 +11,5 @@
   },
   "files.associations": {
     ".czrc": "json"
-  },
-  "tailwindCSS.classAttributes": [
-    ".*style.*",
-    ".*classes.*",
-    ".*className.*",
-  ],
+  }
 }
