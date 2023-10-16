@@ -12,11 +12,11 @@
     "url": "git+https://github.com/lucasvtiradentes/form_filler_assistant.git"
   },
   "keywords": [
-    "ticktick",
-    "ticktick-api",
-    "api-wrapper",
-    "api",
-    "typescript"
+    "e2e",
+    "frontend",
+    "typescript",
+    "form",
+    "automation"
   ],
   "main": "dist/index.js",
   "scripts": {

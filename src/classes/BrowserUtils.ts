@@ -1,7 +1,7 @@
 import { CONFIGS } from '../configs';
 import { TModalButton, TColorScheme, TRunConfigs } from '../types/types';
 
-export default class DomUtils {
+export default class BrowserUtils {
   private colorScheme: TColorScheme;
   private runConfigs: TRunConfigs;
 

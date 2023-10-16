@@ -32,7 +32,7 @@
   const libInfo = {
       name: 'FORM_FILLER_ASSISTANT',
       version: '1.9.0',
-      buildTime: '15/10/2023 21:36:27',
+      buildTime: '15/10/2023 22:38:23',
       link: 'https://github.com/lucasvtiradentes/form_filler_assistant',
       temperMonkeyLink: 'https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo',
       initialScript: 'https://github.com/lucasvtiradentes/form_filler_assistant/dist/initial_temper_monkey_script.js'
@@ -49,7 +49,7 @@
       runConfigs
   };
 
-  class DomUtils {
+  class BrowserUtils {
       colorScheme;
       runConfigs;
       constructor(configs) {
@@ -409,7 +409,7 @@
       generatePersonEmail() {
           const randomNum = Math.floor(Math.random() * 900) + 100;
           const email = this.name.replace(/\s/g, '.').toLowerCase();
-          const uniqueEmail = `${email}${randomNum}@example.com`;
+          const uniqueEmail = `${email}${randomNum}@gmail.com`;
           return uniqueEmail;
       }
       generatePersonUsername() {
@@ -625,7 +625,7 @@
       console.log('\nformFiller.dataUtils\n');
       console.table(getClassDetailedMethods(new DataUtils()));
       console.log('\nformFiller.browserUtils\n');
-      console.table(getClassDetailedMethods(new DomUtils()));
+      console.table(getClassDetailedMethods(new BrowserUtils()));
       console.log(`\n# PACKAGE INFO ==================================================\n\n`);
       console.log(`name        : ${CONFIGS.libInfo.name}`);
       console.log(`version     : ${CONFIGS.libInfo.version}`);
@@ -651,7 +651,7 @@
           new FormFiller({ colorScheme: this.colorScheme, runConfigs: this.runConfigs, buttonConfigs: this.buttonConfigs }).atach(options, headerOptions);
       }
       browserUtils() {
-          return new DomUtils({ colorScheme: this.colorScheme, runConfigs: this.runConfigs });
+          return new BrowserUtils({ colorScheme: this.colorScheme, runConfigs: this.runConfigs });
       }
       dataUtils() {
           return new DataUtils();

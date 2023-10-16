@@ -9,7 +9,7 @@
 // @match        https://frontend.itworks.beta.uds.com.br/*
 // @match        https://backoffice.pdv.dev.uds.com.br/*
 // @match        https://backoffice.pdv.alfa.uds.com.br/*
-// @icon         https://wchrome-extension://dhdgffkkebhmkfjojejmpbldmpobfkfo/options.html#nav=c84b1043-636c-416b-8b31-e843e818ee49+editorww.google.com/s2/favicons?sz=64&domain=github.com
+// @icon         https://www.google.com/s2/favicons?sz=64&domain=github.com
 // @grant        none
 // ==/UserScript==
 
@@ -51,24 +51,9 @@
   const udsOptions = udsFormFiller.getAvailableOptions();
   console.log(`loaded ${CONFIGS.udsOptionsName} [${udsOptionsContent.method}]`);
 
-  const udsColorScheme = {
-    'IT WORKS': {
-      primary: {
-        background: '#57810B',
-        text: '#fff'
-      }
-    },
-    PDV365: {
-      primary: {
-        background: '#12AB4B',
-        text: '#fff'
-      }
-    }
-  };
-
-  const finalColorScheme = udsColorScheme[udsFormFiller.currentProject] ?? {};
+  const projectInfo = udsFormFiller.getCurrentProjectInfo();
   const colorScheme = {
-    ...finalColorScheme
+    ...projectInfo.colorScheme
   };
 
   const runConfigs = {
@@ -130,11 +115,12 @@
   }
 
   // 4 - ADDING YOUR METHODS TO THE FLOATING BUTTON ============================
+
   const options = [{ name: 'show lib helper', action: formFiller.help }, ...udsOptions];
 
   const headerOption = [
-    { icon: 'https://www.svgrepo.com/show/460136/update-alt.svg', action: () => updateFormFillerAssistantContent(CONFIGS) },
-    { icon: 'https://www.svgrepo.com/show/403847/monkey-face.svg', action: () => updateLatestUdsOptions(CONFIGS) }
+    { icon: 'https://www.svgrepo.com/show/460136/update-alt.svg', description: 'update formFillerAssistant version', action: () => updateFormFillerAssistantContent(CONFIGS) },
+    { icon: 'https://uds.com.br/wp-content/uploads/2021/02/logo-uds.svg', description: 'update udsOptions version', action: () => updateLatestUdsOptions(CONFIGS) }
   ];
 
   formFiller.atach(options, headerOption);

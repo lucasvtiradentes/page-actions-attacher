@@ -1,5 +1,5 @@
 import { TModalButton, TColorScheme, TRunConfigs } from '../types/types';
-export default class DomUtils {
+export default class BrowserUtils {
     private colorScheme;
     private runConfigs;
     constructor(configs?: {

@@ -114,14 +114,12 @@ export default class DataUtils {
 
   generatePersonName(): string {
     const firstNames = ['Miguel', 'Sofia', 'Davi', 'Alice', 'Arthur', 'Julia', 'Pedro', 'Manuela', 'Gabriel', 'Laura', 'Bernardo', 'Luiza', 'Lucas', 'Valentina', 'Matheus', 'Giovanna', 'Rafael', 'Beatriz', 'Enzo', 'Maria Eduarda'];
-
     const lastNames = ['Silva', 'Santos', 'Oliveira', 'Pereira', 'Almeida', 'Fernandes', 'Ribeiro', 'Costa', 'Carvalho', 'Martins', 'Rodrigues', 'Nascimento', 'Lima', 'Araújo', 'Monteiro', 'Gomes', 'Barbosa', 'Cardoso', 'Correia', 'Dias'];
 
     const randomFirstName = firstNames[Math.floor(Math.random() * firstNames.length)];
     const randomLastName = lastNames[Math.floor(Math.random() * lastNames.length)];
 
     const uniqueName = `${randomFirstName} ${randomLastName}`;
-
     this.name = uniqueName;
 
     return uniqueName;
@@ -130,7 +128,7 @@ export default class DataUtils {
   generatePersonEmail(): string {
     const randomNum = Math.floor(Math.random() * 900) + 100;
     const email = this.name.replace(/\s/g, '.').toLowerCase();
-    const uniqueEmail = `${email}${randomNum}@example.com`;
+    const uniqueEmail = `${email}${randomNum}@gmail.com`;
     return uniqueEmail;
   }
 
