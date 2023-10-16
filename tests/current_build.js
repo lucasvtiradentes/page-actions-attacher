@@ -47,8 +47,8 @@ async function main(FormFiller) {
   ];
 
   const headerOption = [
-    { icon: 'https://www.svgrepo.com/show/460136/update-alt.svg', action: () => alert(1) },
-    { icon: 'https://www.svgrepo.com/show/403847/monkey-face.svg', action: () => window.open('chrome-extension://dhdgffkkebhmkfjojejmpbldmpobfkfo/options.html#nav=c84b1043-636c-416b-8b31-e843e818ee49+editor', '_blank') }
+    { icon: 'https://www.svgrepo.com/show/460136/update-alt.svg', description: 'update FormFillerAssistant', action: () => alert(1) },
+    { icon: 'https://www.svgrepo.com/show/403847/monkey-face.svg', description: 'go to temper monkey website', action: () => window.open('chrome-extension://dhdgffkkebhmkfjojejmpbldmpobfkfo/options.html#nav=c84b1043-636c-416b-8b31-e843e818ee49+editor', '_blank') }
   ];
 
   formFiller.atach(options, headerOption);

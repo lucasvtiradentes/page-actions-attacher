@@ -275,7 +275,7 @@ export default class DomUtils {
       document.body.appendChild(toastDiv);
 
       // set responsive width ==================================================
-      const messageWidth = message.getBoundingClientRect().width;
+      const messageWidth = message.getBoundingClientRect().width + 50;
       toastDiv.style.width = `${Math.min(messageWidth, 600)}px`;
 
       // add progress animation ================================================

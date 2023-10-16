@@ -5,7 +5,7 @@ import DataUtils from '../classes/DataUtils';
 function getClassMethods<T>(instance: T) {
   const prototype = Object.getPrototypeOf(instance);
   const methodNames = Object.getOwnPropertyNames(prototype);
-  const ignoredMethods = ['constructor', 'logger', 'click', 'typeOnInput'];
+  const ignoredMethods = ['constructor', 'logger', 'click', 'typeOnInput', 'addTooltipToElement'];
 
   const mappedValues = methodNames
     .map((methodName) => {

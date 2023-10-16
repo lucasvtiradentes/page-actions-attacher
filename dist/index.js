@@ -32,7 +32,7 @@
   const libInfo = {
       name: 'FORM_FILLER_ASSISTANT',
       version: '1.8.1',
-      buildTime: '15/10/2023 20:09:29',
+      buildTime: '15/10/2023 - 21:28:47',
       link: 'https://github.com/lucasvtiradentes/form_filler_assistant',
       temperMonkeyLink: 'https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo',
       initialScript: 'https://github.com/lucasvtiradentes/form_filler_assistant/dist/initial_temper_monkey_script.js'
@@ -269,7 +269,7 @@
               progressBar.appendChild(progress);
               document.body.appendChild(toastDiv);
               // set responsive width ==================================================
-              const messageWidth = message.getBoundingClientRect().width;
+              const messageWidth = message.getBoundingClientRect().width + 50;
               toastDiv.style.width = `${Math.min(messageWidth, 600)}px`;
               // add progress animation ================================================
               const timer = setInterval(() => {
@@ -480,16 +480,18 @@
               optionsContainer.style.display = 'none';
               window.open(CONFIGS.libInfo.link, '_blank');
           });
+          this.addTooltipToElement(githubIcon, 'visit the project github page');
           actionsDiv.appendChild(githubIcon);
           if (hasHeaderOptions) {
               headerOptions.forEach((item) => {
                   const updateIcon = document.createElement('img');
                   updateIcon.src = item.icon;
-                  updateIcon.setAttribute('style', `width: 20px; height: 20px; cursor: pointer; ${item.cssStyle ?? ''}`);
+                  updateIcon.setAttribute('style', `position: relative; width: 20px; height: 20px; cursor: pointer; ${item.cssStyle ?? ''}`);
                   updateIcon.addEventListener('click', () => {
                       optionsContainer.style.display = 'none';
                       item.action();
                   });
+                  this.addTooltipToElement(updateIcon, item.description);
                   actionsDiv.appendChild(updateIcon);
               });
           }
@@ -515,6 +517,24 @@
               optionsContainer.appendChild(optionButton);
           });
           return optionsContainer;
+      }
+      addTooltipToElement(element, description) {
+          element.setAttribute('title', description);
+          element.addEventListener('mouseenter', () => {
+              const tooltip = document.createElement('div');
+              tooltip.setAttribute('style', `content: attr(title); position: absolute; background: #333; color: #fff; border-radius: 4px; padding: 4px; top: -30px; left: 50%; transform: translateX(-50%); opacity: 0; transition: opacity 0.3s; z-index: 1;`);
+              element.style.position = 'relative';
+              element.appendChild(tooltip);
+              setTimeout(() => {
+                  tooltip.style.opacity = '1';
+              }, 10);
+          });
+          element.addEventListener('mouseleave', () => {
+              const tooltip = element.querySelector('div');
+              if (tooltip) {
+                  tooltip.style.opacity = '0';
+              }
+          });
       }
       atachFloatingToHTML(optionsContainer) {
           const container = document.createElement('div');
@@ -567,7 +587,7 @@
   function getClassMethods(instance) {
       const prototype = Object.getPrototypeOf(instance);
       const methodNames = Object.getOwnPropertyNames(prototype);
-      const ignoredMethods = ['constructor', 'logger', 'click', 'typeOnInput'];
+      const ignoredMethods = ['constructor', 'logger', 'click', 'typeOnInput', 'addTooltipToElement'];
       const mappedValues = methodNames
           .map((methodName) => {
           const method = Reflect.get(prototype, methodName);

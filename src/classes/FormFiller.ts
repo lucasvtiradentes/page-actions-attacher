@@ -73,17 +73,20 @@ export default class FormFiller {
       optionsContainer.style.display = 'none';
       window.open(CONFIGS.libInfo.link, '_blank');
     });
+    this.addTooltipToElement(githubIcon, 'visit the project github page');
     actionsDiv.appendChild(githubIcon);
 
     if (hasHeaderOptions) {
       headerOptions.forEach((item) => {
         const updateIcon = document.createElement('img');
         updateIcon.src = item.icon;
-        updateIcon.setAttribute('style', `width: 20px; height: 20px; cursor: pointer; ${item.cssStyle ?? ''}`);
+        updateIcon.setAttribute('style', `position: relative; width: 20px; height: 20px; cursor: pointer; ${item.cssStyle ?? ''}`);
         updateIcon.addEventListener('click', () => {
           optionsContainer.style.display = 'none';
           item.action();
         });
+
+        this.addTooltipToElement(updateIcon, item.description);
         actionsDiv.appendChild(updateIcon);
       });
     }
@@ -115,6 +118,29 @@ export default class FormFiller {
     });
 
     return optionsContainer;
+  }
+
+  private addTooltipToElement(element: HTMLElement, description: string) {
+    element.setAttribute('title', description);
+
+    element.addEventListener('mouseenter', () => {
+      const tooltip = document.createElement('div');
+      tooltip.setAttribute('style', `content: attr(title); position: absolute; background: #333; color: #fff; border-radius: 4px; padding: 4px; top: -30px; left: 50%; transform: translateX(-50%); opacity: 0; transition: opacity 0.3s; z-index: 1;`);
+
+      element.style.position = 'relative';
+      element.appendChild(tooltip);
+
+      setTimeout(() => {
+        tooltip.style.opacity = '1';
+      }, 10);
+    });
+
+    element.addEventListener('mouseleave', () => {
+      const tooltip = element.querySelector('div');
+      if (tooltip) {
+        tooltip.style.opacity = '0';
+      }
+    });
   }
 
   private atachFloatingToHTML(optionsContainer: HTMLElement) {

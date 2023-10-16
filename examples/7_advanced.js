@@ -3,8 +3,12 @@
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  try to take over the world!
-// @match        https://frontend.itworks.beta.uds.com.br/*
 // @match        http://localhost:3000/*
+// @match        https://frontend.itworks.develop.uds.com.br/*
+// @match        https://frontend.itworks.alfa.uds.com.br/*
+// @match        https://frontend.itworks.beta.uds.com.br/*
+// @match        https://backoffice.pdv.dev.uds.com.br/*
+// @match        https://backoffice.pdv.alfa.uds.com.br/*
 // @icon         https://wchrome-extension://dhdgffkkebhmkfjojejmpbldmpobfkfo/options.html#nav=c84b1043-636c-416b-8b31-e843e818ee49+editorww.google.com/s2/favicons?sz=64&domain=github.com
 // @grant        none
 // ==/UserScript==
@@ -19,6 +23,7 @@
     - this example is integrated with the repo [https://github.com/lucasvtiradentes/uds_apps_form_fill_utils]
     - it allow to sync filler methods by different devs on different projects with low effort
     - it has also a header icon to get the latest available options
+    - it updates the color schema based on the current project
 */
 
 (async function () {
@@ -38,11 +43,39 @@
 
   // 2 - SETUP YOUR INSTANCE ===================================================
 
+  const udsOptionsContent = await getLatestUdsOptions(CONFIGS);
+  eval(udsOptionsContent.content); // eslint-disable-line
+  const UdsFormFiller = UdsFormFillerAssistant; // eslint-disable-line
+  const udsOptionsConfigs = {};
+  const udsFormFiller = new UdsFormFiller(udsOptionsConfigs);
+  const udsOptions = udsFormFiller.getAvailableOptions();
+  console.log(`loaded ${CONFIGS.udsOptionsName} [${udsOptionsContent.method}]`);
+
+  const udsColorScheme = {
+    'IT WORKS': {
+      primary: {
+        background: '#57810B',
+        text: '#fff'
+      }
+    },
+    PDV365: {
+      primary: {
+        background: '#12AB4B',
+        text: '#fff'
+      }
+    }
+  };
+
+  const finalColorScheme = udsColorScheme[udsFormFiller.currentProject] ?? {};
+  const colorScheme = {
+    ...finalColorScheme
+  };
+
   const runConfigs = {
     debug: false
   };
 
-  const formFiller = new FormFiller({ runConfigs });
+  const formFiller = new FormFiller({ runConfigs, colorScheme });
   console.log(`loaded ${CONFIGS.packageName} [${formFiller.VERSION} - ${formFillerAssistantContent.method}]`);
 
   // 3 - CREATE YOUR METHODS HERE ==============================================
@@ -55,9 +88,9 @@
     if (shouldUpdate) {
       console.log(`found new ${configsObj.udsOptionsName} version`);
       await cacheUdsOptions(configsObj, latestContent);
-      formFiller.browserUtils().showToast(`Updated ${configsObj.udsOptionsName}.\n refresh the page to see the changes!`);
+      formFiller.browserUtils().showToast(`Updated ${configsObj.udsOptionsName}.\nRefresh the page to see the changes!`);
     } else {
-      formFiller.browserUtils().showToast(`No newer ${configsObj.udsOptionsName} version found!`);
+      formFiller.browserUtils().showToast(`No newer version found!`);
     }
   }
 
@@ -97,15 +130,6 @@
   }
 
   // 4 - ADDING YOUR METHODS TO THE FLOATING BUTTON ============================
-
-  const udsOptionsContent = await getLatestUdsOptions(CONFIGS);
-  eval(udsOptionsContent.content); // eslint-disable-line
-  const UdsFormFiller = UdsFormFillerAssistant; // eslint-disable-line
-  const udsOptionsConfigs = {};
-  const udsFormFiller = new UdsFormFiller(udsOptionsConfigs);
-  const udsOptions = udsFormFiller.getAvailableOptions();
-  console.log(`loaded ${CONFIGS.udsOptionsName} [${udsOptionsContent.method}]`);
-
   const options = [{ name: 'show lib helper', action: formFiller.help }, ...udsOptions];
 
   const headerOption = [
@@ -192,9 +216,9 @@
     if (shouldUpdate) {
       console.log(`found new ${configsObj.packageName} version: ${latestVersion}`);
       await downloadAndCacheVersion(configsObj, latestVersion);
-      formFiller.browserUtils().showToast(`Updated ${configsObj.packageName} from ${cachedVersion} to ${latestVersion}.\n refresh the page to see the changes!`);
+      formFiller.browserUtils().showToast(`Updated from ${cachedVersion} to ${latestVersion}.\nRefresh the page to see the changes!`);
     } else {
-      formFiller.browserUtils().showToast(`No newer ${configsObj.packageName} version found!`);
+      formFiller.browserUtils().showToast(`No newer version found!`);
     }
   }
 })();

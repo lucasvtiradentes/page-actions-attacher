@@ -12,6 +12,7 @@ export type TListOptionItem = {
 export type THeaderOptionItem = {
   icon: string;
   action: () => void;
+  description: string;
   cssStyle?: string;
 };
 
