@@ -1,5 +1,12 @@
 # CHANGELOG HISTORY
 
+## [1.9.1](https://github.com/lucasvtiradentes/form_filler_assistant/compare/v1.9.0...v1.9.1) (2023-10-16)
+
+
+### 🏷️ types:
+
+* update package types ([2931fe3](https://github.com/lucasvtiradentes/form_filler_assistant/commit/2931fe35a4ce325427a777af9fcfd70d1cea436a))
+
 ## [1.9.0](https://github.com/lucasvtiradentes/form_filler_assistant/compare/v1.8.1...v1.9.0) (2023-10-16)
 
 
