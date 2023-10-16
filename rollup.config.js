@@ -14,7 +14,7 @@ const baseConfigs = {
 
 const basePlugins = [
   replace({
-    '__ROLL_UP_REPLACE_BUILD_TIME__': new Date().toLocaleString('pt-BR', { timeZone: 'America/Belem' }).replace(', ', ' - '),
+    '__ROLL_UP_REPLACE_BUILD_TIME__': new Date().toLocaleString('pt-BR', { timeZone: 'America/Belem' }).replace(', ', ' '),
     '__ROLL_UP_REPLACE_BUILD_VERSION__': packageVersion,
 		preventAssignment: true,
   }),
