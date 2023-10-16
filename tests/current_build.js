@@ -38,29 +38,12 @@ async function main(FormFiller) {
 
   // ===========================================================================
 
-  const options = [
-    { name: 'show lib helper', action: () => formFiller.help() },
-    { name: 'show advanced modal', action: toogleModal },
-    { name: 'show simple modal', action: toogleSimpleModal },
-    { name: 'show simple toast', action: showToast },
-    { name: 'show page input fields', action: () => Array.from(document.querySelectorAll('input')).forEach((el) => console.log(el.getAttribute('name'))) }
-  ];
-
-  const headerOption = [
-    { icon: 'https://www.svgrepo.com/show/460136/update-alt.svg', description: 'update FormFillerAssistant', action: () => alert(1) },
-    { icon: 'https://www.svgrepo.com/show/403847/monkey-face.svg', description: 'go to temper monkey website', action: () => window.open('chrome-extension://dhdgffkkebhmkfjojejmpbldmpobfkfo/options.html#nav=c84b1043-636c-416b-8b31-e843e818ee49+editor', '_blank') }
-  ];
-
-  formFiller.atach(options, headerOption);
-
-  // ===========================================================================
-
   function showToast() {
-    formFiller.browserUtils().showToast('Nova versão encontrada!\nPor favor reinicie a página!');
+    formFiller.browserUtils().showToast('Simple toast message!');
   }
 
   function toogleSimpleModal() {
-    const { updateModalContent } = formFiller.browserUtils().getModal('Dados gerados');
+    const { updateModalContent } = formFiller.browserUtils().getModal('Simple modal');
 
     const modalHtml = '<p>HTML modal content</p>';
     const modalButtons = [
@@ -98,7 +81,7 @@ async function main(FormFiller) {
     const storageData = sessionStorage.getItem(modalStorageKey);
     const data = modalCount > 1 && storageData ? JSON.parse(storageData) : generateData(formFiller.dataUtils());
 
-    const { updateModalContent, closeModal } = formFiller.browserUtils().getModal('Dados gerados');
+    const { updateModalContent, closeModal } = formFiller.browserUtils().getModal('Advanced modal!');
 
     const getFinalHtmlContent = (dt) => {
       const items = [
@@ -128,4 +111,17 @@ async function main(FormFiller) {
 
     updateModalContent(initialHTML, modalButtons);
   }
+
+  // ===========================================================================
+
+  const options = [
+    { name: 'show lib helper', action: () => formFiller.help() },
+    { name: 'show advanced modal', action: toogleModal },
+    { name: 'show simple modal', action: toogleSimpleModal },
+    { name: 'show simple toast', action: showToast }
+  ];
+
+  const headerOption = [{ icon: 'https://www.svgrepo.com/show/460136/update-alt.svg', description: 'update FormFillerAssistant', action: () => alert(1) }];
+
+  formFiller.atach(options, headerOption);
 }

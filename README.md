@@ -54,7 +54,7 @@
 
 ## :trumpet: Overview
 
-Easily fill forms on websites with an easy to use temper monkey userscript.
+Easily fill forms on websites with an easy to use tamper monkey userscript.
 
 <div align="center">
   <table>
@@ -97,22 +97,22 @@ My main motivation for building this tool was to save time when filling out form
 
 ## :warning: Requirements<a href="#TOC"><img align="right" src="./.github/images/up_arrow.png" width="22"></a>
 
-The only requirement to use this project is [temper monkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=pt-BR), a browser extension which allow us to autorun some javascript on certain specified websites.
+The only requirement to use this project is [tamper monkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=pt-BR), a browser extension which allow us to autorun some javascript on certain specified websites.
 
 ## :bulb: Usage<a href="#TOC"><img align="right" src="./.github/images/up_arrow.png" width="22"></a>
 
 ### Install
 
-* 1 - install [temper monkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=pt-BR) to your browser;
-* 2 - click on "temper monkey icon" and after on "Create a new script...";
-* 3 - paste the initial temper monkey basic example [1_basic.js](./examples/1_basic.js) to the document content and save it;
+* 1 - install [tamper monkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=pt-BR) to your browser;
+* 2 - click on "tamper monkey icon" and after on "Create a new script...";
+* 3 - paste the initial tamper monkey basic example [1_basic.js](./examples/1_basic.js) to the document content and save it;
 * 4 - go to the [saucedemo](https://www.saucedemo.com) site and hit `ctrl+space` or `alt+space` to show the options menu;
 * 4 - click on the available options or hit the `numeric keys (1 - 9)` when the options menu appears;
 * 5 - get inspired by the other [./examples](./examples) and have fun!
 
 ### Uninstall
 
-If you want to uninstall, just remove the temper monkey userscript on its dashboard.
+If you want to uninstall, just remove the tamper monkey userscript on its dashboard.
 
 ### How it works
 
