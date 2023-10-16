@@ -1,5 +1,17 @@
 # CHANGELOG HISTORY
 
+## [1.9.0](https://github.com/lucasvtiradentes/form_filler_assistant/compare/v1.8.1...v1.9.0) (2023-10-16)
+
+
+### ✨ feature:
+
+* add tooltip method to header options ([42786fe](https://github.com/lucasvtiradentes/form_filler_assistant/commit/42786fe33909d334c9bd51495fd639e44e10cbb6))
+
+
+### 🔧 config:
+
+* update rollup configs to also export types ([d633eba](https://github.com/lucasvtiradentes/form_filler_assistant/commit/d633eba2c587f22a1471e64534ff8d015efe2d75))
+
 ## [1.8.1](https://github.com/lucasvtiradentes/form_filler_assistant/compare/v1.8.0...v1.8.1) (2023-10-15)
 
 
