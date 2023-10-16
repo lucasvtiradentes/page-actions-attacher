@@ -1,6 +1,6 @@
 {
   "name": "form_filler_assistant",
-  "version": "1.9.1",
+  "version": "1.9.2",
   "description": "🤖 tampermonkey userscript to accelerate frontend development: Fill forms effortlessly in React apps, featuring custom actions and dynamic keybindings.",
   "license": "MIT",
   "author": {

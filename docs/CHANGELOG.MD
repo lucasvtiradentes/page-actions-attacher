@@ -1,5 +1,12 @@
 # CHANGELOG HISTORY
 
+## [1.9.2](https://github.com/lucasvtiradentes/form_filler_assistant/compare/v1.9.1...v1.9.2) (2023-10-16)
+
+
+### 📝 docs:
+
+* update project readme description ([34dd0b8](https://github.com/lucasvtiradentes/form_filler_assistant/commit/34dd0b836b0a5eec97d63a75523fc2f98f82bd8e))
+
 ## [1.9.1](https://github.com/lucasvtiradentes/form_filler_assistant/compare/v1.9.0...v1.9.1) (2023-10-16)
 
 
