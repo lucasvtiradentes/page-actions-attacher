@@ -1,5 +1,12 @@
 # CHANGELOG HISTORY
 
+## [1.10.0](https://github.com/lucasvtiradentes/form_filler_assistant/compare/v1.9.2...v1.10.0) (2023-10-17)
+
+
+### ✨ feature:
+
+* add browser util to type on element by input name ([923d5d7](https://github.com/lucasvtiradentes/form_filler_assistant/commit/923d5d705e1838c12e88441d2dc93a58ec8eca69))
+
 ## [1.9.2](https://github.com/lucasvtiradentes/form_filler_assistant/compare/v1.9.1...v1.9.2) (2023-10-16)
 
 
