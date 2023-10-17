@@ -32,14 +32,15 @@
   const libInfo = {
       name: 'FORM_FILLER_ASSISTANT',
       version: '1.9.2',
-      buildTime: '15/10/2023 22:50:35',
+      buildTime: '16/10/2023 21:29:20',
       link: 'https://github.com/lucasvtiradentes/form_filler_assistant',
       temperMonkeyLink: 'https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo',
       initialScript: 'https://github.com/lucasvtiradentes/form_filler_assistant/dist/initial_temper_monkey_script.js'
   };
   const runConfigs = {
       debug: false,
-      typeDelay: 0
+      typeDelay: 0,
+      shortcutFn: (event) => event.ctrlKey && event.code === 'Space'
   };
   const CONFIGS = {
       colorScheme,
@@ -53,8 +54,8 @@
       colorScheme;
       runConfigs;
       constructor(configs) {
-          this.colorScheme = { ...CONFIGS.colorScheme, ...(configs?.colorScheme ? configs?.colorScheme : {}) };
-          this.runConfigs = { ...CONFIGS.runConfigs, ...(configs?.runConfigs ? configs?.runConfigs : {}) };
+          this.colorScheme = { ...CONFIGS.colorScheme, ...(configs?.colorScheme ? configs.colorScheme : {}) };
+          this.runConfigs = { ...CONFIGS.runConfigs, ...(configs?.runConfigs ? configs.runConfigs : {}) };
       }
       // JS UTILS ==================================================================
       async delay(milliseconds, ignoreLog) {
@@ -91,6 +92,13 @@
           }
           return htmlElement;
       }
+      getElementByInputName(inputName) {
+          const htmlElement = document.querySelector(`input[name="${inputName}"]`);
+          if (!htmlElement) {
+              this.logger(`not found element by inputName: [${inputName}]`, 'error');
+          }
+          return htmlElement;
+      }
       // TYPE FUNCTIONS ============================================================
       async typeOnInput(htmlElement, text) {
           this.logger(`typing: ${text}`);
@@ -121,11 +129,19 @@
           await this.typeOnInput(htmlElement, text);
       }
       async typeOnInputBySelector(selector, text) {
-          const htmlElement = document.querySelector(selector);
+          const htmlElement = this.getElementBySelector(selector);
           if (!htmlElement) {
               return;
           }
           this.logger(`type on element by selector [${selector}]`);
+          await this.typeOnInput(htmlElement, text);
+      }
+      async typeOnInputByInputName(inputName, text) {
+          const htmlElement = this.getElementByInputName(inputName);
+          if (!htmlElement) {
+              return;
+          }
+          this.logger(`type on element by inputName [${inputName}]`);
           await this.typeOnInput(htmlElement, text);
       }
       // CLICK FUNCTIONS ===========================================================
@@ -152,21 +168,21 @@
       }
       clickElementByTagText(tag, textToFind, itemIndex) {
           const finalIndex = 0 ;
-          const elTag = this.getElementByTagText(tag, textToFind, finalIndex);
-          if (!elTag) {
+          const htmlElement = this.getElementByTagText(tag, textToFind, finalIndex);
+          if (!htmlElement) {
               return;
           }
           this.logger(`clicked element by tag text: [${tag} | ${textToFind} | ${finalIndex}]`);
-          elTag.click();
+          this.click(htmlElement);
       }
       clickElementByTagAttributeValue(tag, attribute, attributeValue, itemIndex) {
           const finalIndex = 0 ;
-          const elTag = this.getElementByAttributeValue(tag, attribute, attributeValue, finalIndex);
-          if (!elTag) {
+          const htmlElement = this.getElementByAttributeValue(tag, attribute, attributeValue, finalIndex);
+          if (!htmlElement) {
               return;
           }
           this.logger(`clicked element by attribute value: [${tag} | ${attribute} | ${attributeValue} | ${finalIndex}]`);
-          elTag.click();
+          this.click(htmlElement);
       }
       // HTML UTILS ================================================================
       generateFormRow(name, value, onAfterClickAction) {
@@ -383,10 +399,6 @@
               return this.generateCPF();
           }
       }
-      generateNRandomNumbers(length) {
-          const number = Math.floor(Math.random() * Math.pow(10, length)).toString();
-          return number.padStart(length, '0');
-      }
       // NAME FUNCTIONS ============================================================
       generateCompanyName() {
           const firstWords = ['Tecnologia', 'Global', 'Inovador', 'Digital', 'Criativo', 'Avançado', 'Ecológico', 'Futuro', 'Dinâmico', 'Estratégico', 'Inovação', 'Sustentável', 'Inteligente', 'Modernidade', 'Progresso', 'Transformação', 'Qualidade', 'Comunicação', 'Conectado', 'Energia'];
@@ -422,6 +434,20 @@
           const uniqueUsername = `${initials}${randomNum}`;
           return uniqueUsername;
       }
+      // GENERAL FUNCTIONS =========================================================
+      removeNumbersFromString(str) {
+          return str.replace(/[0-9]/g, '');
+      }
+      getOnlyNumbersFromString(str) {
+          return str.replace(/\D+/g, '');
+      }
+      generateRandomNumberBetweenInterval(min, max) {
+          return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+      generateNRandomNumber(length) {
+          const number = Math.floor(Math.random() * Math.pow(10, length)).toString();
+          return number.padStart(length, '0');
+      }
   }
 
   class FormFiller {
@@ -429,9 +455,9 @@
       buttonConfigs;
       runConfigs;
       constructor(configs) {
-          this.colorScheme = { ...CONFIGS.colorScheme, ...(configs?.colorScheme ? configs?.colorScheme : {}) };
-          this.buttonConfigs = { ...CONFIGS.buttonConfigs, ...(configs?.buttonConfigs ? configs?.buttonConfigs : {}) };
-          this.runConfigs = { ...CONFIGS.runConfigs, ...(configs?.runConfigs ? configs?.runConfigs : {}) };
+          this.colorScheme = { ...CONFIGS.colorScheme, ...(configs?.colorScheme ? configs.colorScheme : {}) };
+          this.buttonConfigs = { ...CONFIGS.buttonConfigs, ...(configs?.buttonConfigs ? configs.buttonConfigs : {}) };
+          this.runConfigs = { ...CONFIGS.runConfigs, ...(configs?.runConfigs ? configs.runConfigs : {}) };
       }
       // PUBLIC METHODS ============================================================
       atach(optionsArr, headerOptions) {
@@ -561,8 +587,9 @@
           };
           button.addEventListener('click', toogleFloating);
           document.addEventListener('keydown', (event) => {
-              if ((event.ctrlKey && event.code === 'Space') || (event.altKey && event.code === 'Space')) {
-                  this.logger('detected ctrl+space or alt+space, toggling floating button');
+              const isToogleFloatingShortcut = this.runConfigs.shortcutFn(event);
+              if (isToogleFloatingShortcut) {
+                  this.logger('detected shortcut combination, toggling floating button');
                   toogleFloating();
               }
           });

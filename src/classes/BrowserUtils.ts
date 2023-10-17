@@ -6,8 +6,8 @@ export default class BrowserUtils {
   private runConfigs: TRunConfigs;
 
   constructor(configs?: { colorScheme?: TColorScheme; runConfigs?: TRunConfigs }) {
-    this.colorScheme = { ...CONFIGS.colorScheme, ...(configs?.colorScheme ? configs?.colorScheme : {}) };
-    this.runConfigs = { ...CONFIGS.runConfigs, ...(configs?.runConfigs ? configs?.runConfigs : {}) };
+    this.colorScheme = { ...CONFIGS.colorScheme, ...(configs?.colorScheme ? configs.colorScheme : {}) };
+    this.runConfigs = { ...CONFIGS.runConfigs, ...(configs?.runConfigs ? configs.runConfigs : {}) };
   }
 
   // JS UTILS ==================================================================
@@ -52,6 +52,14 @@ export default class BrowserUtils {
     return htmlElement;
   }
 
+  getElementByInputName(inputName: string) {
+    const htmlElement = document.querySelector(`input[name="${inputName}"]`) as HTMLElement;
+    if (!htmlElement) {
+      this.logger(`not found element by inputName: [${inputName}]`, 'error');
+    }
+    return htmlElement;
+  }
+
   // TYPE FUNCTIONS ============================================================
 
   private async typeOnInput(htmlElement: Element, text: string) {
@@ -89,12 +97,22 @@ export default class BrowserUtils {
   }
 
   async typeOnInputBySelector(selector: string, text: string) {
-    const htmlElement = document.querySelector(selector);
+    const htmlElement = this.getElementBySelector(selector);
     if (!htmlElement) {
       return;
     }
 
     this.logger(`type on element by selector [${selector}]`);
+    await this.typeOnInput(htmlElement, text);
+  }
+
+  async typeOnInputByInputName(inputName: string, text: string) {
+    const htmlElement = this.getElementByInputName(inputName);
+    if (!htmlElement) {
+      return;
+    }
+
+    this.logger(`type on element by inputName [${inputName}]`);
     await this.typeOnInput(htmlElement, text);
   }
 
@@ -129,24 +147,24 @@ export default class BrowserUtils {
 
   clickElementByTagText(tag: string, textToFind: string, itemIndex?: number) {
     const finalIndex = 0 ?? itemIndex;
-    const elTag = this.getElementByTagText(tag, textToFind, finalIndex);
-    if (!elTag) {
+    const htmlElement = this.getElementByTagText(tag, textToFind, finalIndex);
+    if (!htmlElement) {
       return;
     }
 
     this.logger(`clicked element by tag text: [${tag} | ${textToFind} | ${finalIndex}]`);
-    elTag.click();
+    this.click(htmlElement);
   }
 
   clickElementByTagAttributeValue(tag: string, attribute: string, attributeValue: string, itemIndex?: number) {
     const finalIndex = 0 ?? itemIndex;
-    const elTag = this.getElementByAttributeValue(tag, attribute, attributeValue, finalIndex);
-    if (!elTag) {
+    const htmlElement = this.getElementByAttributeValue(tag, attribute, attributeValue, finalIndex);
+    if (!htmlElement) {
       return;
     }
 
     this.logger(`clicked element by attribute value: [${tag} | ${attribute} | ${attributeValue} | ${finalIndex}]`);
-    elTag.click();
+    this.click(htmlElement);
   }
 
   // HTML UTILS ================================================================
@@ -227,6 +245,7 @@ export default class BrowserUtils {
       if (modalEl) {
         document.body.removeChild(modalEl);
       }
+
       if (escAction) {
         document.removeEventListener('keydown', detectEscKeypress);
       }

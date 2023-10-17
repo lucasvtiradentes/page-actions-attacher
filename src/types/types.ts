@@ -41,4 +41,5 @@ export type TFloatingButtonConfigs = {
 export type TRunConfigs = {
   debug: boolean;
   typeDelay: number;
+  shortcutFn: (e: KeyboardEvent) => boolean;
 };

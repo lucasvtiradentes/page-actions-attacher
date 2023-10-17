@@ -92,11 +92,6 @@ export default class DataUtils {
     }
   }
 
-  generateNRandomNumbers(length: number) {
-    const number = Math.floor(Math.random() * Math.pow(10, length)).toString();
-    return number.padStart(length, '0');
-  }
-
   // NAME FUNCTIONS ============================================================
 
   generateCompanyName(): string {
@@ -142,5 +137,24 @@ export default class DataUtils {
     const randomNum = Math.floor(Math.random() * 9000) + 1000;
     const uniqueUsername = `${initials}${randomNum}`;
     return uniqueUsername;
+  }
+
+  // GENERAL FUNCTIONS =========================================================
+
+  removeNumbersFromString(str: string) {
+    return str.replace(/[0-9]/g, '');
+  }
+
+  getOnlyNumbersFromString(str: string) {
+    return str.replace(/\D+/g, '');
+  }
+
+  generateRandomNumberBetweenInterval(min: number, max: number) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  generateNRandomNumber(length: number) {
+    const number = Math.floor(Math.random() * Math.pow(10, length)).toString();
+    return number.padStart(length, '0');
   }
 }

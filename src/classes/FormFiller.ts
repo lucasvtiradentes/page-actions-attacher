@@ -7,9 +7,9 @@ export default class FormFiller {
   private runConfigs: TRunConfigs;
 
   constructor(configs?: { colorScheme?: TColorScheme; buttonConfigs?: TFloatingButtonConfigs; runConfigs?: TRunConfigs }) {
-    this.colorScheme = { ...CONFIGS.colorScheme, ...(configs?.colorScheme ? configs?.colorScheme : {}) };
-    this.buttonConfigs = { ...CONFIGS.buttonConfigs, ...(configs?.buttonConfigs ? configs?.buttonConfigs : {}) };
-    this.runConfigs = { ...CONFIGS.runConfigs, ...(configs?.runConfigs ? configs?.runConfigs : {}) };
+    this.colorScheme = { ...CONFIGS.colorScheme, ...(configs?.colorScheme ? configs.colorScheme : {}) };
+    this.buttonConfigs = { ...CONFIGS.buttonConfigs, ...(configs?.buttonConfigs ? configs.buttonConfigs : {}) };
+    this.runConfigs = { ...CONFIGS.runConfigs, ...(configs?.runConfigs ? configs.runConfigs : {}) };
   }
 
   // PUBLIC METHODS ============================================================
@@ -177,8 +177,9 @@ export default class FormFiller {
     button.addEventListener('click', toogleFloating);
 
     document.addEventListener('keydown', (event: KeyboardEvent) => {
-      if ((event.ctrlKey && event.code === 'Space') || (event.altKey && event.code === 'Space')) {
-        this.logger('detected ctrl+space or alt+space, toggling floating button');
+      const isToogleFloatingShortcut = this.runConfigs.shortcutFn(event);
+      if (isToogleFloatingShortcut) {
+        this.logger('detected shortcut combination, toggling floating button');
         toogleFloating();
       }
     });

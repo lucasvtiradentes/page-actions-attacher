@@ -116,7 +116,7 @@
 
   // 4 - ADDING YOUR METHODS TO THE FLOATING BUTTON ============================
 
-  const options = [{ name: 'show lib helper', action: formFiller.help }, ...udsOptions];
+  const options = [...udsOptions, { name: 'show lib helper', action: formFiller.help }];
 
   const headerOption = [
     { icon: 'https://www.svgrepo.com/show/460136/update-alt.svg', description: 'update formFillerAssistant version', action: () => updateFormFillerAssistantContent(CONFIGS) },

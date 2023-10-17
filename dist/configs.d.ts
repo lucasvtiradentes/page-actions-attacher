@@ -3,9 +3,9 @@ export declare const CONFIGS: {
     colorScheme: TColorScheme;
     buttonConfigs: TFloatingButtonConfigs;
     classes: {
-        floatingButton: string;
-        optionsContainer: string;
-        modalContainer: string;
+        readonly floatingButton: "ffa_floating_container";
+        readonly optionsContainer: "ffa_options_container";
+        readonly modalContainer: "ffa_modal_container";
     };
     libInfo: {
         name: string;

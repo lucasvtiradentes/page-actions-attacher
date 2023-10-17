@@ -3,9 +3,12 @@ export default class DataUtils {
     constructor();
     generateCNPJ(): string;
     generateCPF(): string;
-    generateNRandomNumbers(length: number): string;
     generateCompanyName(): string;
     generatePersonName(): string;
     generatePersonEmail(): string;
     generatePersonUsername(): string;
+    removeNumbersFromString(str: string): string;
+    getOnlyNumbersFromString(str: string): string;
+    generateRandomNumberBetweenInterval(min: number, max: number): number;
+    generateNRandomNumber(length: number): string;
 }

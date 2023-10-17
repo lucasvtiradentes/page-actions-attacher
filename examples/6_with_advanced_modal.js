@@ -69,8 +69,8 @@
         nome_empresa: dt.generateCompanyName(),
         cpf: dt.generateCPF(),
         cnpj: dt.generateCNPJ(),
-        inscricao_estadual: dt.generateNRandomNumbers(5),
-        telefone: dt.generateNRandomNumbers(8)
+        inscricao_estadual: dt.generateNRandomNumber(5),
+        telefone: dt.generateNRandomNumber(8)
       };
 
       sessionStorage.setItem(modalStorageKey, JSON.stringify(generatedData));

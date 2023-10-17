@@ -10,9 +10,11 @@ export default class BrowserUtils {
     getElementByTagText(tag: string, textToFind: string, itemIndex?: number): HTMLElement | null;
     getElementByAttributeValue(tag: string, attribute: string, attributeValue: string, itemIndex?: number): HTMLElement | null;
     getElementBySelector(selector: string): HTMLElement;
+    getElementByInputName(inputName: string): HTMLElement;
     private typeOnInput;
     typeOnInputByElement(htmlElement: Element, text: string): Promise<void>;
     typeOnInputBySelector(selector: string, text: string): Promise<void>;
+    typeOnInputByInputName(inputName: string, text: string): Promise<void>;
     click(htmlElement: HTMLElement): void;
     clickElement(htmlElement: HTMLElement): void;
     clickElementBySelector(selector: string): void;

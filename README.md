@@ -54,7 +54,7 @@
 
 ## :trumpet: Overview
 
-Easily fill forms on websites with an easy to use tamper monkey userscript.
+This package is a tampermonkey helper that enables easy addition of custom actions to specific pages, making it particularly valuable for simplifying form-filling tasks.
 
 <div align="center">
   <table>
@@ -73,7 +73,7 @@ Easily fill forms on websites with an easy to use tamper monkey userscript.
   </table>
 </div>
 
-Instead of manually filling out a four-step React form to view your current working page, why not simplify the process by clicking a button that completes it for you? 🤖
+Instead of manually filling out a four-step website form to view your current working page, why not simplify the process by clicking a button that completes it for you? 🤖
 
 ## :question: Motivation
 
@@ -88,12 +88,11 @@ My main motivation for building this tool was to save time when filling out form
 
 ## :dart: Features<a href="#TOC"><img align="right" src="./.github/images/up_arrow.png" width="22"></a>
 
-&nbsp;&nbsp;&nbsp;✔️ atach a floating buttom with custom actions (`ctrl+space` or `alt+space` to toogle it);<br>
-&nbsp;&nbsp;&nbsp;✔️ out of the box methods to fill website forms (type, click, etc);<br>
+&nbsp;&nbsp;&nbsp;✔️ atach a floating buttom with custom actions (`ctrl+space` to toogle it);<br>
+&nbsp;&nbsp;&nbsp;✔️ out of the box browser methods to fill website forms (type, click, etc);<br>
 &nbsp;&nbsp;&nbsp;✔️ dynamic keybinding to all available options (`1-9`) when the options container is displayed;<br>
-&nbsp;&nbsp;&nbsp;✔️ auto-updatable working [userscript](./examples/3_with_header_buttons.js) example;<br>
-&nbsp;&nbsp;&nbsp;✔️ allow custom configs (color scheme, debug_mode, etc);<br>
-&nbsp;&nbsp;&nbsp;✔️ ready to use examples provided on [./examples](./examples).<br>
+&nbsp;&nbsp;&nbsp;✔️ allow custom configs (color scheme, debug_mode, custom shortcuts, etc);<br>
+&nbsp;&nbsp;&nbsp;✔️ ready to use examples provided on [./examples](./examples), including [one](./examples/3_with_header_buttons.js) that has auto-updatable feature.<br>
 
 ## :warning: Requirements<a href="#TOC"><img align="right" src="./.github/images/up_arrow.png" width="22"></a>
 
@@ -106,7 +105,7 @@ The only requirement to use this project is [tamper monkey](https://chrome.googl
 * 1 - install [tamper monkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=pt-BR) to your browser;
 * 2 - click on "tamper monkey icon" and after on "Create a new script...";
 * 3 - paste the initial tamper monkey basic example [1_basic.js](./examples/1_basic.js) to the document content and save it;
-* 4 - go to the [saucedemo](https://www.saucedemo.com) site and hit `ctrl+space` or `alt+space` to show the options menu;
+* 4 - go to the [saucedemo](https://www.saucedemo.com) site and hit `ctrl+space` to show the options menu;
 * 4 - click on the available options or hit the `numeric keys (1 - 9)` when the options menu appears;
 * 5 - get inspired by the other [./examples](./examples) and have fun!
 
@@ -147,7 +146,7 @@ This package comes with the following commands list:
     <td>Show helper information on runtime environment.</td>
   </tr>
   <tr>
-    <td rowspan="7"><code>dataUtils()</code></td>
+    <td rowspan="10"><code>dataUtils()</code></td>
     <td><code>.generateCNPJ()</code></td>
     <td>Generate a unique Brazilian identification number for each company.</td>
   </tr>
@@ -155,11 +154,6 @@ This package comes with the following commands list:
     <!-- <td rowspan="1"><code>dataUtils()</code></td> -->
     <td><code>.generateCPF()</code></td>
     <td>Generate a unique Brazilian identification number for each individual.</td>
-  </tr>
-  <tr>
-    <!-- <td rowspan="1"><code>dataUtils()</code></td> -->
-    <td><code>.generateRandomNumbers(length)</code></td>
-    <td>Generate a randomly generated number with a specified length.</td>
   </tr>
   <tr>
     <!-- <td rowspan="1"><code>dataUtils()</code></td> -->
@@ -182,7 +176,27 @@ This package comes with the following commands list:
     <td>Generate a randomly generated person username.</td>
   </tr>
   <tr>
-    <td rowspan="13"><code>browserUtils()</code></td>
+    <!-- <td rowspan="1"><code>dataUtils()</code></td> -->
+    <td><code>.removeNumbersFromString(text)</code></td>
+    <td>Remove all numbers from a text.</td>
+  </tr>
+  <tr>
+    <!-- <td rowspan="1"><code>dataUtils()</code></td> -->
+    <td><code>.getOnlyNumbersFromString(text)</code></td>
+    <td>Remove all characters except numbers from a text.</td>
+  </tr>
+  <tr>
+    <!-- <td rowspan="1"><code>dataUtils()</code></td> -->
+    <td><code>.generateRandomNumberBetweenInterval(min, max)</code></td>
+    <td>Get a number betweeen a specified ineterval.</td>
+  </tr>
+  <tr>
+    <!-- <td rowspan="1"><code>dataUtils()</code></td> -->
+    <td><code>.generateRandomNumbers(length)</code></td>
+    <td>Generate a randomly generated number with a specified length.</td>
+  </tr>
+  <tr>
+    <td rowspan="15"><code>browserUtils()</code></td>
     <td><code>.delay(milliseconds, ignoreLog?)</code></td>
     <td>Introduces a delay in the program execution for the specified number of milliseconds. If ignoreLog parameter is provided and set to true, the function will suppress any logging or output during the delay.</td>
   </tr>
@@ -203,6 +217,11 @@ This package comes with the following commands list:
   </tr>
   <tr>
     <!-- <td rowspan="1"><code>browserUtils()</code></td> -->
+    <td><code>.getElementByInputName(inputName)</code></td>
+    <td>Returns the HTML element that matches the specified input element name.</td>
+  </tr>
+  <tr>
+    <!-- <td rowspan="1"><code>browserUtils()</code></td> -->
     <td>.typeOnInputByElement(htmlElement, text)</td>
     <td>Simulates typing the specified text into the given htmlElement. This function interacts with the HTML input element and populates it with the provided text.</td>
   </tr>
@@ -210,6 +229,11 @@ This package comes with the following commands list:
     <!-- <td rowspan="1"><code>browserUtils()</code></td> -->
     <td><code>.typeOnInputBySelector(selector, text)</code></td>
     <td>Simulates typing the specified text into the HTML input element selected using the given selector. This function interacts with the input element matching the selector and populates it with the provided text.</td>
+  </tr>
+  <tr>
+    <!-- <td rowspan="1"><code>browserUtils()</code></td> -->
+    <td><code>.typeOnInputByInputName(inputName, text)</code></td>
+    <td>Simulates typing the specified text into the HTML input element selected using the given input name. This function interacts with the input element matching the selector and populates it with the provided text.</td>
   </tr>
   <tr>
     <!-- <td rowspan="1"><code>browserUtils()</code></td> -->

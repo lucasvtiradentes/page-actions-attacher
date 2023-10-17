@@ -26,7 +26,7 @@ const classes = {
   floatingButton: 'ffa_floating_container',
   optionsContainer: 'ffa_options_container',
   modalContainer: 'ffa_modal_container'
-};
+} as const;
 
 const libInfo = {
   name: 'FORM_FILLER_ASSISTANT',
@@ -39,7 +39,8 @@ const libInfo = {
 
 const runConfigs: TRunConfigs = {
   debug: false,
-  typeDelay: 0
+  typeDelay: 0,
+  shortcutFn: (event) => event.ctrlKey && event.code === 'Space'
 };
 
 export const CONFIGS = {
