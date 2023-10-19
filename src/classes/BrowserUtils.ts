@@ -1,13 +1,11 @@
-import { CONFIGS } from '../configs';
-import { TModalButton, TColorScheme, TRunConfigs } from '../types/types';
+import { CONFIGS, CONSTS } from '../configs';
+import { TConfigs, TModalButton } from '../types/types';
 
 export default class BrowserUtils {
-  private colorScheme: TColorScheme;
-  private runConfigs: TRunConfigs;
+  private configs: TConfigs;
 
-  constructor(configs?: { colorScheme?: TColorScheme; runConfigs?: TRunConfigs }) {
-    this.colorScheme = { ...CONFIGS.colorScheme, ...(configs?.colorScheme ? configs.colorScheme : {}) };
-    this.runConfigs = { ...CONFIGS.runConfigs, ...(configs?.runConfigs ? configs.runConfigs : {}) };
+  constructor(configs?: TConfigs) {
+    this.configs = { ...CONFIGS, ...configs };
   }
 
   // JS UTILS ==================================================================
@@ -79,7 +77,7 @@ export default class BrowserUtils {
           cancelable: true
         });
 
-        await this.delay(this.runConfigs.typeDelay, true);
+        await this.delay(this.configs.typeDelay, true);
 
         htmlElement.dispatchEvent(keyboardEvent);
       }
@@ -174,9 +172,9 @@ export default class BrowserUtils {
     return `
       <div style="display: grid; grid-template-columns: 1fr 2fr;">
         <div style="flex: 1; padding: 3px 10px; font-weight: 600;">${name}</div>
-        <div style="flex: 1; padding: 3px 10px; background-color: ${this.colorScheme.secondary.background}; this.style.color = '${this.colorScheme.secondary.text}'; cursor: pointer;"
-          onmouseover="this.style.backgroundColor = '${this.colorScheme.primary.background}'; this.style.color = '${this.colorScheme.primary.text}'; this.style.cursor = 'pointer';"
-          onmouseout="this.style.backgroundColor = '${this.colorScheme.secondary.background}'; this.style.color = '${this.colorScheme.secondary.text}'; this.style.cursor = 'default';"
+        <div style="flex: 1; padding: 3px 10px; background-color: ${this.configs.colorScheme.secondary.background}; this.style.color = '${this.configs.colorScheme.secondary.text}'; cursor: pointer;"
+          onmouseover="this.style.backgroundColor = '${this.configs.colorScheme.primary.background}'; this.style.color = '${this.configs.colorScheme.primary.text}'; this.style.cursor = 'pointer';"
+          onmouseout="this.style.backgroundColor = '${this.configs.colorScheme.secondary.background}'; this.style.color = '${this.configs.colorScheme.secondary.text}'; this.style.cursor = 'default';"
           onclick="${onClickAction}"
         >${value}</div>
       </div>`;
@@ -184,11 +182,11 @@ export default class BrowserUtils {
 
   getModal(title: string) {
     const modalContainerEl = document.createElement('div');
-    modalContainerEl.setAttribute('class', CONFIGS.classes.modalContainer);
-    modalContainerEl.setAttribute('style', `display: flex; align-items: center; justify-content: center; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: ${this.colorScheme.overlay}; z-index: 1000;`);
+    modalContainerEl.setAttribute('class', CONSTS.classes.modalContainer);
+    modalContainerEl.setAttribute('style', `display: flex; align-items: center; justify-content: center; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: ${this.configs.colorScheme.overlay}; z-index: 1000;`);
 
     const modalDialog = document.createElement('div');
-    modalDialog.setAttribute('style', `background-color: ${this.colorScheme.secondary.background}; color: ${this.colorScheme.secondary.text}; border-radius: 5px; padding: 10px; box-shadow: 0px 4px 6px ${this.colorScheme.boxShadown}; max-width: 80%;`);
+    modalDialog.setAttribute('style', `background-color: ${this.configs.colorScheme.secondary.background}; color: ${this.configs.colorScheme.secondary.text}; border-radius: 5px; padding: 10px; box-shadow: 0px 4px 6px ${this.configs.colorScheme.boxShadown}; max-width: 80%;`);
     modalContainerEl.appendChild(modalDialog);
 
     const modalContent = document.createElement('div');
@@ -210,7 +208,7 @@ export default class BrowserUtils {
         buttonsArr.forEach((item) => {
           const confirmButton = document.createElement('button');
           confirmButton.textContent = item.title;
-          confirmButton.setAttribute('style', `display: block; width: 100%; margin-top: 10px; text-align: center; padding: 10px; border: none; background-color: ${this.colorScheme.primary.background}; color: ${this.colorScheme.primary.text}; border-radius: 5px; cursor: pointer;`);
+          confirmButton.setAttribute('style', `display: block; width: 100%; margin-top: 10px; text-align: center; padding: 10px; border: none; background-color: ${this.configs.colorScheme.primary.background}; color: ${this.configs.colorScheme.primary.text}; border-radius: 5px; cursor: pointer;`);
           confirmButton.addEventListener('click', () => {
             item.action();
             if (item.exitAfterAction !== false) {
@@ -234,7 +232,7 @@ export default class BrowserUtils {
       let escAction = null;
 
       try {
-        modalSelector = `.${CONFIGS.classes.modalContainer}`;
+        modalSelector = `.${CONSTS.classes.modalContainer}`;
         escAction = detectEscKeypress;
       } catch (e) {
         modalSelector = `.${'ffa_modal_container'}`;
@@ -275,7 +273,7 @@ export default class BrowserUtils {
       toastDiv.id = toastId;
       toastDiv.setAttribute(
         'style',
-        `position: fixed; padding: 10px; top: 20px; right: 20px; background-color: ${this.colorScheme.secondary.background}; color: ${this.colorScheme.secondary.text}; z-index: 1002; border-radius: 10px; box-shadow: 0 0 10px ${this.colorScheme.primary.background}; font-size: 16px;`
+        `position: fixed; padding: 10px; top: 20px; right: 20px; background-color: ${this.configs.colorScheme.secondary.background}; color: ${this.configs.colorScheme.secondary.text}; z-index: 1002; border-radius: 10px; box-shadow: 0 0 10px ${this.configs.colorScheme.primary.background}; font-size: 16px;`
       );
 
       const message: HTMLSpanElement = document.createElement('span');
@@ -284,11 +282,11 @@ export default class BrowserUtils {
       toastDiv.appendChild(message);
 
       const progressBar: HTMLDivElement = document.createElement('div');
-      progressBar.setAttribute('style', `width: 100%; background-color: ${this.colorScheme.secondary.background}; height: 5px; margin-top: 5px; border-radius: 3px; transition: width 1s linear;`);
+      progressBar.setAttribute('style', `width: 100%; background-color: ${this.configs.colorScheme.secondary.background}; height: 5px; margin-top: 5px; border-radius: 3px; transition: width 1s linear;`);
       toastDiv.appendChild(progressBar);
 
       const progress: HTMLDivElement = document.createElement('div');
-      progress.setAttribute('style', `width: 100%; background-color: ${this.colorScheme.primary.background}; height: 100%; border-radius: 3px;`);
+      progress.setAttribute('style', `width: 100%; background-color: ${this.configs.colorScheme.primary.background}; height: 100%; border-radius: 3px;`);
       progressBar.appendChild(progress);
 
       document.body.appendChild(toastDiv);
@@ -321,7 +319,7 @@ export default class BrowserUtils {
   // PRIVATE METHODS ===========================================================
 
   private logger(message: string, type: 'error' | 'info' = 'info') {
-    if (!this.runConfigs.debug) {
+    if (!this.configs.debug) {
       return;
     }
 

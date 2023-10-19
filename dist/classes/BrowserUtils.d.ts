@@ -1,11 +1,7 @@
-import { TModalButton, TColorScheme, TRunConfigs } from '../types/types';
+import { TConfigs, TModalButton } from '../types/types';
 export default class BrowserUtils {
-    private colorScheme;
-    private runConfigs;
-    constructor(configs?: {
-        colorScheme?: TColorScheme;
-        runConfigs?: TRunConfigs;
-    });
+    private configs;
+    constructor(configs?: TConfigs);
     delay(milliseconds: number, ignoreLog?: boolean): Promise<unknown>;
     getElementByTagText(tag: string, textToFind: string, itemIndex?: number): HTMLElement | null;
     getElementByAttributeValue(tag: string, attribute: string, attributeValue: string, itemIndex?: number): HTMLElement | null;

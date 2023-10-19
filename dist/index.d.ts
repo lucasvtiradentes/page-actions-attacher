@@ -1,19 +1,17 @@
 import { default as BrowserUtils } from './classes/BrowserUtils';
 import { default as DataUtils } from './classes/DataUtils';
-import { TFloatingButtonConfigs, TColorScheme, THeaderOptionItem, TListOptionItem, TRunConfigs } from './types/types';
+import { TFloatingOptions } from './classes/FormFiller';
+import { TConfigs } from './types/types';
 export default class FormFillerAssistant {
-    private colorScheme;
-    private buttonConfigs;
-    private runConfigs;
-    constructor(configs?: {
-        colorScheme?: TColorScheme;
-        buttonConfigs?: TFloatingButtonConfigs;
-        runConfigs?: TRunConfigs;
-    });
-    VERSION: string;
-    BUILD_DATETIME: string;
+    private configs;
+    private formFiller;
+    private VERSION;
+    private BUILD_DATETIME;
+    constructor(configs?: TConfigs);
     help: () => void;
-    atach(options: TListOptionItem[], headerOptions?: THeaderOptionItem[]): void;
-    browserUtils(): BrowserUtils;
+    attach(floatingOptions: TFloatingOptions): void;
+    updateOptions(floatingOptions: TFloatingOptions): void;
+    detach(): void;
     dataUtils(): DataUtils;
+    browserUtils(): BrowserUtils;
 }

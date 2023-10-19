@@ -1,34 +1,53 @@
 import { default as BrowserUtils } from './classes/BrowserUtils';
 import { default as DataUtils } from './classes/DataUtils';
-import { default as FormFiller } from './classes/FormFiller';
-import { CONFIGS } from './configs';
-import { TFloatingButtonConfigs, TColorScheme, THeaderOptionItem, TListOptionItem, TRunConfigs } from './types/types';
+import { default as FormFiller, TFloatingOptions } from './classes/FormFiller';
+import { CONFIGS, CONSTS } from './configs';
+import { TConfigs } from './types/types';
 import { help as helpFn } from './utils/utils';
 
 export default class FormFillerAssistant {
-  private colorScheme: TColorScheme;
-  private buttonConfigs: TFloatingButtonConfigs;
-  private runConfigs: TRunConfigs;
+  private configs: TConfigs;
+  private formFiller: FormFiller;
+  private VERSION = CONSTS.libInfo.version;
+  private BUILD_DATETIME = CONSTS.libInfo.buildTime;
 
-  constructor(configs?: { colorScheme?: TColorScheme; buttonConfigs?: TFloatingButtonConfigs; runConfigs?: TRunConfigs }) {
-    this.colorScheme = { ...CONFIGS.colorScheme, ...(configs?.colorScheme ? configs?.colorScheme : {}) };
-    this.buttonConfigs = { ...CONFIGS.buttonConfigs, ...(configs?.buttonConfigs ? configs?.buttonConfigs : {}) };
-    this.runConfigs = { ...CONFIGS.runConfigs, ...(configs?.runConfigs ? configs?.runConfigs : {}) };
+  constructor(configs?: TConfigs) {
+    const finalConfigs: TConfigs = {
+      ...CONFIGS,
+      ...(configs ? configs : {}),
+      colorScheme: {
+        ...CONFIGS.colorScheme,
+        ...(configs?.colorScheme ? configs.colorScheme : {})
+      },
+      floatingButton: {
+        ...CONFIGS.floatingButton,
+        ...(configs?.floatingButton ? configs.floatingButton : {})
+      }
+    };
+
+    this.configs = finalConfigs;
+    this.formFiller = new FormFiller(this.configs);
   }
 
-  VERSION = CONFIGS.libInfo.version;
-  BUILD_DATETIME = CONFIGS.libInfo.buildTime;
   help = helpFn;
 
-  atach(options: TListOptionItem[], headerOptions?: THeaderOptionItem[]) {
-    new FormFiller({ colorScheme: this.colorScheme, runConfigs: this.runConfigs, buttonConfigs: this.buttonConfigs }).atach(options, headerOptions);
+  attach(floatingOptions: TFloatingOptions) {
+    return this.formFiller.attach(floatingOptions);
   }
 
-  browserUtils() {
-    return new BrowserUtils({ colorScheme: this.colorScheme, runConfigs: this.runConfigs });
+  updateOptions(floatingOptions: TFloatingOptions) {
+    return this.formFiller.updateOptions(floatingOptions);
+  }
+
+  detach() {
+    return this.formFiller.detach();
   }
 
   dataUtils() {
     return new DataUtils();
+  }
+
+  browserUtils() {
+    return new BrowserUtils(this.configs);
   }
 }

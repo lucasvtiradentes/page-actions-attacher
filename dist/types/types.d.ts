@@ -32,9 +32,12 @@ export type TFloatingButtonConfigs = {
     iconColorCss: string;
     right: string;
     bottom: string;
+    shortcutFn: (event: KeyboardEvent) => boolean;
 };
-export type TRunConfigs = {
+export type TConfigs = {
     debug: boolean;
     typeDelay: number;
-    shortcutFn: (e: KeyboardEvent) => boolean;
+    onSpaRouteChange: (newUrl: string) => void;
+    colorScheme: TColorScheme;
+    floatingButton: TFloatingButtonConfigs;
 };

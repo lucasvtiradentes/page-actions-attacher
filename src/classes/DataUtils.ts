@@ -1,8 +1,10 @@
 export default class DataUtils {
-  private name = '';
+  private personName = '';
+  private companyName = '';
 
   constructor() {
-    this.name = this.generatePersonName();
+    this.personName = this.generatePersonName();
+    this.companyName = this.generateCompanyName();
   }
 
   // NUMBER FUNCTIONS ==========================================================
@@ -103,9 +105,19 @@ export default class DataUtils {
     const randomNumber = Math.floor(Math.random() * 1000);
 
     const companyName = `${randomFirstWord} ${randomSecondWord} ${randomNumber}`;
+    this.companyName = companyName;
 
     return companyName;
   }
+
+  generateCompanyEmail(): string {
+    const randomNum = Math.floor(Math.random() * 900) + 100;
+    const email = this.companyName.replace(/\s/g, '.').toLowerCase();
+    const uniqueEmail = `${email}${randomNum}@gmail.com`;
+    return uniqueEmail;
+  }
+
+  // NAME FUNCTIONS ============================================================
 
   generatePersonName(): string {
     const firstNames = ['Miguel', 'Sofia', 'Davi', 'Alice', 'Arthur', 'Julia', 'Pedro', 'Manuela', 'Gabriel', 'Laura', 'Bernardo', 'Luiza', 'Lucas', 'Valentina', 'Matheus', 'Giovanna', 'Rafael', 'Beatriz', 'Enzo', 'Maria Eduarda'];
@@ -115,20 +127,20 @@ export default class DataUtils {
     const randomLastName = lastNames[Math.floor(Math.random() * lastNames.length)];
 
     const uniqueName = `${randomFirstName} ${randomLastName}`;
-    this.name = uniqueName;
+    this.personName = uniqueName;
 
     return uniqueName;
   }
 
   generatePersonEmail(): string {
     const randomNum = Math.floor(Math.random() * 900) + 100;
-    const email = this.name.replace(/\s/g, '.').toLowerCase();
+    const email = this.personName.replace(/\s/g, '.').toLowerCase();
     const uniqueEmail = `${email}${randomNum}@gmail.com`;
     return uniqueEmail;
   }
 
   generatePersonUsername(): string {
-    const initials = this.name
+    const initials = this.personName
       .split(' ')
       .map((part) => part.charAt(0))
       .join('')

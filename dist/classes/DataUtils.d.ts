@@ -1,9 +1,11 @@
 export default class DataUtils {
-    private name;
+    private personName;
+    private companyName;
     constructor();
     generateCNPJ(): string;
     generateCPF(): string;
     generateCompanyName(): string;
+    generateCompanyEmail(): string;
     generatePersonName(): string;
     generatePersonEmail(): string;
     generatePersonUsername(): string;

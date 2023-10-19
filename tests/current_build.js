@@ -114,14 +114,16 @@ async function main(FormFiller) {
 
   // ===========================================================================
 
-  const options = [
+  const optionsArr = [
     { name: 'show lib helper', action: () => formFiller.help() },
     { name: 'show advanced modal', action: toogleModal },
     { name: 'show simple modal', action: toogleSimpleModal },
     { name: 'show simple toast', action: showToast }
   ];
 
-  const headerOption = [{ icon: 'https://www.svgrepo.com/show/460136/update-alt.svg', description: 'update FormFillerAssistant', action: () => alert(1) }];
+  const headerOptions = [{ icon: 'https://www.svgrepo.com/show/460136/update-alt.svg', description: 'update FormFillerAssistant', action: () => alert(1) }];
 
-  formFiller.atach(options, headerOption);
+  const onSpaRouteChange = (newUrl) => console.log(`URL changed to ${newUrl}!`);
+
+  formFiller.atach({ optionsArr, headerOptions, onSpaRouteChange });
 }

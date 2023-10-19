@@ -1,6 +1,6 @@
-import { CONFIGS } from '../configs';
 import BrowserUtils from '../classes/BrowserUtils';
 import DataUtils from '../classes/DataUtils';
+import { CONSTS } from '../configs';
 
 function getClassMethods<T>(instance: T) {
   const prototype = Object.getPrototypeOf(instance);
@@ -54,10 +54,10 @@ export const help = () => {
   console.table(getClassDetailedMethods(new BrowserUtils()));
 
   console.log(`\n# PACKAGE INFO ==================================================\n\n`);
-  console.log(`name        : ${CONFIGS.libInfo.name}`);
-  console.log(`version     : ${CONFIGS.libInfo.version}`);
-  console.log(`build_time  : ${CONFIGS.libInfo.buildTime}`);
-  console.log(`package link: ${CONFIGS.libInfo.link}`);
+  console.log(`name        : ${CONSTS.libInfo.name}`);
+  console.log(`version     : ${CONSTS.libInfo.version}`);
+  console.log(`build_time  : ${CONSTS.libInfo.buildTime}`);
+  console.log(`package link: ${CONSTS.libInfo.link}`);
 
   console.log('\n# CURRENT PAGE INPUT NAMES ======================================');
   Array.from(document.querySelectorAll('input')).forEach((el) => console.log(el.getAttribute('name')));

@@ -4,6 +4,25 @@
   (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.FormFillerAssistant = factory());
 })(this, (function () { 'use strict';
 
+  const classes = {
+      floatingContainer: 'ffa_floating_container',
+      floatingButton: 'ffa_floating_button',
+      optionsContainer: 'ffa_options_container',
+      modalContainer: 'ffa_modal_container'
+  };
+  const libInfo = {
+      name: 'FORM_FILLER_ASSISTANT',
+      version: '1.10.0',
+      buildTime: '18/10/2023 22:26:06',
+      link: 'https://github.com/lucasvtiradentes/form_filler_assistant',
+      temperMonkeyLink: 'https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo',
+      initialScript: 'https://github.com/lucasvtiradentes/form_filler_assistant/dist/initial_temper_monkey_script.js'
+  };
+  const CONSTS = {
+      classes,
+      libInfo
+  };
+  // =============================================================================
   const colorScheme = {
       primary: {
           background: '#0074D9',
@@ -18,44 +37,25 @@
       overlay: 'rgba(0, 0, 0, 0.7)',
       boxShadown: 'rgba(0, 0, 0, 0.1)'
   };
-  const buttonConfigs = {
+  const floatingButton = {
       iconImage: 'https://www.svgrepo.com/show/532994/plus.svg',
       iconColorCss: 'filter: invert(100%);',
       right: '30px',
-      bottom: '30px'
-  };
-  const classes = {
-      floatingButton: 'ffa_floating_container',
-      optionsContainer: 'ffa_options_container',
-      modalContainer: 'ffa_modal_container'
-  };
-  const libInfo = {
-      name: 'FORM_FILLER_ASSISTANT',
-      version: '1.10.0',
-      buildTime: '16/10/2023 21:30:53',
-      link: 'https://github.com/lucasvtiradentes/form_filler_assistant',
-      temperMonkeyLink: 'https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo',
-      initialScript: 'https://github.com/lucasvtiradentes/form_filler_assistant/dist/initial_temper_monkey_script.js'
-  };
-  const runConfigs = {
-      debug: false,
-      typeDelay: 0,
+      bottom: '30px',
       shortcutFn: (event) => event.ctrlKey && event.code === 'Space'
   };
   const CONFIGS = {
+      debug: false,
+      typeDelay: 0,
+      onSpaRouteChange: (newUrl) => console.log(`change route to: ${newUrl}`),
       colorScheme,
-      buttonConfigs,
-      classes,
-      libInfo,
-      runConfigs
+      floatingButton
   };
 
   class BrowserUtils {
-      colorScheme;
-      runConfigs;
+      configs;
       constructor(configs) {
-          this.colorScheme = { ...CONFIGS.colorScheme, ...(configs?.colorScheme ? configs.colorScheme : {}) };
-          this.runConfigs = { ...CONFIGS.runConfigs, ...(configs?.runConfigs ? configs.runConfigs : {}) };
+          this.configs = { ...CONFIGS, ...configs };
       }
       // JS UTILS ==================================================================
       async delay(milliseconds, ignoreLog) {
@@ -115,7 +115,7 @@
                       bubbles: true,
                       cancelable: true
                   });
-                  await this.delay(this.runConfigs.typeDelay, true);
+                  await this.delay(this.configs.typeDelay, true);
                   htmlElement.dispatchEvent(keyboardEvent);
               }
           }
@@ -190,19 +190,19 @@
           return `
       <div style="display: grid; grid-template-columns: 1fr 2fr;">
         <div style="flex: 1; padding: 3px 10px; font-weight: 600;">${name}</div>
-        <div style="flex: 1; padding: 3px 10px; background-color: ${this.colorScheme.secondary.background}; this.style.color = '${this.colorScheme.secondary.text}'; cursor: pointer;"
-          onmouseover="this.style.backgroundColor = '${this.colorScheme.primary.background}'; this.style.color = '${this.colorScheme.primary.text}'; this.style.cursor = 'pointer';"
-          onmouseout="this.style.backgroundColor = '${this.colorScheme.secondary.background}'; this.style.color = '${this.colorScheme.secondary.text}'; this.style.cursor = 'default';"
+        <div style="flex: 1; padding: 3px 10px; background-color: ${this.configs.colorScheme.secondary.background}; this.style.color = '${this.configs.colorScheme.secondary.text}'; cursor: pointer;"
+          onmouseover="this.style.backgroundColor = '${this.configs.colorScheme.primary.background}'; this.style.color = '${this.configs.colorScheme.primary.text}'; this.style.cursor = 'pointer';"
+          onmouseout="this.style.backgroundColor = '${this.configs.colorScheme.secondary.background}'; this.style.color = '${this.configs.colorScheme.secondary.text}'; this.style.cursor = 'default';"
           onclick="${onClickAction}"
         >${value}</div>
       </div>`;
       }
       getModal(title) {
           const modalContainerEl = document.createElement('div');
-          modalContainerEl.setAttribute('class', CONFIGS.classes.modalContainer);
-          modalContainerEl.setAttribute('style', `display: flex; align-items: center; justify-content: center; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: ${this.colorScheme.overlay}; z-index: 1000;`);
+          modalContainerEl.setAttribute('class', CONSTS.classes.modalContainer);
+          modalContainerEl.setAttribute('style', `display: flex; align-items: center; justify-content: center; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: ${this.configs.colorScheme.overlay}; z-index: 1000;`);
           const modalDialog = document.createElement('div');
-          modalDialog.setAttribute('style', `background-color: ${this.colorScheme.secondary.background}; color: ${this.colorScheme.secondary.text}; border-radius: 5px; padding: 10px; box-shadow: 0px 4px 6px ${this.colorScheme.boxShadown}; max-width: 80%;`);
+          modalDialog.setAttribute('style', `background-color: ${this.configs.colorScheme.secondary.background}; color: ${this.configs.colorScheme.secondary.text}; border-radius: 5px; padding: 10px; box-shadow: 0px 4px 6px ${this.configs.colorScheme.boxShadown}; max-width: 80%;`);
           modalContainerEl.appendChild(modalDialog);
           const modalContent = document.createElement('div');
           modalDialog.appendChild(modalContent);
@@ -219,7 +219,7 @@
                   buttonsArr.forEach((item) => {
                       const confirmButton = document.createElement('button');
                       confirmButton.textContent = item.title;
-                      confirmButton.setAttribute('style', `display: block; width: 100%; margin-top: 10px; text-align: center; padding: 10px; border: none; background-color: ${this.colorScheme.primary.background}; color: ${this.colorScheme.primary.text}; border-radius: 5px; cursor: pointer;`);
+                      confirmButton.setAttribute('style', `display: block; width: 100%; margin-top: 10px; text-align: center; padding: 10px; border: none; background-color: ${this.configs.colorScheme.primary.background}; color: ${this.configs.colorScheme.primary.text}; border-radius: 5px; cursor: pointer;`);
                       confirmButton.addEventListener('click', () => {
                           item.action();
                           if (item.exitAfterAction !== false) {
@@ -240,7 +240,7 @@
               let modalSelector = '';
               let escAction = null;
               try {
-                  modalSelector = `.${CONFIGS.classes.modalContainer}`;
+                  modalSelector = `.${CONSTS.classes.modalContainer}`;
                   escAction = detectEscKeypress;
               }
               catch (e) {
@@ -272,16 +272,16 @@
               const toastId = '_ffa_toast';
               const toastDiv = document.createElement('div');
               toastDiv.id = toastId;
-              toastDiv.setAttribute('style', `position: fixed; padding: 10px; top: 20px; right: 20px; background-color: ${this.colorScheme.secondary.background}; color: ${this.colorScheme.secondary.text}; z-index: 1002; border-radius: 10px; box-shadow: 0 0 10px ${this.colorScheme.primary.background}; font-size: 16px;`);
+              toastDiv.setAttribute('style', `position: fixed; padding: 10px; top: 20px; right: 20px; background-color: ${this.configs.colorScheme.secondary.background}; color: ${this.configs.colorScheme.secondary.text}; z-index: 1002; border-radius: 10px; box-shadow: 0 0 10px ${this.configs.colorScheme.primary.background}; font-size: 16px;`);
               const message = document.createElement('span');
               message.innerHTML = msg.replace(/\n/g, '<br>');
               message.setAttribute('style', 'display: flex; justify-content: center; align-items: center; height: 100%;');
               toastDiv.appendChild(message);
               const progressBar = document.createElement('div');
-              progressBar.setAttribute('style', `width: 100%; background-color: ${this.colorScheme.secondary.background}; height: 5px; margin-top: 5px; border-radius: 3px; transition: width 1s linear;`);
+              progressBar.setAttribute('style', `width: 100%; background-color: ${this.configs.colorScheme.secondary.background}; height: 5px; margin-top: 5px; border-radius: 3px; transition: width 1s linear;`);
               toastDiv.appendChild(progressBar);
               const progress = document.createElement('div');
-              progress.setAttribute('style', `width: 100%; background-color: ${this.colorScheme.primary.background}; height: 100%; border-radius: 3px;`);
+              progress.setAttribute('style', `width: 100%; background-color: ${this.configs.colorScheme.primary.background}; height: 100%; border-radius: 3px;`);
               progressBar.appendChild(progress);
               document.body.appendChild(toastDiv);
               // set responsive width ==================================================
@@ -306,7 +306,7 @@
       }
       // PRIVATE METHODS ===========================================================
       logger(message, type = 'info') {
-          if (!this.runConfigs.debug) {
+          if (!this.configs.debug) {
               return;
           }
           if (type === 'error')
@@ -317,9 +317,11 @@
   }
 
   class DataUtils {
-      name = '';
+      personName = '';
+      companyName = '';
       constructor() {
-          this.name = this.generatePersonName();
+          this.personName = this.generatePersonName();
+          this.companyName = this.generateCompanyName();
       }
       // NUMBER FUNCTIONS ==========================================================
       generateCNPJ() {
@@ -407,25 +409,33 @@
           const randomSecondWord = secondWords[Math.floor(Math.random() * secondWords.length)];
           const randomNumber = Math.floor(Math.random() * 1000);
           const companyName = `${randomFirstWord} ${randomSecondWord} ${randomNumber}`;
+          this.companyName = companyName;
           return companyName;
       }
+      generateCompanyEmail() {
+          const randomNum = Math.floor(Math.random() * 900) + 100;
+          const email = this.companyName.replace(/\s/g, '.').toLowerCase();
+          const uniqueEmail = `${email}${randomNum}@gmail.com`;
+          return uniqueEmail;
+      }
+      // NAME FUNCTIONS ============================================================
       generatePersonName() {
           const firstNames = ['Miguel', 'Sofia', 'Davi', 'Alice', 'Arthur', 'Julia', 'Pedro', 'Manuela', 'Gabriel', 'Laura', 'Bernardo', 'Luiza', 'Lucas', 'Valentina', 'Matheus', 'Giovanna', 'Rafael', 'Beatriz', 'Enzo', 'Maria Eduarda'];
           const lastNames = ['Silva', 'Santos', 'Oliveira', 'Pereira', 'Almeida', 'Fernandes', 'Ribeiro', 'Costa', 'Carvalho', 'Martins', 'Rodrigues', 'Nascimento', 'Lima', 'Araújo', 'Monteiro', 'Gomes', 'Barbosa', 'Cardoso', 'Correia', 'Dias'];
           const randomFirstName = firstNames[Math.floor(Math.random() * firstNames.length)];
           const randomLastName = lastNames[Math.floor(Math.random() * lastNames.length)];
           const uniqueName = `${randomFirstName} ${randomLastName}`;
-          this.name = uniqueName;
+          this.personName = uniqueName;
           return uniqueName;
       }
       generatePersonEmail() {
           const randomNum = Math.floor(Math.random() * 900) + 100;
-          const email = this.name.replace(/\s/g, '.').toLowerCase();
+          const email = this.personName.replace(/\s/g, '.').toLowerCase();
           const uniqueEmail = `${email}${randomNum}@gmail.com`;
           return uniqueEmail;
       }
       generatePersonUsername() {
-          const initials = this.name
+          const initials = this.personName
               .split(' ')
               .map((part) => part.charAt(0))
               .join('')
@@ -451,29 +461,64 @@
   }
 
   class FormFiller {
-      colorScheme;
-      buttonConfigs;
-      runConfigs;
+      configs;
+      floatingEl;
+      optionsEl;
+      unbindEventsFn = () => { }; // eslint-disable-line
       constructor(configs) {
-          this.colorScheme = { ...CONFIGS.colorScheme, ...(configs?.colorScheme ? configs.colorScheme : {}) };
-          this.buttonConfigs = { ...CONFIGS.buttonConfigs, ...(configs?.buttonConfigs ? configs.buttonConfigs : {}) };
-          this.runConfigs = { ...CONFIGS.runConfigs, ...(configs?.runConfigs ? configs.runConfigs : {}) };
+          this.configs = { ...CONFIGS, ...configs };
+          this.floatingEl = null;
+          this.optionsEl = null;
       }
       // PUBLIC METHODS ============================================================
-      atach(optionsArr, headerOptions) {
-          const optionsEl = this.getOptionsEl(optionsArr, headerOptions);
-          this.atachFloatingToHTML(optionsEl);
-          document.addEventListener('click', (e) => {
-              const floatingContainer = document.querySelector(`.${CONFIGS.classes.floatingButton}`);
-              const optionsContainer = document.querySelector(`.${CONFIGS.classes.optionsContainer}`);
-              if (optionsContainer.style.display === 'block' && !floatingContainer.contains(e.target)) {
-                  optionsContainer.style.display = 'none';
-              }
-          });
+      updateOptions(floatingOptions) {
+          if (this.optionsEl) {
+              this.optionsEl.remove();
+              this.optionsEl = null;
+          }
+          if (!this.floatingEl) {
+              this.logger('first use attach in order to update options!');
+              return;
+          }
+          const optionsEl = this.getOptionsEl(floatingOptions.bodyOptions, floatingOptions.headerOptions);
+          const unbindEventsFn = this.atachFloatingToHTML(this.floatingEl, optionsEl);
+          this.optionsEl = optionsEl;
+          this.unbindEventsFn = unbindEventsFn;
+      }
+      detach() {
+          if (!this.floatingEl) {
+              this.logger('did not find floating button element');
+              return;
+          }
+          this.logger('removed floating button element');
+          this.unbindEventsFn();
+          this.floatingEl.remove();
+          this.unbindEventsFn = () => { }; // eslint-disable-line
+          this.floatingEl = null;
+          this.optionsEl = null;
+      }
+      attach(floatingOptions) {
+          const optionsEl = this.getOptionsEl(floatingOptions.bodyOptions, floatingOptions.headerOptions);
+          const floatingEl = this.createFloatingHTML();
+          const unbindEventsFn = this.atachFloatingToHTML(floatingEl, optionsEl);
+          this.detectUrlChangesOnSpa(this.configs.onSpaRouteChange);
+          this.floatingEl = floatingEl;
+          this.optionsEl = optionsEl;
+          this.unbindEventsFn = unbindEventsFn;
       }
       // PRIVATE METHODS ===========================================================
+      detectUrlChangesOnSpa(cb) {
+          let previousUrl = location.href;
+          const observer = new MutationObserver(() => {
+              if (previousUrl !== location.href) {
+                  previousUrl = location.href;
+                  cb(location.href);
+              }
+          });
+          observer.observe(document, { subtree: true, childList: true });
+      }
       logger(message, type = 'info') {
-          if (!this.runConfigs.debug) {
+          if (!this.configs.debug) {
               return;
           }
           if (type === 'error')
@@ -481,20 +526,20 @@
           if (type === 'info')
               console.log(message);
       }
-      getOptionsEl(optionsArr, headerOptions) {
+      getOptionsEl(bodyOptions, headerOptions) {
           const hasHeaderOptions = headerOptions && headerOptions.length > 0;
           const optionsContainer = document.createElement('div');
-          optionsContainer.setAttribute('style', `display: none; position: absolute; bottom: 70px; right: 0; color: ${this.colorScheme.secondary.text}; background-color: ${this.colorScheme.secondary.background}; border-radius: 5px; border: 1px solid ${this.colorScheme.secondary.border}; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); white-space: nowrap;`);
-          optionsContainer.setAttribute('class', CONFIGS.classes.optionsContainer);
+          optionsContainer.setAttribute('style', `display: none; position: absolute; bottom: 70px; right: 0; color: ${this.configs.colorScheme.secondary.text}; background-color: ${this.configs.colorScheme.secondary.background}; border-radius: 5px; border: 1px solid ${this.configs.colorScheme.secondary.border}; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); white-space: nowrap;`);
+          optionsContainer.setAttribute('class', CONSTS.classes.optionsContainer);
           // add header to options menu ==============================================
           const headerDiv = document.createElement('div');
           headerDiv.setAttribute('style', `width: 100%; display: grid; padding-top: 5px; grid-template-columns: ${hasHeaderOptions ? '1fr 2fr' : '1fr 1fr'};`);
           const versionDiv = document.createElement('div');
-          versionDiv.textContent = `V${CONFIGS.libInfo.version}`;
-          versionDiv.setAttribute('style', `display: flex; align-items: center; justify-content: center; font-size: 12px; color: ${this.colorScheme.primary.background}; cursor: pointer;`);
+          versionDiv.textContent = `V${CONSTS.libInfo.version}`;
+          versionDiv.setAttribute('style', `display: flex; align-items: center; justify-content: center; font-size: 12px; color: ${this.configs.colorScheme.primary.background}; cursor: pointer;`);
           versionDiv.addEventListener('click', () => {
               optionsContainer.style.display = 'none';
-              window.open(`${CONFIGS.libInfo.link}/releases/tag/v${CONFIGS.libInfo.version}`, '_blank');
+              window.open(`${CONSTS.libInfo.link}/releases/tag/v${CONSTS.libInfo.version}`, '_blank');
           });
           headerDiv.appendChild(versionDiv);
           const actionsDiv = document.createElement('div');
@@ -504,7 +549,7 @@
           githubIcon.setAttribute('style', `width: 18px; height: 18px; cursor: pointer;`);
           githubIcon.addEventListener('click', () => {
               optionsContainer.style.display = 'none';
-              window.open(CONFIGS.libInfo.link, '_blank');
+              window.open(CONSTS.libInfo.link, '_blank');
           });
           this.addTooltipToElement(githubIcon, 'visit the project github page');
           actionsDiv.appendChild(githubIcon);
@@ -525,16 +570,16 @@
           optionsContainer.appendChild(headerDiv);
           // divider div =============================================================
           const dividerDiv = document.createElement('div');
-          dividerDiv.setAttribute('style', `border-top: 1px solid ${this.colorScheme.secondary.border}; margin-top: 8px;`);
+          dividerDiv.setAttribute('style', `border-top: 1px solid ${this.configs.colorScheme.secondary.border}; margin-top: 8px;`);
           optionsContainer.appendChild(dividerDiv);
           // add options =============================================================
-          optionsArr.forEach((option, index) => {
+          bodyOptions.forEach((option, index) => {
               const optionButton = document.createElement('button');
               optionButton.textContent = `${index + 1} - ${option.name}`;
               optionButton.setAttribute('data', `key_${index + 1}`);
               optionButton.setAttribute('style', 'display: block; width: 100%; padding: 10px; border: none; background-color: transparent; text-align: left;');
-              optionButton.setAttribute('onmouseover', `this.style.backgroundColor = '${this.colorScheme.primary.background}'; this.style.color = '${this.colorScheme.primary.text}'; this.style.cursor = 'pointer';`);
-              optionButton.setAttribute('onmouseout', `this.style.backgroundColor = '${this.colorScheme.secondary.background}'; this.style.color = '${this.colorScheme.secondary.text}'; this.style.cursor = 'default';`);
+              optionButton.setAttribute('onmouseover', `this.style.backgroundColor = '${this.configs.colorScheme.primary.background}'; this.style.color = '${this.configs.colorScheme.primary.text}'; this.style.cursor = 'pointer';`);
+              optionButton.setAttribute('onmouseout', `this.style.backgroundColor = '${this.configs.colorScheme.secondary.background}'; this.style.color = '${this.configs.colorScheme.secondary.text}'; this.style.cursor = 'default';`);
               optionButton.addEventListener('click', () => {
                   optionsContainer.style.display = 'none';
                   document.removeEventListener('keydown', this.detectNumbersPress);
@@ -562,19 +607,22 @@
               }
           });
       }
-      atachFloatingToHTML(optionsContainer) {
-          const container = document.createElement('div');
-          container.setAttribute('style', `position: fixed; bottom: ${this.buttonConfigs.bottom}; right: ${this.buttonConfigs.right}; z-index: 9999;`);
-          container.setAttribute('class', CONFIGS.classes.floatingButton);
+      createFloatingHTML() {
+          const floatingEl = document.createElement('div');
+          floatingEl.setAttribute('style', `position: fixed; bottom: ${this.configs.floatingButton.bottom}; right: ${this.configs.floatingButton.right}; z-index: 9999;`);
+          floatingEl.setAttribute('class', CONSTS.classes.floatingContainer);
           const button = document.createElement('button');
-          button.setAttribute('style', `border-radius: 50%; width: 50px; height: 50px; background-color: ${this.colorScheme.primary.background}; color: ${this.colorScheme.primary.text}; border: none; cursor: pointer; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); display: flex; align-items: center; justify-content: center;`);
+          button.setAttribute('class', CONSTS.classes.floatingButton);
+          button.setAttribute('style', `border-radius: 50%; width: 50px; height: 50px; background-color: ${this.configs.colorScheme.primary.background}; color: ${this.configs.colorScheme.primary.text}; border: none; cursor: pointer; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); display: flex; align-items: center; justify-content: center;`);
           const svgIcon = document.createElement('img');
-          svgIcon.src = this.buttonConfigs.iconImage;
-          svgIcon.setAttribute('style', `width: 24px; height: 24px; ${this.buttonConfigs.iconColorCss}`);
+          svgIcon.src = this.configs.floatingButton.iconImage;
+          svgIcon.setAttribute('style', `width: 24px; height: 24px; ${this.configs.floatingButton.iconColorCss}`);
           button.appendChild(svgIcon);
-          container.appendChild(button);
-          container.appendChild(optionsContainer);
-          document.body.appendChild(container);
+          floatingEl.appendChild(button);
+          document.body.appendChild(floatingEl);
+          return floatingEl;
+      }
+      atachFloatingToHTML(floatingEl, optionsContainer) {
           const toogleFloating = () => {
               if (optionsContainer.style.display === 'none' || optionsContainer.style.display === '') {
                   optionsContainer.style.display = 'block';
@@ -585,17 +633,39 @@
                   document.removeEventListener('keydown', (event) => this.detectNumbersPress(event));
               }
           };
-          button.addEventListener('click', toogleFloating);
-          document.addEventListener('keydown', (event) => {
-              const isToogleFloatingShortcut = this.runConfigs.shortcutFn(event);
+          const detectFloatingShortcut = (event) => {
+              const isToogleFloatingShortcut = this.configs.floatingButton.shortcutFn(event);
               if (isToogleFloatingShortcut) {
                   this.logger('detected shortcut combination, toggling floating button');
                   toogleFloating();
               }
-          });
+          };
+          const detectClickOutside = (event) => {
+              const floatingContainer = document.querySelector(`.${CONSTS.classes.floatingContainer}`);
+              const optionsContainer = document.querySelector(`.${CONSTS.classes.optionsContainer}`);
+              if (optionsContainer.style.display === 'block' && !floatingContainer.contains(event.target)) {
+                  optionsContainer.style.display = 'none';
+              }
+          };
+          // =========================================================================
+          floatingEl.appendChild(optionsContainer);
+          const button = document.querySelector(`.${CONSTS.classes.floatingButton}`);
+          if (!button) {
+              this.logger('did not find button element', 'error');
+              return () => { }; // eslint-disable-line
+          }
+          button.addEventListener('click', toogleFloating);
+          document.addEventListener('keydown', detectFloatingShortcut);
+          document.addEventListener('click', detectClickOutside);
+          const unbindEventsFn = () => {
+              button.removeEventListener('click', toogleFloating);
+              document.removeEventListener('keydown', detectFloatingShortcut);
+              document.removeEventListener('click', detectClickOutside);
+          };
+          return unbindEventsFn;
       }
       detectNumbersPress(event) {
-          const optionsContainerEl = document.querySelector(`.${CONFIGS.classes.optionsContainer}`);
+          const optionsContainerEl = document.querySelector(`.${CONSTS.classes.optionsContainer}`);
           if (!optionsContainerEl || optionsContainerEl.style.display !== 'block') {
               return;
           }
@@ -654,34 +724,50 @@
       console.log('\nformFiller.browserUtils\n');
       console.table(getClassDetailedMethods(new BrowserUtils()));
       console.log(`\n# PACKAGE INFO ==================================================\n\n`);
-      console.log(`name        : ${CONFIGS.libInfo.name}`);
-      console.log(`version     : ${CONFIGS.libInfo.version}`);
-      console.log(`build_time  : ${CONFIGS.libInfo.buildTime}`);
-      console.log(`package link: ${CONFIGS.libInfo.link}`);
+      console.log(`name        : ${CONSTS.libInfo.name}`);
+      console.log(`version     : ${CONSTS.libInfo.version}`);
+      console.log(`build_time  : ${CONSTS.libInfo.buildTime}`);
+      console.log(`package link: ${CONSTS.libInfo.link}`);
       console.log('\n# CURRENT PAGE INPUT NAMES ======================================');
       Array.from(document.querySelectorAll('input')).forEach((el) => console.log(el.getAttribute('name')));
   };
 
   class FormFillerAssistant {
-      colorScheme;
-      buttonConfigs;
-      runConfigs;
+      configs;
+      formFiller;
+      VERSION = CONSTS.libInfo.version;
+      BUILD_DATETIME = CONSTS.libInfo.buildTime;
       constructor(configs) {
-          this.colorScheme = { ...CONFIGS.colorScheme, ...(configs?.colorScheme ? configs?.colorScheme : {}) };
-          this.buttonConfigs = { ...CONFIGS.buttonConfigs, ...(configs?.buttonConfigs ? configs?.buttonConfigs : {}) };
-          this.runConfigs = { ...CONFIGS.runConfigs, ...(configs?.runConfigs ? configs?.runConfigs : {}) };
+          const finalConfigs = {
+              ...CONFIGS,
+              ...(configs ? configs : {}),
+              colorScheme: {
+                  ...CONFIGS.colorScheme,
+                  ...(configs?.colorScheme ? configs.colorScheme : {})
+              },
+              floatingButton: {
+                  ...CONFIGS.floatingButton,
+                  ...(configs?.floatingButton ? configs.floatingButton : {})
+              }
+          };
+          this.configs = finalConfigs;
+          this.formFiller = new FormFiller(this.configs);
       }
-      VERSION = CONFIGS.libInfo.version;
-      BUILD_DATETIME = CONFIGS.libInfo.buildTime;
       help = help;
-      atach(options, headerOptions) {
-          new FormFiller({ colorScheme: this.colorScheme, runConfigs: this.runConfigs, buttonConfigs: this.buttonConfigs }).atach(options, headerOptions);
+      attach(floatingOptions) {
+          return this.formFiller.attach(floatingOptions);
       }
-      browserUtils() {
-          return new BrowserUtils({ colorScheme: this.colorScheme, runConfigs: this.runConfigs });
+      updateOptions(floatingOptions) {
+          return this.formFiller.updateOptions(floatingOptions);
+      }
+      detach() {
+          return this.formFiller.detach();
       }
       dataUtils() {
           return new DataUtils();
+      }
+      browserUtils() {
+          return new BrowserUtils(this.configs);
       }
   }
 

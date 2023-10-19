@@ -1,6 +1,29 @@
-import { TFloatingButtonConfigs, TColorScheme, TRunConfigs } from './types/types';
+import { TColorScheme, TConfigs, TFloatingButtonConfigs } from './types/types';
 
-const colorScheme: TColorScheme = {
+const classes = {
+  floatingContainer: 'ffa_floating_container',
+  floatingButton: 'ffa_floating_button',
+  optionsContainer: 'ffa_options_container',
+  modalContainer: 'ffa_modal_container'
+} as const;
+
+const libInfo = {
+  name: 'FORM_FILLER_ASSISTANT',
+  version: '__ROLL_UP_REPLACE_BUILD_VERSION__',
+  buildTime: '__ROLL_UP_REPLACE_BUILD_TIME__',
+  link: 'https://github.com/lucasvtiradentes/form_filler_assistant',
+  temperMonkeyLink: 'https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo',
+  initialScript: 'https://github.com/lucasvtiradentes/form_filler_assistant/dist/initial_temper_monkey_script.js'
+} as const;
+
+export const CONSTS = {
+  classes,
+  libInfo
+};
+
+// =============================================================================
+
+const colorScheme = {
   primary: {
     background: '#0074D9',
     text: '#fff'
@@ -13,40 +36,20 @@ const colorScheme: TColorScheme = {
   },
   overlay: 'rgba(0, 0, 0, 0.7)',
   boxShadown: 'rgba(0, 0, 0, 0.1)'
-};
+} as const satisfies TColorScheme;
 
-const buttonConfigs: TFloatingButtonConfigs = {
+const floatingButton = {
   iconImage: 'https://www.svgrepo.com/show/532994/plus.svg',
   iconColorCss: 'filter: invert(100%);',
   right: '30px',
-  bottom: '30px'
-};
-
-const classes = {
-  floatingButton: 'ffa_floating_container',
-  optionsContainer: 'ffa_options_container',
-  modalContainer: 'ffa_modal_container'
-} as const;
-
-const libInfo = {
-  name: 'FORM_FILLER_ASSISTANT',
-  version: '__ROLL_UP_REPLACE_BUILD_VERSION__',
-  buildTime: '__ROLL_UP_REPLACE_BUILD_TIME__',
-  link: 'https://github.com/lucasvtiradentes/form_filler_assistant',
-  temperMonkeyLink: 'https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo',
-  initialScript: 'https://github.com/lucasvtiradentes/form_filler_assistant/dist/initial_temper_monkey_script.js'
-};
-
-const runConfigs: TRunConfigs = {
-  debug: false,
-  typeDelay: 0,
+  bottom: '30px',
   shortcutFn: (event) => event.ctrlKey && event.code === 'Space'
-};
+} as const satisfies TFloatingButtonConfigs;
 
 export const CONFIGS = {
+  debug: false,
+  typeDelay: 0,
+  onSpaRouteChange: (newUrl: string) => console.log(`change route to: ${newUrl}`),
   colorScheme,
-  buttonConfigs,
-  classes,
-  libInfo,
-  runConfigs
-};
+  floatingButton
+} as const satisfies TConfigs;
