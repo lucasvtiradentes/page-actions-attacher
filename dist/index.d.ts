@@ -8,7 +8,8 @@ export default class FormFillerAssistant {
     private VERSION;
     private BUILD_DATETIME;
     constructor(configs?: TConfigs);
-    help: () => void;
+    help(): void;
+    logger(message: string, type?: 'info' | 'error'): void;
     attach(floatingOptions: TFloatingOptions): void;
     updateOptions(floatingOptions: TFloatingOptions): void;
     detach(): void;

@@ -32,7 +32,7 @@ export default class FormFiller {
       return;
     }
 
-    const optionsEl = this.getOptionsEl(floatingOptions.bodyOptions, floatingOptions.headerOptions);
+    const optionsEl = this.getOptionsEl(floatingOptions);
     const unbindEventsFn = this.atachFloatingToHTML(this.floatingEl, optionsEl);
 
     this.optionsEl = optionsEl;
@@ -55,7 +55,7 @@ export default class FormFiller {
   }
 
   attach(floatingOptions: TFloatingOptions) {
-    const optionsEl = this.getOptionsEl(floatingOptions.bodyOptions, floatingOptions.headerOptions);
+    const optionsEl = this.getOptionsEl(floatingOptions);
     const floatingEl = this.createFloatingHTML();
     const unbindEventsFn = this.atachFloatingToHTML(floatingEl, optionsEl);
 
@@ -90,7 +90,7 @@ export default class FormFiller {
     if (type === 'info') console.log(message);
   }
 
-  private getOptionsEl(bodyOptions: TListOptionItem[], headerOptions?: THeaderOptionItem[]) {
+  private getOptionsEl({ bodyOptions, headerOptions }: TFloatingOptions) {
     const hasHeaderOptions = headerOptions && headerOptions.length > 0;
 
     const optionsContainer = document.createElement('div');
@@ -153,20 +153,22 @@ export default class FormFiller {
 
     // add options =============================================================
 
-    bodyOptions.forEach((option, index: number) => {
-      const optionButton = document.createElement('button');
-      optionButton.textContent = `${index + 1} - ${option.name}`;
-      optionButton.setAttribute('data', `key_${index + 1}`);
-      optionButton.setAttribute('style', 'display: block; width: 100%; padding: 10px; border: none; background-color: transparent; text-align: left;');
-      optionButton.setAttribute('onmouseover', `this.style.backgroundColor = '${this.configs.colorScheme.primary.background}'; this.style.color = '${this.configs.colorScheme.primary.text}'; this.style.cursor = 'pointer';`);
-      optionButton.setAttribute('onmouseout', `this.style.backgroundColor = '${this.configs.colorScheme.secondary.background}'; this.style.color = '${this.configs.colorScheme.secondary.text}'; this.style.cursor = 'default';`);
-      optionButton.addEventListener('click', () => {
-        optionsContainer.style.display = 'none';
-        document.removeEventListener('keydown', this.detectNumbersPress);
-        option.action();
+    if (bodyOptions) {
+      bodyOptions.forEach((option, index: number) => {
+        const optionButton = document.createElement('button');
+        optionButton.textContent = `${index + 1} - ${option.name}`;
+        optionButton.setAttribute('data', `key_${index + 1}`);
+        optionButton.setAttribute('style', 'display: block; width: 100%; padding: 10px; border: none; background-color: transparent; text-align: left;');
+        optionButton.setAttribute('onmouseover', `this.style.backgroundColor = '${this.configs.colorScheme.primary.background}'; this.style.color = '${this.configs.colorScheme.primary.text}'; this.style.cursor = 'pointer';`);
+        optionButton.setAttribute('onmouseout', `this.style.backgroundColor = '${this.configs.colorScheme.secondary.background}'; this.style.color = '${this.configs.colorScheme.secondary.text}'; this.style.cursor = 'default';`);
+        optionButton.addEventListener('click', () => {
+          optionsContainer.style.display = 'none';
+          document.removeEventListener('keydown', this.detectNumbersPress);
+          option.action();
+        });
+        optionsContainer.appendChild(optionButton);
       });
-      optionsContainer.appendChild(optionButton);
-    });
+    }
 
     return optionsContainer;
   }

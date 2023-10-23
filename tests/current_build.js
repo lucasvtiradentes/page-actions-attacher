@@ -24,17 +24,22 @@ async function main(FormFiller) {
     boxShadown: 'rgba(0, 0, 0, 0.1)'
   };
 
-  const buttonConfigs = {
+  const floatingButton = {
     right: '30px',
     bottom: '30px'
   };
 
-  const runConfigs = {
+  const onSpaRouteChange = (newUrl) => console.log(`URL changed to ${newUrl}!`);
+
+  const formFillerConfigs = {
     debug: true,
-    typeDelay: 500
+    typeDelay: 500,
+    onSpaRouteChange,
+    colorScheme,
+    floatingButton
   };
 
-  const formFiller = new FormFiller({ colorScheme, buttonConfigs, runConfigs });
+  const formFiller = new FormFiller(formFillerConfigs);
 
   // ===========================================================================
 
@@ -114,7 +119,7 @@ async function main(FormFiller) {
 
   // ===========================================================================
 
-  const optionsArr = [
+  const bodyOptions = [
     { name: 'show lib helper', action: () => formFiller.help() },
     { name: 'show advanced modal', action: toogleModal },
     { name: 'show simple modal', action: toogleSimpleModal },
@@ -123,7 +128,5 @@ async function main(FormFiller) {
 
   const headerOptions = [{ icon: 'https://www.svgrepo.com/show/460136/update-alt.svg', description: 'update FormFillerAssistant', action: () => alert(1) }];
 
-  const onSpaRouteChange = (newUrl) => console.log(`URL changed to ${newUrl}!`);
-
-  formFiller.atach({ optionsArr, headerOptions, onSpaRouteChange });
+  formFiller.attach({ bodyOptions, headerOptions });
 }

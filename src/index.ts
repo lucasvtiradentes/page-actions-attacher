@@ -26,10 +26,22 @@ export default class FormFillerAssistant {
     };
 
     this.configs = finalConfigs;
-    this.formFiller = new FormFiller(this.configs);
+    this.formFiller = new FormFiller(finalConfigs);
   }
 
-  help = helpFn;
+  help() {
+    helpFn();
+  }
+
+  logger(message: string, type?: 'info' | 'error') {
+    const finalType = type ?? 'info';
+    if (!this.configs.debug) {
+      return;
+    }
+
+    if (finalType === 'info') console.log(message);
+    if (finalType === 'error') console.error(message);
+  }
 
   attach(floatingOptions: TFloatingOptions) {
     return this.formFiller.attach(floatingOptions);

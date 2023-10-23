@@ -13,7 +13,7 @@
   const libInfo = {
       name: 'FORM_FILLER_ASSISTANT',
       version: '1.10.0',
-      buildTime: '18/10/2023 22:26:06',
+      buildTime: '22/10/2023 22:56:44',
       link: 'https://github.com/lucasvtiradentes/form_filler_assistant',
       temperMonkeyLink: 'https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo',
       initialScript: 'https://github.com/lucasvtiradentes/form_filler_assistant/dist/initial_temper_monkey_script.js'
@@ -480,7 +480,7 @@
               this.logger('first use attach in order to update options!');
               return;
           }
-          const optionsEl = this.getOptionsEl(floatingOptions.bodyOptions, floatingOptions.headerOptions);
+          const optionsEl = this.getOptionsEl(floatingOptions);
           const unbindEventsFn = this.atachFloatingToHTML(this.floatingEl, optionsEl);
           this.optionsEl = optionsEl;
           this.unbindEventsFn = unbindEventsFn;
@@ -498,7 +498,7 @@
           this.optionsEl = null;
       }
       attach(floatingOptions) {
-          const optionsEl = this.getOptionsEl(floatingOptions.bodyOptions, floatingOptions.headerOptions);
+          const optionsEl = this.getOptionsEl(floatingOptions);
           const floatingEl = this.createFloatingHTML();
           const unbindEventsFn = this.atachFloatingToHTML(floatingEl, optionsEl);
           this.detectUrlChangesOnSpa(this.configs.onSpaRouteChange);
@@ -526,7 +526,7 @@
           if (type === 'info')
               console.log(message);
       }
-      getOptionsEl(bodyOptions, headerOptions) {
+      getOptionsEl({ bodyOptions, headerOptions }) {
           const hasHeaderOptions = headerOptions && headerOptions.length > 0;
           const optionsContainer = document.createElement('div');
           optionsContainer.setAttribute('style', `display: none; position: absolute; bottom: 70px; right: 0; color: ${this.configs.colorScheme.secondary.text}; background-color: ${this.configs.colorScheme.secondary.background}; border-radius: 5px; border: 1px solid ${this.configs.colorScheme.secondary.border}; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); white-space: nowrap;`);
@@ -573,20 +573,22 @@
           dividerDiv.setAttribute('style', `border-top: 1px solid ${this.configs.colorScheme.secondary.border}; margin-top: 8px;`);
           optionsContainer.appendChild(dividerDiv);
           // add options =============================================================
-          bodyOptions.forEach((option, index) => {
-              const optionButton = document.createElement('button');
-              optionButton.textContent = `${index + 1} - ${option.name}`;
-              optionButton.setAttribute('data', `key_${index + 1}`);
-              optionButton.setAttribute('style', 'display: block; width: 100%; padding: 10px; border: none; background-color: transparent; text-align: left;');
-              optionButton.setAttribute('onmouseover', `this.style.backgroundColor = '${this.configs.colorScheme.primary.background}'; this.style.color = '${this.configs.colorScheme.primary.text}'; this.style.cursor = 'pointer';`);
-              optionButton.setAttribute('onmouseout', `this.style.backgroundColor = '${this.configs.colorScheme.secondary.background}'; this.style.color = '${this.configs.colorScheme.secondary.text}'; this.style.cursor = 'default';`);
-              optionButton.addEventListener('click', () => {
-                  optionsContainer.style.display = 'none';
-                  document.removeEventListener('keydown', this.detectNumbersPress);
-                  option.action();
+          if (bodyOptions) {
+              bodyOptions.forEach((option, index) => {
+                  const optionButton = document.createElement('button');
+                  optionButton.textContent = `${index + 1} - ${option.name}`;
+                  optionButton.setAttribute('data', `key_${index + 1}`);
+                  optionButton.setAttribute('style', 'display: block; width: 100%; padding: 10px; border: none; background-color: transparent; text-align: left;');
+                  optionButton.setAttribute('onmouseover', `this.style.backgroundColor = '${this.configs.colorScheme.primary.background}'; this.style.color = '${this.configs.colorScheme.primary.text}'; this.style.cursor = 'pointer';`);
+                  optionButton.setAttribute('onmouseout', `this.style.backgroundColor = '${this.configs.colorScheme.secondary.background}'; this.style.color = '${this.configs.colorScheme.secondary.text}'; this.style.cursor = 'default';`);
+                  optionButton.addEventListener('click', () => {
+                      optionsContainer.style.display = 'none';
+                      document.removeEventListener('keydown', this.detectNumbersPress);
+                      option.action();
+                  });
+                  optionsContainer.appendChild(optionButton);
               });
-              optionsContainer.appendChild(optionButton);
-          });
+          }
           return optionsContainer;
       }
       addTooltipToElement(element, description) {
@@ -751,9 +753,21 @@
               }
           };
           this.configs = finalConfigs;
-          this.formFiller = new FormFiller(this.configs);
+          this.formFiller = new FormFiller(finalConfigs);
       }
-      help = help;
+      help() {
+          help();
+      }
+      logger(message, type) {
+          const finalType = type ?? 'info';
+          if (!this.configs.debug) {
+              return;
+          }
+          if (finalType === 'info')
+              console.log(message);
+          if (finalType === 'error')
+              console.error(message);
+      }
       attach(floatingOptions) {
           return this.formFiller.attach(floatingOptions);
       }
