@@ -17,11 +17,11 @@ export default class FormFillerAssistant {
       ...(configs ? configs : {}),
       colorScheme: {
         ...CONFIGS.colorScheme,
-        ...(configs?.colorScheme ? configs.colorScheme : {})
+        ...(configs?.colorScheme ?? {})
       },
       floatingButton: {
         ...CONFIGS.floatingButton,
-        ...(configs?.floatingButton ? configs.floatingButton : {})
+        ...(configs?.floatingButton ?? {})
       }
     };
 

@@ -1,13 +1,8 @@
 export default class DataUtils {
-  private personName = '';
-  private companyName = '';
+  private personName = this.generatePersonName();
+  private companyName = this.generateCompanyName();
 
-  constructor() {
-    this.personName = this.generatePersonName();
-    this.companyName = this.generateCompanyName();
-  }
-
-  // NUMBER FUNCTIONS ==========================================================
+  // BRAZILIAN SPECIAL FUNCTIONS ===============================================
 
   generateCNPJ(): string {
     const randomDigit = () => {
@@ -94,7 +89,7 @@ export default class DataUtils {
     }
   }
 
-  // NAME FUNCTIONS ============================================================
+  // COMPANY FUNCTIONS =========================================================
 
   generateCompanyName(): string {
     const firstWords = ['Tecnologia', 'Global', 'Inovador', 'Digital', 'Criativo', 'Avançado', 'Ecológico', 'Futuro', 'Dinâmico', 'Estratégico', 'Inovação', 'Sustentável', 'Inteligente', 'Modernidade', 'Progresso', 'Transformação', 'Qualidade', 'Comunicação', 'Conectado', 'Energia'];
@@ -110,14 +105,14 @@ export default class DataUtils {
     return companyName;
   }
 
-  generateCompanyEmail(): string {
+  generateCompanyEmail(companyName?: string): string {
     const randomNum = Math.floor(Math.random() * 900) + 100;
-    const email = this.companyName.replace(/\s/g, '.').toLowerCase();
+    const email = (companyName ?? this.companyName).replace(/\s/g, '.').toLowerCase();
     const uniqueEmail = `${email}${randomNum}@gmail.com`;
     return uniqueEmail;
   }
 
-  // NAME FUNCTIONS ============================================================
+  // PERSON FUNCTIONS ==========================================================
 
   generatePersonName(): string {
     const firstNames = ['Miguel', 'Sofia', 'Davi', 'Alice', 'Arthur', 'Julia', 'Pedro', 'Manuela', 'Gabriel', 'Laura', 'Bernardo', 'Luiza', 'Lucas', 'Valentina', 'Matheus', 'Giovanna', 'Rafael', 'Beatriz', 'Enzo', 'Maria Eduarda'];
@@ -132,19 +127,16 @@ export default class DataUtils {
     return uniqueName;
   }
 
-  generatePersonEmail(): string {
+  generatePersonEmail(name?: string): string {
     const randomNum = Math.floor(Math.random() * 900) + 100;
-    const email = this.personName.replace(/\s/g, '.').toLowerCase();
+    const email = (name ?? this.personName).replace(/\s/g, '.').toLowerCase();
     const uniqueEmail = `${email}${randomNum}@gmail.com`;
     return uniqueEmail;
   }
 
-  generatePersonUsername(): string {
-    const initials = this.personName
-      .split(' ')
-      .map((part) => part.charAt(0))
-      .join('')
-      .toLowerCase();
+  generatePersonUsername(name?: string): string {
+    // prettier-ignore
+    const initials = (name ??this.personName).split(' ').map((part) => part.charAt(0)).join('').toLowerCase();
 
     const randomNum = Math.floor(Math.random() * 9000) + 1000;
     const uniqueUsername = `${initials}${randomNum}`;

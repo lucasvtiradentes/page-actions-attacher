@@ -136,7 +136,7 @@ This package comes with the following commands list:
     <th>Description</th>
   </tr>
   <tr>
-    <td rowspan="1"><code>atach(optionsArr, headerOptionsArr?)</code></td>
+    <td rowspan="1"><code>attach(optionsArr, headerOptionsArr?)</code></td>
     <td>-</td>
     <td>Used to atach your options to the floating button. You can also specify custom header options.</td>
   </tr>

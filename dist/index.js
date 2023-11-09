@@ -13,7 +13,7 @@
   const libInfo = {
       name: 'FORM_FILLER_ASSISTANT',
       version: '1.11.0',
-      buildTime: '23/10/2023 00:04:05',
+      buildTime: '08/11/2023 21:21:04',
       link: 'https://github.com/lucasvtiradentes/form_filler_assistant',
       temperMonkeyLink: 'https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo',
       initialScript: 'https://github.com/lucasvtiradentes/form_filler_assistant/dist/initial_temper_monkey_script.js'
@@ -317,13 +317,9 @@
   }
 
   class DataUtils {
-      personName = '';
-      companyName = '';
-      constructor() {
-          this.personName = this.generatePersonName();
-          this.companyName = this.generateCompanyName();
-      }
-      // NUMBER FUNCTIONS ==========================================================
+      personName = this.generatePersonName();
+      companyName = this.generateCompanyName();
+      // BRAZILIAN SPECIAL FUNCTIONS ===============================================
       generateCNPJ() {
           const randomDigit = () => {
               return Math.floor(Math.random() * 10);
@@ -401,7 +397,7 @@
               return this.generateCPF();
           }
       }
-      // NAME FUNCTIONS ============================================================
+      // COMPANY FUNCTIONS =========================================================
       generateCompanyName() {
           const firstWords = ['Tecnologia', 'Global', 'Inovador', 'Digital', 'Criativo', 'Avançado', 'Ecológico', 'Futuro', 'Dinâmico', 'Estratégico', 'Inovação', 'Sustentável', 'Inteligente', 'Modernidade', 'Progresso', 'Transformação', 'Qualidade', 'Comunicação', 'Conectado', 'Energia'];
           const secondWords = ['Soluções', 'Sistemas', 'Empresas', 'Grupo', 'Serviços', 'Corp', 'Indústrias', 'Tecnologias', 'Inovações', 'Ventures', 'Parcerias', 'Produtos', 'Consultoria', 'Desenvolvimento', 'Logística', 'Comércio', 'Marketing', 'Pesquisa', 'Engenharia', 'Educação'];
@@ -412,13 +408,13 @@
           this.companyName = companyName;
           return companyName;
       }
-      generateCompanyEmail() {
+      generateCompanyEmail(companyName) {
           const randomNum = Math.floor(Math.random() * 900) + 100;
-          const email = this.companyName.replace(/\s/g, '.').toLowerCase();
+          const email = (companyName ?? this.companyName).replace(/\s/g, '.').toLowerCase();
           const uniqueEmail = `${email}${randomNum}@gmail.com`;
           return uniqueEmail;
       }
-      // NAME FUNCTIONS ============================================================
+      // PERSON FUNCTIONS ==========================================================
       generatePersonName() {
           const firstNames = ['Miguel', 'Sofia', 'Davi', 'Alice', 'Arthur', 'Julia', 'Pedro', 'Manuela', 'Gabriel', 'Laura', 'Bernardo', 'Luiza', 'Lucas', 'Valentina', 'Matheus', 'Giovanna', 'Rafael', 'Beatriz', 'Enzo', 'Maria Eduarda'];
           const lastNames = ['Silva', 'Santos', 'Oliveira', 'Pereira', 'Almeida', 'Fernandes', 'Ribeiro', 'Costa', 'Carvalho', 'Martins', 'Rodrigues', 'Nascimento', 'Lima', 'Araújo', 'Monteiro', 'Gomes', 'Barbosa', 'Cardoso', 'Correia', 'Dias'];
@@ -428,18 +424,15 @@
           this.personName = uniqueName;
           return uniqueName;
       }
-      generatePersonEmail() {
+      generatePersonEmail(name) {
           const randomNum = Math.floor(Math.random() * 900) + 100;
-          const email = this.personName.replace(/\s/g, '.').toLowerCase();
+          const email = (name ?? this.personName).replace(/\s/g, '.').toLowerCase();
           const uniqueEmail = `${email}${randomNum}@gmail.com`;
           return uniqueEmail;
       }
-      generatePersonUsername() {
-          const initials = this.personName
-              .split(' ')
-              .map((part) => part.charAt(0))
-              .join('')
-              .toLowerCase();
+      generatePersonUsername(name) {
+          // prettier-ignore
+          const initials = (name ?? this.personName).split(' ').map((part) => part.charAt(0)).join('').toLowerCase();
           const randomNum = Math.floor(Math.random() * 9000) + 1000;
           const uniqueUsername = `${initials}${randomNum}`;
           return uniqueUsername;
@@ -745,11 +738,11 @@
               ...(configs ? configs : {}),
               colorScheme: {
                   ...CONFIGS.colorScheme,
-                  ...(configs?.colorScheme ? configs.colorScheme : {})
+                  ...(configs?.colorScheme ?? {})
               },
               floatingButton: {
                   ...CONFIGS.floatingButton,
-                  ...(configs?.floatingButton ? configs.floatingButton : {})
+                  ...(configs?.floatingButton ?? {})
               }
           };
           this.configs = finalConfigs;

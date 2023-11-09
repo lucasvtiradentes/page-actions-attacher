@@ -8,7 +8,7 @@ export declare const CONSTS: {
     libInfo: {
         readonly name: "FORM_FILLER_ASSISTANT";
         readonly version: "1.11.0";
-        readonly buildTime: "23/10/2023 00:04:05";
+        readonly buildTime: "08/11/2023 21:21:04";
         readonly link: "https://github.com/lucasvtiradentes/form_filler_assistant";
         readonly temperMonkeyLink: "https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo";
         readonly initialScript: "https://github.com/lucasvtiradentes/form_filler_assistant/dist/initial_temper_monkey_script.js";
