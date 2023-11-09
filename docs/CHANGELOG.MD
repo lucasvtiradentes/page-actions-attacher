@@ -1,5 +1,12 @@
 # CHANGELOG HISTORY
 
+## [1.12.0](https://github.com/lucasvtiradentes/form_filler_assistant/compare/v1.11.0...v1.12.0) (2023-11-09)
+
+
+### ✨ feature:
+
+* update data methods ([bcf0fe4](https://github.com/lucasvtiradentes/form_filler_assistant/commit/bcf0fe4bf421d1b2ab4cc374700716ee40a0ab50))
+
 ## [1.11.0](https://github.com/lucasvtiradentes/form_filler_assistant/compare/v1.10.0...v1.11.0) (2023-10-23)
 
 
