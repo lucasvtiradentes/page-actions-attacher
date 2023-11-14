@@ -1,7 +1,7 @@
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
-  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.FormFillerAssistant = factory());
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.PageActionsAttacher = factory());
 })(this, (function () { 'use strict';
 
   const classes = {
@@ -11,12 +11,12 @@
       modalContainer: 'ffa_modal_container'
   };
   const libInfo = {
-      name: 'FORM_FILLER_ASSISTANT',
+      name: 'PAGE_ACTIONS_ATTACHER',
       version: '1.12.0',
-      buildTime: '08/11/2023 22:11:06',
-      link: 'https://github.com/lucasvtiradentes/form_filler_assistant',
+      buildTime: '13/11/2023 21:42:36',
+      link: 'https://github.com/lucasvtiradentes/page_actions_attacher',
       temperMonkeyLink: 'https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo',
-      initialScript: 'https://github.com/lucasvtiradentes/form_filler_assistant/dist/initial_temper_monkey_script.js'
+      initialScript: 'https://github.com/lucasvtiradentes/page_actions_attacher/dist/initial_temper_monkey_script.js'
   };
   const CONSTS = {
       classes,
@@ -453,7 +453,7 @@
       }
   }
 
-  class FormFiller {
+  class AttacherUtils {
       configs;
       floatingEl;
       optionsEl;
@@ -713,10 +713,10 @@
   const help = () => {
       console.log(`# METHODS =======================================================\n`);
       console.log('\nOther methods\n');
-      console.table({ 'formFiller.atach': { parameters: 'optionsArr' }, 'formFiller.help': { parameters: '' } });
-      console.log('\nformFiller.dataUtils\n');
+      console.table({ 'pageActionsAttacher.atach': { parameters: 'optionsArr' }, 'pageActionsAttacher.help': { parameters: '' } });
+      console.log('\npageActionsAttacher.dataUtils\n');
       console.table(getClassDetailedMethods(new DataUtils()));
-      console.log('\nformFiller.browserUtils\n');
+      console.log('\npageActionsAttacher.browserUtils\n');
       console.table(getClassDetailedMethods(new BrowserUtils()));
       console.log(`\n# PACKAGE INFO ==================================================\n\n`);
       console.log(`name        : ${CONSTS.libInfo.name}`);
@@ -727,9 +727,9 @@
       Array.from(document.querySelectorAll('input')).forEach((el) => console.log(el.getAttribute('name')));
   };
 
-  class FormFillerAssistant {
+  class PageActionsAttacher {
       configs;
-      formFiller;
+      attacherUtils;
       VERSION = CONSTS.libInfo.version;
       BUILD_DATETIME = CONSTS.libInfo.buildTime;
       constructor(configs) {
@@ -746,7 +746,7 @@
               }
           };
           this.configs = finalConfigs;
-          this.formFiller = new FormFiller(finalConfigs);
+          this.attacherUtils = new AttacherUtils(finalConfigs);
       }
       help() {
           help();
@@ -762,13 +762,13 @@
               console.error(message);
       }
       attach(floatingOptions) {
-          return this.formFiller.attach(floatingOptions);
+          return this.attacherUtils.attach(floatingOptions);
       }
       updateOptions(floatingOptions) {
-          return this.formFiller.updateOptions(floatingOptions);
+          return this.attacherUtils.updateOptions(floatingOptions);
       }
       detach() {
-          return this.formFiller.detach();
+          return this.attacherUtils.detach();
       }
       dataUtils() {
           return new DataUtils();
@@ -778,6 +778,6 @@
       }
   }
 
-  return FormFillerAssistant;
+  return PageActionsAttacher;
 
 }));

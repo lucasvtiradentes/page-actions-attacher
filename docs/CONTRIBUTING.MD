@@ -14,8 +14,8 @@ Please proceed with a Pull Request only after you're assigned. It'd be sad if yo
 1. Install with:
 
    ```sh
-   git clone https://github.com/lucasvtiradentes/form_filler_assistant
-   cd form_filler_assistant
+   git clone https://github.com/lucasvtiradentes/page_actions_attacher
+   cd page_actions_attacher
    npm install
    ```
 
@@ -24,7 +24,7 @@ Please proceed with a Pull Request only after you're assigned. It'd be sad if yo
    - adding better docs;
    - adding more flag options.
 
-3. Test if `form_filler_assistant` is working properly, by:
+3. Test if `page_actions_attacher` is working properly, by:
 
    ```sh
    npm run test

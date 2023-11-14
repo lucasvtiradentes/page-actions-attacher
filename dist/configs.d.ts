@@ -6,12 +6,12 @@ export declare const CONSTS: {
         readonly modalContainer: "ffa_modal_container";
     };
     libInfo: {
-        readonly name: "FORM_FILLER_ASSISTANT";
+        readonly name: "PAGE_ACTIONS_ATTACHER";
         readonly version: "1.12.0";
-        readonly buildTime: "08/11/2023 22:11:06";
-        readonly link: "https://github.com/lucasvtiradentes/form_filler_assistant";
+        readonly buildTime: "13/11/2023 21:42:36";
+        readonly link: "https://github.com/lucasvtiradentes/page_actions_attacher";
         readonly temperMonkeyLink: "https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo";
-        readonly initialScript: "https://github.com/lucasvtiradentes/form_filler_assistant/dist/initial_temper_monkey_script.js";
+        readonly initialScript: "https://github.com/lucasvtiradentes/page_actions_attacher/dist/initial_temper_monkey_script.js";
     };
 };
 export declare const CONFIGS: {

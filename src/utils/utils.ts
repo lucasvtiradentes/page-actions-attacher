@@ -47,10 +47,10 @@ function getClassDetailedMethods<T>(instance: T) {
 export const help = () => {
   console.log(`# METHODS =======================================================\n`);
   console.log('\nOther methods\n');
-  console.table({ 'formFiller.atach': { parameters: 'optionsArr' }, 'formFiller.help': { parameters: '' } });
-  console.log('\nformFiller.dataUtils\n');
+  console.table({ 'pageActionsAttacher.atach': { parameters: 'optionsArr' }, 'pageActionsAttacher.help': { parameters: '' } });
+  console.log('\npageActionsAttacher.dataUtils\n');
   console.table(getClassDetailedMethods(new DataUtils()));
-  console.log('\nformFiller.browserUtils\n');
+  console.log('\npageActionsAttacher.browserUtils\n');
   console.table(getClassDetailedMethods(new BrowserUtils()));
 
   console.log(`\n# PACKAGE INFO ==================================================\n\n`);

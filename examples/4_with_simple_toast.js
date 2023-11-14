@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         FormFillerAssistant
+// @name         PageActionsAttacher
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  try to take over the world!
@@ -25,24 +25,24 @@
   // 1 - SETUP THE PACKAGE CONTENT ON THE PAGE =================================
 
   const CONFIGS = getConfigsObject();
-  const formFillerAssistantContent = await getFormFillerAssitantContent(CONFIGS);
-  if (!formFillerAssistantContent.content) {
+  const pageActionsAttacherContent = await getFormFillerAssitantContent(CONFIGS);
+  if (!pageActionsAttacherContent.content) {
     console.log(`Error loading ${CONFIGS.packageName}`);
     return;
   }
 
-  eval(formFillerAssistantContent.content); // eslint-disable-line
-  const FormFiller = FormFillerAssistant; // eslint-disable-line
+  eval(pageActionsAttacherContent.content); // eslint-disable-line
+  const PageActionsAttacher = PageActionsAttacher; // eslint-disable-line
 
   // 2 - SETUP YOUR INSTANCE ===================================================
 
-  const formFiller = new FormFiller();
-  console.log(`loaded ${CONFIGS.packageName} [${formFiller.VERSION} - ${formFillerAssistantContent.method}]`);
+  const pageActionsAttacher = new PageActionsAttacher();
+  console.log(`loaded ${CONFIGS.packageName} [${pageActionsAttacher.VERSION} - ${pageActionsAttacherContent.method}]`);
 
   // 3 - CREATE YOUR METHODS HERE ==============================================
 
   async function fillSauceDemoForm() {
-    const browserUtils = formFiller.browserUtils();
+    const browserUtils = pageActionsAttacher.browserUtils();
 
     await browserUtils.typeOnInputBySelector('input[name="user-name"]', 'standard_user');
     await browserUtils.typeOnInputBySelector('input[name="password"]', 'secret_sauce');
@@ -56,31 +56,31 @@
   }
 
   function showToast() {
-    formFiller.browserUtils().showToast('new version found!\nPlease refresh the page!', 2);
+    pageActionsAttacher.browserUtils().showToast('new version found!\nPlease refresh the page!', 2);
   }
 
   // 4 - ADDING YOUR METHODS TO THE FLOATING BUTTON ============================
 
   const options = [
-    { name: 'show lib helper', action: formFiller.help },
+    { name: 'show lib helper', action: pageActionsAttacher.help },
     { name: 'fill saucedemo form', action: fillSauceDemoForm },
     { name: 'show simple toast', action: showToast }
   ];
 
-  formFiller.atach(options);
+  pageActionsAttacher.atach(options);
 
   // 5 - DONT NEED TO CHANGE AFTER THIS ========================================
 
   function getConfigsObject() {
     return {
-      packageName: 'FormFillerAssistant',
+      packageName: 'PageActionsAttacher',
       versionStorageKey: '_ffa_version',
       contentStorageKey: '_ffa_content'
     };
   }
 
   async function getLatestFormFillerAssistantVersion() {
-    const response = await fetch(`https://api.github.com/repos/lucasvtiradentes/form_filler_assistant/tags`);
+    const response = await fetch(`https://api.github.com/repos/lucasvtiradentes/page_actions_attacher/tags`);
     const content = await response.text();
     const allTags = content ? JSON.parse(content) : [];
     const latestVersion = allTags.length === 0 ? '' : allTags[0]?.name?.replace('v', '') ?? '';
@@ -94,7 +94,7 @@
   }
 
   async function downloadFormFillerAssistantContent(versionToDownload) {
-    const response = await fetch(`https://cdn.jsdelivr.net/npm/form_filler_assistant@${versionToDownload}/dist/index.js`);
+    const response = await fetch(`https://cdn.jsdelivr.net/npm/page_actions_attacher@${versionToDownload}/dist/index.js`);
     const content = await response.text();
     return content;
   }
@@ -144,9 +144,9 @@
     if (shouldUpdate) {
       console.log(`found new ${configsObj.packageName} version: ${latestVersion}`);
       await downloadAndCacheVersion(configsObj, latestVersion);
-      formFiller.browserUtils().showToast(`Updated ${configsObj.packageName} from ${cachedVersion} to ${latestVersion}.\nRefresh the page to see the changes!`);
+      pageActionsAttacher.browserUtils().showToast(`Updated ${configsObj.packageName} from ${cachedVersion} to ${latestVersion}.\nRefresh the page to see the changes!`);
     } else {
-      formFiller.browserUtils().showToast(`No newer ${configsObj.packageName} version found!`);
+      pageActionsAttacher.browserUtils().showToast(`No newer ${configsObj.packageName} version found!`);
     }
   }
 })();

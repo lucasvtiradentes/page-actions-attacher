@@ -1,13 +1,13 @@
 <a name="TOC"></a>
 
 <h3 align="center">
-  FORM FILLER ASSISTANT
+  PAGE ACTIONS ATTACHER
 </h3>
 
 <div align="center">
-  <a href="https://www.npmjs.com/package/form_filler_assistant"><img src="https://img.shields.io/npm/v/form_filler_assistant.svg?style=flat" alt="npm version"></a>
+  <a href="https://www.npmjs.com/package/page_actions_attacher"><img src="https://img.shields.io/npm/v/page_actions_attacher.svg?style=flat" alt="npm version"></a>
   <a href="https://nodejs.org/en/"><img src="https://img.shields.io/badge/made%20with-node-1f425f?logo=node.js&.svg" /></a>
-  <a href="https://github.com/lucasvtiradentes/form_filler_assistant#contributing"><img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat" alt="contributions" /></a>
+  <a href="https://github.com/lucasvtiradentes/page_actions_attacher#contributing"><img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat" alt="contributions" /></a>
 </div>
 
 <p align="center">
@@ -118,7 +118,7 @@ If you want to uninstall, just remove the tamper monkey userscript on its dashbo
 This project will
 
 - atach a floating button with custom options to the specified website;
-- it will get the package content from [jsdelivr](https://cdn.jsdelivr.net/npm/form_filler_assistant) and save it to storage so you dont have to fetch it all the time;
+- it will get the package content from [jsdelivr](https://cdn.jsdelivr.net/npm/page_actions_attacher) and save it to storage so you dont have to fetch it all the time;
 
 ### Available methods
 
@@ -287,10 +287,10 @@ To setup this project in your computer, run the following commands:
 
 ```bash
 # Clone this repository
-$ git clone https://github.com/lucasvtiradentes/form_filler_assistant
+$ git clone https://github.com/lucasvtiradentes/page_actions_attacher
 
 # Go into the repository
-$ cd form_filler_assistant
+$ cd page_actions_attacher
 
 # Install dependencies
 $ npm install
@@ -366,7 +366,7 @@ This project is distributed under the terms of the MIT License Version 2.0. A co
 
 ## Feedback
 
-If you have any questions or suggestions you are welcome to discuss it on [github issues](https://github.com/lucasvtiradentes/form_filler_assistant/issues) or, if you prefer, you can reach me in my social media provided bellow.
+If you have any questions or suggestions you are welcome to discuss it on [github issues](https://github.com/lucasvtiradentes/page_actions_attacher/issues) or, if you prefer, you can reach me in my social media provided bellow.
 
 <a href="#"><img src="./.github/images/divider.png" /></a>
 

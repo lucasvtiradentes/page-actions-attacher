@@ -1,14 +1,14 @@
-const FormFillerLib = FormFillerAssistant;
+const PageActionsLib = PageActionsAttacher;
 
-if (!FormFillerLib) {
-  console.log('FormFillerAssistant not found, make sure to build before test it!');
+if (!PageActionsLib) {
+  console.log('PageActionsAttacher not found, make sure to build before test it!');
 } else {
-  main(FormFillerLib);
+  main(PageActionsLib);
 }
 
 // ================================================================================================================
 
-async function main(FormFiller) {
+async function main(PageActionsAttacher) {
   const colorScheme = {
     primary: {
       background: '#4f07ad',
@@ -39,16 +39,16 @@ async function main(FormFiller) {
     floatingButton
   };
 
-  const formFiller = new FormFiller(formFillerConfigs);
+  const pageActionsAttacher = new PageActionsAttacher(formFillerConfigs);
 
   // ===========================================================================
 
   function showToast() {
-    formFiller.browserUtils().showToast('Simple toast message!');
+    pageActionsAttacher.browserUtils().showToast('Simple toast message!');
   }
 
   function toogleSimpleModal() {
-    const { updateModalContent } = formFiller.browserUtils().getModal('Simple modal');
+    const { updateModalContent } = pageActionsAttacher.browserUtils().getModal('Simple modal');
 
     const modalHtml = '<p>HTML modal content</p>';
     const modalButtons = [
@@ -84,9 +84,9 @@ async function main(FormFiller) {
     };
 
     const storageData = sessionStorage.getItem(modalStorageKey);
-    const data = modalCount > 1 && storageData ? JSON.parse(storageData) : generateData(formFiller.dataUtils());
+    const data = modalCount > 1 && storageData ? JSON.parse(storageData) : generateData(pageActionsAttacher.dataUtils());
 
-    const { updateModalContent, closeModal } = formFiller.browserUtils().getModal('Advanced modal!');
+    const { updateModalContent, closeModal } = pageActionsAttacher.browserUtils().getModal('Advanced modal!');
 
     const getFinalHtmlContent = (dt) => {
       const items = [
@@ -98,11 +98,11 @@ async function main(FormFiller) {
         ['Inscricao estadual', dt.inscricao_estadual],
         ['Telefone', dt.telefone]
       ];
-      const finalHTML = items.map((item) => `${formFiller.browserUtils().generateFormRow(item[0], item[1], closeModal)}`).join('');
+      const finalHTML = items.map((item) => `${pageActionsAttacher.browserUtils().generateFormRow(item[0], item[1], closeModal)}`).join('');
       return finalHTML;
     };
 
-    const regeneretadHtmlContent = () => getFinalHtmlContent(generateData(new FormFiller().dataUtils()));
+    const regeneretadHtmlContent = () => getFinalHtmlContent(generateData(new PageActionsAttacher().dataUtils()));
 
     const modalButtons = [
       {
@@ -120,13 +120,13 @@ async function main(FormFiller) {
   // ===========================================================================
 
   const bodyOptions = [
-    { name: 'show lib helper', action: () => formFiller.help() },
+    { name: 'show lib helper', action: () => pageActionsAttacher.help() },
     { name: 'show advanced modal', action: toogleModal },
     { name: 'show simple modal', action: toogleSimpleModal },
     { name: 'show simple toast', action: showToast }
   ];
 
-  const headerOptions = [{ icon: 'https://www.svgrepo.com/show/460136/update-alt.svg', description: 'update FormFillerAssistant', action: () => alert(1) }];
+  const headerOptions = [{ icon: 'https://www.svgrepo.com/show/460136/update-alt.svg', description: 'update PageActionsAttacher', action: () => alert(1) }];
 
-  formFiller.attach({ bodyOptions, headerOptions });
+  pageActionsAttacher.attach({ bodyOptions, headerOptions });
 }

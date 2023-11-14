@@ -8,12 +8,12 @@ const classes = {
 } as const;
 
 const libInfo = {
-  name: 'FORM_FILLER_ASSISTANT',
+  name: 'PAGE_ACTIONS_ATTACHER',
   version: '__ROLL_UP_REPLACE_BUILD_VERSION__',
   buildTime: '__ROLL_UP_REPLACE_BUILD_TIME__',
-  link: 'https://github.com/lucasvtiradentes/form_filler_assistant',
+  link: 'https://github.com/lucasvtiradentes/page_actions_attacher',
   temperMonkeyLink: 'https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo',
-  initialScript: 'https://github.com/lucasvtiradentes/form_filler_assistant/dist/initial_temper_monkey_script.js'
+  initialScript: 'https://github.com/lucasvtiradentes/page_actions_attacher/dist/initial_temper_monkey_script.js'
 } as const;
 
 export const CONSTS = {

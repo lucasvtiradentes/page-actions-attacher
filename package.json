@@ -1,5 +1,5 @@
 {
-  "name": "form_filler_assistant",
+  "name": "page_actions_attacher",
   "version": "1.12.0",
   "description": "🤖 tampermonkey userscript to accelerate frontend development: Fill forms effortlessly in React apps, featuring custom actions and dynamic keybindings.",
   "license": "MIT",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lucasvtiradentes/form_filler_assistant.git"
+    "url": "git+https://github.com/lucasvtiradentes/page_actions_attacher.git"
   },
   "keywords": [
     "e2e",

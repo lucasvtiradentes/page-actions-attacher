@@ -1,6 +1,6 @@
 module.exports = {
   branches: ['main'],
-  repository: 'https://github.com/lucasvtiradentes/form_filler_assistant',
+  repository: 'https://github.com/lucasvtiradentes/page_actions_attacher',
   plugins: [
     [
       '@semantic-release/commit-analyzer',

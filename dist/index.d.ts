@@ -1,10 +1,10 @@
 import { default as BrowserUtils } from './classes/BrowserUtils';
 import { default as DataUtils } from './classes/DataUtils';
-import { TFloatingOptions } from './classes/FormFiller';
+import { TFloatingOptions } from './classes/AttacherUtils';
 import { TConfigs } from './types/types';
-export default class FormFillerAssistant {
+export default class PageActionsAttacher {
     private configs;
-    private formFiller;
+    private attacherUtils;
     private VERSION;
     private BUILD_DATETIME;
     constructor(configs?: TConfigs);

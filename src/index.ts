@@ -1,13 +1,13 @@
 import { default as BrowserUtils } from './classes/BrowserUtils';
 import { default as DataUtils } from './classes/DataUtils';
-import { default as FormFiller, TFloatingOptions } from './classes/FormFiller';
+import { default as AttacherUtils, TFloatingOptions } from './classes/AttacherUtils';
 import { CONFIGS, CONSTS } from './configs';
 import { TConfigs } from './types/types';
 import { help as helpFn } from './utils/utils';
 
-export default class FormFillerAssistant {
+export default class PageActionsAttacher {
   private configs: TConfigs;
-  private formFiller: FormFiller;
+  private attacherUtils: AttacherUtils;
   private VERSION = CONSTS.libInfo.version;
   private BUILD_DATETIME = CONSTS.libInfo.buildTime;
 
@@ -26,7 +26,7 @@ export default class FormFillerAssistant {
     };
 
     this.configs = finalConfigs;
-    this.formFiller = new FormFiller(finalConfigs);
+    this.attacherUtils = new AttacherUtils(finalConfigs);
   }
 
   help() {
@@ -44,15 +44,15 @@ export default class FormFillerAssistant {
   }
 
   attach(floatingOptions: TFloatingOptions) {
-    return this.formFiller.attach(floatingOptions);
+    return this.attacherUtils.attach(floatingOptions);
   }
 
   updateOptions(floatingOptions: TFloatingOptions) {
-    return this.formFiller.updateOptions(floatingOptions);
+    return this.attacherUtils.updateOptions(floatingOptions);
   }
 
   detach() {
-    return this.formFiller.detach();
+    return this.attacherUtils.detach();
   }
 
   dataUtils() {

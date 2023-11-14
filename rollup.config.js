@@ -8,7 +8,7 @@ const baseConfigs = {
   output: {
     file: 'dist/index.js',
     format: 'umd',
-    name: 'FormFillerAssistant'
+    name: 'PageActionsAttacher'
   }
 }
 

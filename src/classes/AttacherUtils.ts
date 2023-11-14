@@ -7,7 +7,7 @@ export type TFloatingOptions = {
   headerOptions?: THeaderOptionItem[];
 };
 
-export default class FormFiller {
+export default class AttacherUtils {
   private configs: TConfigs;
   private floatingEl: HTMLElement | null;
   private optionsEl: HTMLElement | null;
