@@ -1,5 +1,12 @@
 # CHANGELOG HISTORY
 
+## [1.12.1](https://github.com/lucasvtiradentes/page_actions_attacher/compare/v1.12.0...v1.12.1) (2023-11-14)
+
+
+### 📝 docs:
+
+* update project name ([5bcb678](https://github.com/lucasvtiradentes/page_actions_attacher/commit/5bcb6786a498653c66c23048cfb5e3a171119239))
+
 ## [1.12.0](https://github.com/lucasvtiradentes/page_actions_attacher/compare/v1.11.0...v1.12.0) (2023-11-09)
 
 

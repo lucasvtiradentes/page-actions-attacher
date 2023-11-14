@@ -12,8 +12,8 @@
   };
   const libInfo = {
       name: 'PAGE_ACTIONS_ATTACHER',
-      version: '1.12.0',
-      buildTime: '13/11/2023 21:42:36',
+      version: '1.12.1',
+      buildTime: '13/11/2023 21:43:42',
       link: 'https://github.com/lucasvtiradentes/page_actions_attacher',
       temperMonkeyLink: 'https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo',
       initialScript: 'https://github.com/lucasvtiradentes/page_actions_attacher/dist/initial_temper_monkey_script.js'
