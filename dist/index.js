@@ -13,10 +13,10 @@
   const libInfo = {
       name: 'PAGE_ACTIONS_ATTACHER',
       version: '1.12.1',
-      buildTime: '13/11/2023 21:43:42',
-      link: 'https://github.com/lucasvtiradentes/page_actions_attacher',
+      buildTime: '23/02/2025 11:22:34',
+      link: 'https://github.com/lucasvtiradentes/page-actions-attacher',
       temperMonkeyLink: 'https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo',
-      initialScript: 'https://github.com/lucasvtiradentes/page_actions_attacher/dist/initial_temper_monkey_script.js'
+      initialScript: 'https://github.com/lucasvtiradentes/page-actions-attacher/dist/initial_temper_monkey_script.js'
   };
   const CONSTS = {
       classes,
@@ -66,7 +66,7 @@
       }
       // GET ELEMENT FUNCTIONS =====================================================
       getElementByTagText(tag, textToFind, itemIndex) {
-          const finalIndex = 0 ;
+          const finalIndex = 0;
           const allElements = Array.from(document.querySelectorAll(tag));
           const tagItems = allElements.filter((itemEl) => itemEl.innerText.search(textToFind) > -1);
           const elTag = tagItems.length === 0 ? null : tagItems[finalIndex];
@@ -76,7 +76,7 @@
           return elTag;
       }
       getElementByAttributeValue(tag, attribute, attributeValue, itemIndex) {
-          const finalIndex = 0 ;
+          const finalIndex = 0;
           const allElements = Array.from(document.querySelectorAll(tag));
           const tagItems = allElements.filter((itemEl) => itemEl.getAttribute(attribute) === attributeValue);
           const elTag = tagItems.length === 0 ? null : tagItems[finalIndex];
@@ -167,7 +167,7 @@
           this.click(htmlElement);
       }
       clickElementByTagText(tag, textToFind, itemIndex) {
-          const finalIndex = 0 ;
+          const finalIndex = 0;
           const htmlElement = this.getElementByTagText(tag, textToFind, finalIndex);
           if (!htmlElement) {
               return;
@@ -176,7 +176,7 @@
           this.click(htmlElement);
       }
       clickElementByTagAttributeValue(tag, attribute, attributeValue, itemIndex) {
-          const finalIndex = 0 ;
+          const finalIndex = 0;
           const htmlElement = this.getElementByAttributeValue(tag, attribute, attributeValue, finalIndex);
           if (!htmlElement) {
               return;

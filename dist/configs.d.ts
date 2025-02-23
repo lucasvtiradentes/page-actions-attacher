@@ -8,10 +8,10 @@ export declare const CONSTS: {
     libInfo: {
         readonly name: "PAGE_ACTIONS_ATTACHER";
         readonly version: "1.12.1";
-        readonly buildTime: "13/11/2023 21:43:42";
-        readonly link: "https://github.com/lucasvtiradentes/page_actions_attacher";
+        readonly buildTime: "23/02/2025 11:22:34";
+        readonly link: "https://github.com/lucasvtiradentes/page-actions-attacher";
         readonly temperMonkeyLink: "https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo";
-        readonly initialScript: "https://github.com/lucasvtiradentes/page_actions_attacher/dist/initial_temper_monkey_script.js";
+        readonly initialScript: "https://github.com/lucasvtiradentes/page-actions-attacher/dist/initial_temper_monkey_script.js";
     };
 };
 export declare const CONFIGS: {

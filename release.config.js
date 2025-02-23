@@ -1,6 +1,6 @@
 module.exports = {
   branches: ['main'],
-  repository: 'https://github.com/lucasvtiradentes/page_actions_attacher',
+  repository: 'https://github.com/lucasvtiradentes/page-actions-attacher',
   plugins: [
     [
       '@semantic-release/commit-analyzer',

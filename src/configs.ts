@@ -11,9 +11,9 @@ const libInfo = {
   name: 'PAGE_ACTIONS_ATTACHER',
   version: '__ROLL_UP_REPLACE_BUILD_VERSION__',
   buildTime: '__ROLL_UP_REPLACE_BUILD_TIME__',
-  link: 'https://github.com/lucasvtiradentes/page_actions_attacher',
+  link: 'https://github.com/lucasvtiradentes/page-actions-attacher',
   temperMonkeyLink: 'https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo',
-  initialScript: 'https://github.com/lucasvtiradentes/page_actions_attacher/dist/initial_temper_monkey_script.js'
+  initialScript: 'https://github.com/lucasvtiradentes/page-actions-attacher/dist/initial_temper_monkey_script.js'
 } as const;
 
 export const CONSTS = {
