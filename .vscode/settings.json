@@ -9,7 +9,7 @@
     ".gitignore": "",
     "package.json": " .commitlintrc, .lintstagedrc, .editorconfig, .eslintignore, .eslintrc, .lintstagedrc.json, .prettierignore, .prettierrc, tsconfig.json",
     "release.config.js": ".npmignore, rollup.config.js",
-    "README.md": "LICENSE"
+    "README.md": "LICENSE, CHANGELOG.md, CONTRIBUTING.md"
   },
   "files.associations": {
     ".czrc": "json"

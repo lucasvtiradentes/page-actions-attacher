@@ -1,5 +1,6 @@
 # FOLDERS ======================================================================
 
+/.changeset
 .github/
 .husky/
 .vscode/
@@ -14,7 +15,6 @@ tests/
 
 # FILES ========================================================================
 
-.czrc
 .editorconfig
 .eslintignore
 .eslintrc
@@ -23,7 +23,7 @@ tests/
 .npmignore
 .prettierignore
 .prettierrc
-commitlint.config.js
+.commitlintrc
 LICENSE
 package.json
 README.md
@@ -34,3 +34,6 @@ tsconfig.json
 package-lock.json
 yarn-lock.json
 pnpm-lock.yaml
+
+CHANGELOG.md
+CONTRIBUTING.md
