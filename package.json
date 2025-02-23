@@ -26,25 +26,20 @@
     "build": "rimraf ./dist && npm run umdfy",
     "umdfy": "rollup -c rollup.config.js",
     "postversion": "echo building to save the latest version number on distribution files. && npm run build",
-    "pub": "semantic-release",
-    "pub_check": "npm publish --dry-run",
-    "commit": "cz",
-    "lint:staged": "lint-staged --concurrent false --quiet"
+    "lint:staged": "lint-staged --concurrent false --quiet",
+    "package_check": "npm publish --dry-run",
+    "changeset": "changeset",
+    "release": "pnpm run build && changeset publish"
   },
   "devDependencies": {
+    "@changesets/cli": "2.27.1",
     "@commitlint/cli": "^17.3.0",
     "@commitlint/config-conventional": "^17.7.0",
     "@rollup/plugin-replace": "^5.0.3",
     "@rollup/plugin-terser": "^0.4.4",
-    "@semantic-release/changelog": "^6.0.2",
-    "@semantic-release/commit-analyzer": "^9.0.2",
-    "@semantic-release/git": "^10.0.1",
-    "@semantic-release/release-notes-generator": "^10.0.3",
     "@types/node": "^20.8.4",
     "@typescript-eslint/eslint-plugin": "^5.45.0",
     "@typescript-eslint/parser": "^5.45.0",
-    "commitizen": "^4.3.0",
-    "commitizen-emoji": "^1.0.5",
     "eslint": "^8.28.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
@@ -54,7 +49,6 @@
     "rimraf": "^4.0.4",
     "rollup": "^4.1.0",
     "rollup-plugin-typescript2": "^0.36.0",
-    "semantic-release": "^19.0.5",
     "tsx": "^3.13.0",
     "typescript": "^4.9.5"
   }

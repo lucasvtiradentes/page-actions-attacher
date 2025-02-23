@@ -21,7 +21,7 @@ export default class BrowserUtils {
   // GET ELEMENT FUNCTIONS =====================================================
 
   getElementByTagText(tag: string, textToFind: string, itemIndex?: number) {
-    const finalIndex = 0 ?? itemIndex;
+    const finalIndex = itemIndex ?? 0;
     const allElements = Array.from(document.querySelectorAll(tag)) as HTMLElement[];
     const tagItems = allElements.filter((itemEl) => itemEl.innerText.search(textToFind) > -1);
     const elTag = tagItems.length === 0 ? null : tagItems[finalIndex];
@@ -32,7 +32,7 @@ export default class BrowserUtils {
   }
 
   getElementByAttributeValue(tag: string, attribute: string, attributeValue: string, itemIndex?: number) {
-    const finalIndex = 0 ?? itemIndex;
+    const finalIndex = itemIndex ?? 0;
     const allElements = Array.from(document.querySelectorAll(tag)) as HTMLElement[];
     const tagItems = allElements.filter((itemEl) => itemEl.getAttribute(attribute) === attributeValue);
     const elTag = tagItems.length === 0 ? null : tagItems[finalIndex];
@@ -144,7 +144,7 @@ export default class BrowserUtils {
   }
 
   clickElementByTagText(tag: string, textToFind: string, itemIndex?: number) {
-    const finalIndex = 0 ?? itemIndex;
+    const finalIndex = itemIndex ?? 0;
     const htmlElement = this.getElementByTagText(tag, textToFind, finalIndex);
     if (!htmlElement) {
       return;
@@ -155,7 +155,7 @@ export default class BrowserUtils {
   }
 
   clickElementByTagAttributeValue(tag: string, attribute: string, attributeValue: string, itemIndex?: number) {
-    const finalIndex = 0 ?? itemIndex;
+    const finalIndex = itemIndex ?? 0;
     const htmlElement = this.getElementByAttributeValue(tag, attribute, attributeValue, finalIndex);
     if (!htmlElement) {
       return;

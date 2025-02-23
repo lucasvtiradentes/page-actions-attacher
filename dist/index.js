@@ -13,7 +13,7 @@
   const libInfo = {
       name: 'PAGE_ACTIONS_ATTACHER',
       version: '1.12.3',
-      buildTime: '23/02/2025 11:43:27',
+      buildTime: '23/02/2025 15:35:35',
       link: 'https://github.com/lucasvtiradentes/page-actions-attacher',
       temperMonkeyLink: 'https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo',
       initialScript: 'https://github.com/lucasvtiradentes/page-actions-attacher/dist/initial_temper_monkey_script.js'
@@ -66,7 +66,7 @@
       }
       // GET ELEMENT FUNCTIONS =====================================================
       getElementByTagText(tag, textToFind, itemIndex) {
-          const finalIndex = 0;
+          const finalIndex = itemIndex ?? 0;
           const allElements = Array.from(document.querySelectorAll(tag));
           const tagItems = allElements.filter((itemEl) => itemEl.innerText.search(textToFind) > -1);
           const elTag = tagItems.length === 0 ? null : tagItems[finalIndex];
@@ -76,7 +76,7 @@
           return elTag;
       }
       getElementByAttributeValue(tag, attribute, attributeValue, itemIndex) {
-          const finalIndex = 0;
+          const finalIndex = itemIndex ?? 0;
           const allElements = Array.from(document.querySelectorAll(tag));
           const tagItems = allElements.filter((itemEl) => itemEl.getAttribute(attribute) === attributeValue);
           const elTag = tagItems.length === 0 ? null : tagItems[finalIndex];
@@ -167,7 +167,7 @@
           this.click(htmlElement);
       }
       clickElementByTagText(tag, textToFind, itemIndex) {
-          const finalIndex = 0;
+          const finalIndex = itemIndex ?? 0;
           const htmlElement = this.getElementByTagText(tag, textToFind, finalIndex);
           if (!htmlElement) {
               return;
@@ -176,7 +176,7 @@
           this.click(htmlElement);
       }
       clickElementByTagAttributeValue(tag, attribute, attributeValue, itemIndex) {
-          const finalIndex = 0;
+          const finalIndex = itemIndex ?? 0;
           const htmlElement = this.getElementByAttributeValue(tag, attribute, attributeValue, finalIndex);
           if (!htmlElement) {
               return;
@@ -417,7 +417,7 @@
       // PERSON FUNCTIONS ==========================================================
       generatePersonName() {
           const firstNames = ['Miguel', 'Sofia', 'Davi', 'Alice', 'Arthur', 'Julia', 'Pedro', 'Manuela', 'Gabriel', 'Laura', 'Bernardo', 'Luiza', 'Lucas', 'Valentina', 'Matheus', 'Giovanna', 'Rafael', 'Beatriz', 'Enzo', 'Maria Eduarda'];
-          const lastNames = ['Silva', 'Santos', 'Oliveira', 'Pereira', 'Almeida', 'Fernandes', 'Ribeiro', 'Costa', 'Carvalho', 'Martins', 'Rodrigues', 'Nascimento', 'Lima', 'Araújo', 'Monteiro', 'Gomes', 'Barbosa', 'Cardoso', 'Correia', 'Dias'];
+          const lastNames = ['Silva', 'Santos', 'Oliveira', 'Pereira', 'Almeida', 'Fernandes', 'Ribeiro', 'Costa', 'Carvalho', 'Martins', 'Rodrigues', 'Nascimento', 'Lima', 'Araujo', 'Monteiro', 'Gomes', 'Barbosa', 'Cardoso', 'Correia', 'Dias'];
           const randomFirstName = firstNames[Math.floor(Math.random() * firstNames.length)];
           const randomLastName = lastNames[Math.floor(Math.random() * lastNames.length)];
           const uniqueName = `${randomFirstName} ${randomLastName}`;

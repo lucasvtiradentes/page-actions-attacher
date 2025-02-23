@@ -1,5 +1,5 @@
-import BrowserUtils from '../classes/BrowserUtils';
-import DataUtils from '../classes/DataUtils';
+import BrowserUtils from '../classes/browser-utils';
+import DataUtils from '../classes/data-utils';
 import { CONSTS } from '../configs';
 
 function getClassMethods<T>(instance: T) {

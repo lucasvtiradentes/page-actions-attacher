@@ -1,6 +1,6 @@
-import { default as BrowserUtils } from './classes/BrowserUtils';
-import { default as DataUtils } from './classes/DataUtils';
-import { default as AttacherUtils, TFloatingOptions } from './classes/AttacherUtils';
+import { default as BrowserUtils } from './classes/browser-utils';
+import { default as DataUtils } from './classes/data-utils';
+import { default as AttacherUtils, TFloatingOptions } from './classes/atacher-utils';
 import { CONFIGS, CONSTS } from './configs';
 import { TConfigs } from './types/types';
 import { help as helpFn } from './utils/utils';

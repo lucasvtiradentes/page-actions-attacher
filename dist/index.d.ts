@@ -1,6 +1,6 @@
-import { default as BrowserUtils } from './classes/BrowserUtils';
-import { default as DataUtils } from './classes/DataUtils';
-import { TFloatingOptions } from './classes/AttacherUtils';
+import { default as BrowserUtils } from './classes/browser-utils';
+import { default as DataUtils } from './classes/data-utils';
+import { TFloatingOptions } from './classes/atacher-utils';
 import { TConfigs } from './types/types';
 export default class PageActionsAttacher {
     private configs;
