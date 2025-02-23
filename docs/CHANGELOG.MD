@@ -1,5 +1,12 @@
 # CHANGELOG HISTORY
 
+## [1.12.3](https://github.com/lucasvtiradentes/page-actions-attacher/compare/v1.12.2...v1.12.3) (2025-02-23)
+
+
+### 🩹 fix:
+
+* deploy cicd error ([ff327e2](https://github.com/lucasvtiradentes/page-actions-attacher/commit/ff327e29b9cd992db0df1932eb179316e3b7fa75))
+
 ## [1.12.2](https://github.com/lucasvtiradentes/page-actions-attacher/compare/v1.12.1...v1.12.2) (2025-02-23)
 
 
