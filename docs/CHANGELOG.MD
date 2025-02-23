@@ -1,5 +1,12 @@
 # CHANGELOG HISTORY
 
+## [1.12.2](https://github.com/lucasvtiradentes/page-actions-attacher/compare/v1.12.1...v1.12.2) (2025-02-23)
+
+
+### 🔧 config:
+
+* update repo name ([a4e0c50](https://github.com/lucasvtiradentes/page-actions-attacher/commit/a4e0c50271f12b538b80c743322ce4b7a5f2e1a7))
+
 ## [1.12.1](https://github.com/lucasvtiradentes/page-actions-attacher/compare/v1.12.0...v1.12.1) (2023-11-14)
 
 
