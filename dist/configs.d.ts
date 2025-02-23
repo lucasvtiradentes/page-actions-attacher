@@ -8,7 +8,7 @@ export declare const CONSTS: {
     libInfo: {
         readonly name: "PAGE_ACTIONS_ATTACHER";
         readonly version: "1.12.2";
-        readonly buildTime: "23/02/2025 11:23:32";
+        readonly buildTime: "23/02/2025 11:42:37";
         readonly link: "https://github.com/lucasvtiradentes/page-actions-attacher";
         readonly temperMonkeyLink: "https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo";
         readonly initialScript: "https://github.com/lucasvtiradentes/page-actions-attacher/dist/initial_temper_monkey_script.js";

@@ -88,7 +88,7 @@
   }
 
   async function downloadFormFillerAssistantContent(versionToDownload) {
-    const response = await fetch(`https://cdn.jsdelivr.net/npm/page-actions-attacher@${versionToDownload}/dist/index.js`);
+    const response = await fetch(`https://cdn.jsdelivr.net/npm/page_actions_attacher@${versionToDownload}/dist/index.js`);
     const content = await response.text();
     return content;
   }
