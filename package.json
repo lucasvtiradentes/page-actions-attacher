@@ -1,6 +1,6 @@
 {
   "name": "page_actions_attacher",
-  "version": "1.12.3",
+  "version": "1.12.4",
   "description": "🤖 tampermonkey userscript to accelerate frontend development: Fill forms effortlessly in React apps, featuring custom actions and dynamic keybindings.",
   "license": "MIT",
   "author": {
