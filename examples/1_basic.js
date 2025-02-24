@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         PageActionsAttacher
+// @name         WebpageCustomizer
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  try to take over the world!
@@ -24,24 +24,24 @@
   // 1 - SETUP THE PACKAGE CONTENT ON THE PAGE =================================
 
   const CONFIGS = getConfigsObject();
-  const pageActionsAttacherContent = await getFormFillerAssitantContent(CONFIGS);
-  if (!pageActionsAttacherContent.content) {
+  const webpageCustomizerContent = await getWebpageCustomizerContent(CONFIGS);
+  if (!webpageCustomizerContent.content) {
     console.log(`Error loading ${CONFIGS.packageName}`);
     return;
   }
 
-  eval(pageActionsAttacherContent.content); // eslint-disable-line
-  const PageActionsAttacher = PageActionsAttacher; // eslint-disable-line
+  eval(webpageCustomizerContent.content); // eslint-disable-line
+  const WebpageCustomizer = WebpageCustomizer; // eslint-disable-line
 
   // 2 - SETUP YOUR INSTANCE ===================================================
 
-  const pageActionsAttacher = new PageActionsAttacher();
-  console.log(`loaded ${CONFIGS.packageName} [${pageActionsAttacher.VERSION} - ${pageActionsAttacherContent.method}]`);
+  const webpageCustomizer = new WebpageCustomizer();
+  console.log(`loaded ${CONFIGS.packageName} [${webpageCustomizer.VERSION} - ${webpageCustomizerContent.method}]`);
 
   // 3 - CREATE YOUR METHODS HERE ==============================================
 
   async function fillSauceDemoForm() {
-    const browserUtils = pageActionsAttacher.browserUtils();
+    const browserUtils = webpageCustomizer.browserUtils();
 
     await browserUtils.typeOnInputBySelector('input[name="user-name"]', 'standard_user');
     await browserUtils.typeOnInputBySelector('input[name="password"]', 'secret_sauce');
@@ -57,17 +57,17 @@
   // 4 - ADDING YOUR METHODS TO THE FLOATING BUTTON ============================
 
   const options = [
-    { name: 'show lib helper', action: pageActionsAttacher.help },
+    { name: 'show lib helper', action: webpageCustomizer.help },
     { name: 'fill saucedemo form', action: fillSauceDemoForm }
   ];
 
-  pageActionsAttacher.atach(options);
+  webpageCustomizer.atach(options);
 
   // 5 - DONT NEED TO CHANGE AFTER THIS ========================================
 
   function getConfigsObject() {
     return {
-      packageName: 'PageActionsAttacher',
+      packageName: 'WebpageCustomizer',
       versionStorageKey: '_ffa_version',
       contentStorageKey: '_ffa_content'
     };
@@ -93,7 +93,7 @@
     return content;
   }
 
-  async function getFormFillerAssitantContent(configsObj, forceVersion) {
+  async function getWebpageCustomizerContent(configsObj, forceVersion) {
     const cachedContent = localStorage.getItem(configsObj.contentStorageKey) ?? '';
     const cachedVersion = localStorage.getItem(configsObj.versionStorageKey) ?? '';
 
@@ -138,9 +138,9 @@
     if (shouldUpdate) {
       console.log(`found new ${configsObj.packageName} version: ${latestVersion}`);
       await downloadAndCacheVersion(configsObj, latestVersion);
-      pageActionsAttacher.browserUtils().showToast(`Updated ${configsObj.packageName} from ${cachedVersion} to ${latestVersion}.\nRefresh the page to see the changes!`);
+      webpageCustomizer.browserUtils().showToast(`Updated ${configsObj.packageName} from ${cachedVersion} to ${latestVersion}.\nRefresh the page to see the changes!`);
     } else {
-      pageActionsAttacher.browserUtils().showToast(`No newer ${configsObj.packageName} version found!`);
+      webpageCustomizer.browserUtils().showToast(`No newer ${configsObj.packageName} version found!`);
     }
   }
 })();

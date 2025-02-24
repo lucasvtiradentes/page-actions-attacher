@@ -5,7 +5,7 @@ import { CONFIGS, CONSTS } from './configs';
 import { TConfigs } from './types/types';
 import { help as helpFn } from './utils/utils';
 
-export default class PageActionsAttacher {
+export default class WebpageCustomizer {
   private configs: TConfigs;
   private attacherUtils: AttacherUtils;
   private VERSION = CONSTS.libInfo.version;

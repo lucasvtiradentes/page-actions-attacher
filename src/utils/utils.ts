@@ -47,7 +47,7 @@ function getClassDetailedMethods<T>(instance: T) {
 export const help = () => {
   console.log(`# METHODS =======================================================\n`);
   console.log('\nOther methods\n');
-  console.table({ 'pageActionsAttacher.atach': { parameters: 'optionsArr' }, 'pageActionsAttacher.help': { parameters: '' } });
+  console.table({ 'webpageCustomizer.atach': { parameters: 'optionsArr' }, 'webpageCustomizer.help': { parameters: '' } });
   console.log('\npageActionsAttacher.dataUtils\n');
   console.table(getClassDetailedMethods(new DataUtils()));
   console.log('\npageActionsAttacher.browserUtils\n');

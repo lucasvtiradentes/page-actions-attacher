@@ -2,7 +2,7 @@ import { default as BrowserUtils } from './classes/browser-utils';
 import { default as DataUtils } from './classes/data-utils';
 import { TFloatingOptions } from './classes/atacher-utils';
 import { TConfigs } from './types/types';
-export default class PageActionsAttacher {
+export default class WebpageCustomizer {
     private configs;
     private attacherUtils;
     private VERSION;

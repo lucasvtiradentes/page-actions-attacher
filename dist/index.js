@@ -1,7 +1,7 @@
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
-  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.PageActionsAttacher = factory());
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.WebpageCustomizer = factory());
 })(this, (function () { 'use strict';
 
   const classes = {
@@ -13,7 +13,7 @@
   const libInfo = {
       name: 'webpage-customizer',
       version: '1.12.5',
-      buildTime: '23/02/2025 21:17:12',
+      buildTime: '23/02/2025 21:23:35',
       link: 'https://github.com/lucasvtiradentes/webpage-customizer',
       temperMonkeyLink: 'https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo',
       initialScript: 'https://github.com/lucasvtiradentes/webpage-customizer/dist/initial_temper_monkey_script.js'
@@ -713,7 +713,7 @@
   const help = () => {
       console.log(`# METHODS =======================================================\n`);
       console.log('\nOther methods\n');
-      console.table({ 'pageActionsAttacher.atach': { parameters: 'optionsArr' }, 'pageActionsAttacher.help': { parameters: '' } });
+      console.table({ 'webpageCustomizer.atach': { parameters: 'optionsArr' }, 'webpageCustomizer.help': { parameters: '' } });
       console.log('\npageActionsAttacher.dataUtils\n');
       console.table(getClassDetailedMethods(new DataUtils()));
       console.log('\npageActionsAttacher.browserUtils\n');
@@ -727,7 +727,7 @@
       Array.from(document.querySelectorAll('input')).forEach((el) => console.log(el.getAttribute('name')));
   };
 
-  class PageActionsAttacher {
+  class WebpageCustomizer {
       configs;
       attacherUtils;
       VERSION = CONSTS.libInfo.version;
@@ -778,6 +778,6 @@
       }
   }
 
-  return PageActionsAttacher;
+  return WebpageCustomizer;
 
 }));

@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         PageActionsAttacher
+// @name         WebpageCustomizer
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  try to take over the world!
@@ -32,14 +32,14 @@
   // 1 - SETUP THE PACKAGE CONTENT ON THE PAGE =================================
 
   const CONFIGS = getConfigsObject();
-  const pageActionsAttacherContent = await getFormFillerAssitantContent(CONFIGS);
-  if (!pageActionsAttacherContent.content) {
+  const webpageCustomizerContent = await getWebpageCustomizerContent(CONFIGS);
+  if (!webpageCustomizerContent.content) {
     console.log(`Error loading ${CONFIGS.packageName}`);
     return;
   }
 
-  eval(pageActionsAttacherContent.content); // eslint-disable-line
-  const PageActionsAttacher = PageActionsAttacher; // eslint-disable-line
+  eval(webpageCustomizerContent.content); // eslint-disable-line
+  const WebpageCustomizer = WebpageCustomizer; // eslint-disable-line
 
   // 2 - SETUP YOUR INSTANCE ===================================================
 
@@ -60,8 +60,8 @@
     debug: false
   };
 
-  const pageActionsAttacher = new PageActionsAttacher({ runConfigs, colorScheme });
-  console.log(`loaded ${CONFIGS.packageName} [${pageActionsAttacher.VERSION} - ${pageActionsAttacherContent.method}]`);
+  const webpageCustomizer = new WebpageCustomizer({ runConfigs, colorScheme });
+  console.log(`loaded ${CONFIGS.packageName} [${webpageCustomizer.VERSION} - ${webpageCustomizerContent.method}]`);
 
   // 3 - CREATE YOUR METHODS HERE ==============================================
 
@@ -73,9 +73,9 @@
     if (shouldUpdate) {
       console.log(`found new ${configsObj.udsOptionsName} version`);
       await cacheUdsOptions(configsObj, latestContent);
-      pageActionsAttacher.browserUtils().showToast(`Updated ${configsObj.udsOptionsName}.\nRefresh the page to see the changes!`);
+      webpageCustomizer.browserUtils().showToast(`Updated ${configsObj.udsOptionsName}.\nRefresh the page to see the changes!`);
     } else {
-      pageActionsAttacher.browserUtils().showToast(`No newer version found!`);
+      webpageCustomizer.browserUtils().showToast(`No newer version found!`);
     }
   }
 
@@ -116,20 +116,20 @@
 
   // 4 - ADDING YOUR METHODS TO THE FLOATING BUTTON ============================
 
-  const options = [...udsOptions, { name: 'show lib helper', action: pageActionsAttacher.help }];
+  const options = [...udsOptions, { name: 'show lib helper', action: webpageCustomizer.help }];
 
   const headerOption = [
     { icon: 'https://www.svgrepo.com/show/460136/update-alt.svg', description: 'update formFillerAssistant version', action: () => updateFormFillerAssistantContent(CONFIGS) },
     { icon: 'https://uds.com.br/wp-content/uploads/2021/02/logo-uds.svg', description: 'update udsOptions version', action: () => updateLatestUdsOptions(CONFIGS) }
   ];
 
-  pageActionsAttacher.atach(options, headerOption);
+  webpageCustomizer.atach(options, headerOption);
 
   // 5 - DONT NEED TO CHANGE AFTER THIS ========================================
 
   function getConfigsObject() {
     return {
-      packageName: 'PageActionsAttacher',
+      packageName: 'WebpageCustomizer',
       versionStorageKey: '_ffa_version',
       contentStorageKey: '_ffa_content',
       udsOptionsName: 'UDS OPTIONS',
@@ -157,7 +157,7 @@
     return content;
   }
 
-  async function getFormFillerAssitantContent(configsObj, forceVersion) {
+  async function getWebpageCustomizerContent(configsObj, forceVersion) {
     const cachedContent = localStorage.getItem(configsObj.contentStorageKey) ?? '';
     const cachedVersion = localStorage.getItem(configsObj.versionStorageKey) ?? '';
 
@@ -202,9 +202,9 @@
     if (shouldUpdate) {
       console.log(`found new ${configsObj.packageName} version: ${latestVersion}`);
       await downloadAndCacheVersion(configsObj, latestVersion);
-      pageActionsAttacher.browserUtils().showToast(`Updated from ${cachedVersion} to ${latestVersion}.\nRefresh the page to see the changes!`);
+      webpageCustomizer.browserUtils().showToast(`Updated from ${cachedVersion} to ${latestVersion}.\nRefresh the page to see the changes!`);
     } else {
-      pageActionsAttacher.browserUtils().showToast(`No newer version found!`);
+      webpageCustomizer.browserUtils().showToast(`No newer version found!`);
     }
   }
 })();
