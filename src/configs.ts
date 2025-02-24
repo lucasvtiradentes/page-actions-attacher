@@ -8,12 +8,12 @@ const classes = {
 } as const;
 
 const libInfo = {
-  name: 'PAGE_ACTIONS_ATTACHER',
+  name: 'webpage-customizer',
   version: '__ROLL_UP_REPLACE_BUILD_VERSION__',
   buildTime: '__ROLL_UP_REPLACE_BUILD_TIME__',
-  link: 'https://github.com/lucasvtiradentes/page-actions-attacher',
+  link: 'https://github.com/lucasvtiradentes/webpage-customizer',
   temperMonkeyLink: 'https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo',
-  initialScript: 'https://github.com/lucasvtiradentes/page-actions-attacher/dist/initial_temper_monkey_script.js'
+  initialScript: 'https://github.com/lucasvtiradentes/webpage-customizer/dist/initial_temper_monkey_script.js'
 } as const;
 
 export const CONSTS = {

@@ -90,7 +90,7 @@
   }
 
   async function getLatestFormFillerAssistantVersion() {
-    const response = await fetch(`https://api.github.com/repos/lucasvtiradentes/page-actions-attacher/tags`);
+    const response = await fetch(`https://api.github.com/repos/lucasvtiradentes/webpage-customizer/tags`);
     const content = await response.text();
     const allTags = content ? JSON.parse(content) : [];
     const latestVersion = allTags.length === 0 ? '' : allTags[0]?.name?.replace('v', '') ?? '';
@@ -104,7 +104,7 @@
   }
 
   async function downloadFormFillerAssistantContent(versionToDownload) {
-    const response = await fetch(`https://cdn.jsdelivr.net/npm/page_actions_attacher@${versionToDownload}/dist/index.js`);
+    const response = await fetch(`https://cdn.jsdelivr.net/npm/webpage-customizer@${versionToDownload}/dist/index.js`);
     const content = await response.text();
     return content;
   }

@@ -5,9 +5,9 @@
 </h3>
 
 <div align="center">
-  <a href="https://www.npmjs.com/package/page_actions_attacher"><img src="https://img.shields.io/npm/v/page_actions_attacher.svg?style=flat" alt="npm version"></a>
+  <a href="https://www.npmjs.com/package/webpage-customizer"><img src="https://img.shields.io/npm/v/webpage-customizer.svg?style=flat" alt="npm version"></a>
   <a href="https://nodejs.org/en/"><img src="https://img.shields.io/badge/made%20with-node-1f425f?logo=node.js&.svg" /></a>
-  <a href="https://github.com/lucasvtiradentes/page-actions-attacher#contributing"><img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat" alt="contributions" /></a>
+  <a href="https://github.com/lucasvtiradentes/webpage-customizer#contributing"><img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat" alt="contributions" /></a>
 </div>
 
 <p align="center">
@@ -118,7 +118,7 @@ If you want to uninstall, just remove the tamper monkey userscript on its dashbo
 This project will
 
 - atach a floating button with custom options to the specified website;
-- it will get the package content from [jsdelivr](https://cdn.jsdelivr.net/npm/page_actions_attacher) and save it to storage so you dont have to fetch it all the time;
+- it will get the package content from [jsdelivr](https://cdn.jsdelivr.net/npm/webpage-customizernd save it to storage so you dont have to fetch it all the time;
 
 ### Available methods
 
@@ -287,10 +287,10 @@ To setup this project in your computer, run the following commands:
 
 ```bash
 # Clone this repository
-$ git clone https://github.com/lucasvtiradentes/page-actions-attacher
+$ git clone https://github.com/lucasvtiradentes/webpage-customizer
 
 # Go into the repository
-$ cd page-actions-attacher
+$ cd webpage-customizer
 
 # Install dependencies
 $ npm install

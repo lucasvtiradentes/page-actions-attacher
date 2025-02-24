@@ -11,12 +11,12 @@
       modalContainer: 'ffa_modal_container'
   };
   const libInfo = {
-      name: 'PAGE_ACTIONS_ATTACHER',
+      name: 'webpage-customizer',
       version: '1.12.4',
-      buildTime: '23/02/2025 15:47:06',
-      link: 'https://github.com/lucasvtiradentes/page-actions-attacher',
+      buildTime: '23/02/2025 21:12:49',
+      link: 'https://github.com/lucasvtiradentes/webpage-customizer',
       temperMonkeyLink: 'https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo',
-      initialScript: 'https://github.com/lucasvtiradentes/page-actions-attacher/dist/initial_temper_monkey_script.js'
+      initialScript: 'https://github.com/lucasvtiradentes/webpage-customizer/dist/initial_temper_monkey_script.js'
   };
   const CONSTS = {
       classes,

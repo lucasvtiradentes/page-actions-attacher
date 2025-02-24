@@ -1,5 +1,5 @@
 {
-  "name": "page_actions_attacher",
+  "name": "webpage-customizer",
   "version": "1.12.4",
   "description": "🤖 tampermonkey userscript to accelerate frontend development: Fill forms effortlessly in React apps, featuring custom actions and dynamic keybindings.",
   "license": "MIT",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lucasvtiradentes/page-actions-attacher.git"
+    "url": "git+https://github.com/lucasvtiradentes/webpage-customizer.git"
   },
   "keywords": [
     "e2e",
