@@ -1,5 +1,11 @@
 # webpage-customizer
 
+## 1.13.0
+
+### Minor Changes
+
+- b04454f: update instance name
+
 ## 1.12.5
 
 ### Patch Changes
