@@ -13,7 +13,7 @@
   const libInfo = {
       name: 'webpage-customizer',
       version: '1.13.0',
-      buildTime: '23/02/2025 21:26:08',
+      buildTime: '23/02/2025 21:39:09',
       link: 'https://github.com/lucasvtiradentes/webpage-customizer',
       temperMonkeyLink: 'https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo',
       initialScript: 'https://github.com/lucasvtiradentes/webpage-customizer/dist/initial_temper_monkey_script.js'
@@ -522,7 +522,7 @@
       getOptionsEl({ bodyOptions, headerOptions }) {
           const hasHeaderOptions = headerOptions && headerOptions.length > 0;
           const optionsContainer = document.createElement('div');
-          optionsContainer.setAttribute('style', `display: none; position: absolute; bottom: 70px; right: 0; color: ${this.configs.colorScheme.secondary.text}; background-color: ${this.configs.colorScheme.secondary.background}; border-radius: 5px; border: 1px solid ${this.configs.colorScheme.secondary.border}; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); white-space: nowrap;`);
+          optionsContainer.setAttribute('style', `display: none; min-width: 200px; position: absolute; bottom: 70px; right: 0; color: ${this.configs.colorScheme.secondary.text}; background-color: ${this.configs.colorScheme.secondary.background}; border-radius: 5px; border: 1px solid ${this.configs.colorScheme.secondary.border}; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); white-space: nowrap;`);
           optionsContainer.setAttribute('class', CONSTS.classes.optionsContainer);
           // add header to options menu ==============================================
           const headerDiv = document.createElement('div');
