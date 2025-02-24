@@ -96,7 +96,7 @@ export default class AttacherUtils {
     const optionsContainer = document.createElement('div');
     optionsContainer.setAttribute(
       'style',
-      `display: none; position: absolute; bottom: 70px; right: 0; color: ${this.configs.colorScheme.secondary.text}; background-color: ${this.configs.colorScheme.secondary.background}; border-radius: 5px; border: 1px solid ${this.configs.colorScheme.secondary.border}; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); white-space: nowrap;`
+      `display: none; min-width: 200px; position: absolute; bottom: 70px; right: 0; color: ${this.configs.colorScheme.secondary.text}; background-color: ${this.configs.colorScheme.secondary.background}; border-radius: 5px; border: 1px solid ${this.configs.colorScheme.secondary.border}; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); white-space: nowrap;`
     );
     optionsContainer.setAttribute('class', CONSTS.classes.optionsContainer);
 
