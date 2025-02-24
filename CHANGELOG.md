@@ -1,5 +1,11 @@
 # webpage-customizer
 
+## 1.13.1
+
+### Patch Changes
+
+- 16a2885: fix width error
+
 ## 1.13.0
 
 ### Minor Changes
