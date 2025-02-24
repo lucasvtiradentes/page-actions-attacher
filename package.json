@@ -1,6 +1,6 @@
 {
   "name": "webpage-customizer",
-  "version": "1.12.4",
+  "version": "1.12.5",
   "description": "🤖 tampermonkey userscript to accelerate frontend development: Fill forms effortlessly in React apps, featuring custom actions and dynamic keybindings.",
   "license": "MIT",
   "author": {
