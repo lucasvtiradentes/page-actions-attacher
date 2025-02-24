@@ -8,7 +8,7 @@ export declare const CONSTS: {
     libInfo: {
         readonly name: "webpage-customizer";
         readonly version: "1.13.0";
-        readonly buildTime: "23/02/2025 21:39:09";
+        readonly buildTime: "23/02/2025 21:44:33";
         readonly link: "https://github.com/lucasvtiradentes/webpage-customizer";
         readonly temperMonkeyLink: "https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo";
         readonly initialScript: "https://github.com/lucasvtiradentes/webpage-customizer/dist/initial_temper_monkey_script.js";

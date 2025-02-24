@@ -13,7 +13,7 @@
   const libInfo = {
       name: 'webpage-customizer',
       version: '1.13.0',
-      buildTime: '23/02/2025 21:39:09',
+      buildTime: '23/02/2025 21:44:33',
       link: 'https://github.com/lucasvtiradentes/webpage-customizer',
       temperMonkeyLink: 'https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo',
       initialScript: 'https://github.com/lucasvtiradentes/webpage-customizer/dist/initial_temper_monkey_script.js'
